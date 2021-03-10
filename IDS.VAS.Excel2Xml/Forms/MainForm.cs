@@ -9,6 +9,8 @@ using ExcelDataReader;
 using IDS.VAS.Excel2Xml.Forms.Abstract;
 using IDS.VAS.Excel2Xml.Model;
 using Telerik.WinControls.Data;
+using Telerik.WinControls.Enumerations;
+using Telerik.WinControls.UI;
 using Telerik.WinForms.Controls.SyntaxEditor.Taggers;
 using Telerik.WinForms.SyntaxEditor.Core.Text;
 
@@ -21,6 +23,7 @@ namespace IDS.VAS.Excel2Xml.Forms
     private ExcelColumnMapper _mapper;
     private string _clipboardForm;
     private string _clipboardSamples;
+    private string _clipboardKwic;
 
     public MainForm()
     {
@@ -141,6 +144,20 @@ namespace IDS.VAS.Excel2Xml.Forms
 
       BuildSamples(items);
       BuildForm(items);
+      BuildSampleSearch(items);
+    }
+
+    private void BuildSampleSearch(IEnumerable<DataRow> items)
+    {
+      chk_kwic.Items.Clear();
+      foreach (var row in items)
+      {
+        chk_kwic.Items.Add(new ListViewDataItem(row.ItemArray[_mapper.Mapping["BELEG"]].ToString())
+        {
+          Tag = $"\t<xref href=\"s_{ row.ItemArray[_mapper.Mapping["#"]]}\"/>\r\n",
+          CheckState = ToggleState.Off
+        });
+      }
     }
 
     private void BuildSamples(IEnumerable<DataRow> items)
@@ -226,16 +243,14 @@ namespace IDS.VAS.Excel2Xml.Forms
       Clipboard.SetText(_clipboardForm);
     }
 
-    private void btn_kwic_filter_Click(object sender, EventArgs e)
+    private void btn_kwic_filterDelete_Click(object sender, EventArgs e)
     {
-      chk_kwic.EnableFiltering = true;
-      chk_kwic.FilterDescriptors.Clear();
-      chk_kwic.FilterDescriptors.Add(new FilterDescriptor("Value", FilterOperator.Contains, txt_kwic_filter.Text));
+      txt_kwic_filter.Text = "";
     }
 
     private void btn_kwic_clipboard_Click(object sender, EventArgs e)
     {
-      Clipboard.SetText(snippet_kwic.Text);
+      Clipboard.SetText(_clipboardKwic);
     }
 
     private void txt_form_defaultVsem_TextChanged(object sender, EventArgs e)
@@ -243,9 +258,46 @@ namespace IDS.VAS.Excel2Xml.Forms
       RefreshSnippets();
     }
 
-    private void chk_form_addSamples_ToggleStateChanged(object sender, Telerik.WinControls.UI.StateChangedEventArgs args)
+    private void chk_form_addSamples_ToggleStateChanged(object sender, StateChangedEventArgs args)
     {
       RefreshSnippets();
+    }
+
+    private void btn_kwic_unselectAll_Click(object sender, EventArgs e)
+    {
+      foreach (var item in chk_kwic.Items)
+        item.CheckState = ToggleState.Off;
+    }
+
+    private void chk_kwic_ItemCheckedChanged(object sender, ListViewItemEventArgs e)
+    {
+      var stb = new StringBuilder();
+      stb.Append("<examples>\r\n");
+      foreach (var item in chk_kwic.Items)
+        if(item.CheckState == ToggleState.On)
+          stb.Append(item.Tag);
+      stb.Append("</examples>");
+
+      _clipboardKwic = stb.ToString();
+      using (var ms = new MemoryStream(Encoding.UTF8.GetBytes(_clipboardKwic)))
+      {
+        using (StreamReader reader = new StreamReader(ms))
+        {
+          snippet_kwic.Document = new TextDocument(reader);
+        }
+      }
+    }
+
+    private void txt_kwic_filter_TextChanged(object sender, EventArgs e)
+    {
+      chk_kwic.EnableFiltering = true;
+      chk_kwic.FilterDescriptors.Clear();
+      chk_kwic.FilterDescriptors.Add(new FilterDescriptor("Value", FilterOperator.Contains, txt_kwic_filter.Text));
+    }
+
+    private void btn_samples_clipboard_Click(object sender, EventArgs e)
+    {
+      Clipboard.SetText(_clipboardSamples);
     }
   }
 }

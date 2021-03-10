@@ -40,6 +40,7 @@ namespace IDS.VAS.Excel2Xml.Forms
       this.radGroupBox3 = new Telerik.WinControls.UI.RadGroupBox();
       this.radPageView1 = new Telerik.WinControls.UI.RadPageView();
       this.page_samples = new Telerik.WinControls.UI.RadPageViewPage();
+      this.snippet_sample = new Telerik.WinControls.UI.RadSyntaxEditor();
       this.page_form = new Telerik.WinControls.UI.RadPageViewPage();
       this.snippet_form = new Telerik.WinControls.UI.RadSyntaxEditor();
       this.radPanel3 = new Telerik.WinControls.UI.RadPanel();
@@ -52,16 +53,17 @@ namespace IDS.VAS.Excel2Xml.Forms
       this.radSplitContainer4 = new Telerik.WinControls.UI.RadSplitContainer();
       this.splitPanel7 = new Telerik.WinControls.UI.SplitPanel();
       this.chk_kwic = new Telerik.WinControls.UI.RadCheckedListBox();
+      this.btn_kwic_unselectAll = new Telerik.WinControls.UI.RadButton();
       this.radPanel1 = new Telerik.WinControls.UI.RadPanel();
       this.txt_kwic_filter = new Telerik.WinControls.UI.RadTextBox();
-      this.btn_kwic_filter = new Telerik.WinControls.UI.RadButton();
+      this.btn_kwic_filterDelete = new Telerik.WinControls.UI.RadButton();
       this.splitPanel8 = new Telerik.WinControls.UI.SplitPanel();
       this.snippet_kwic = new Telerik.WinControls.UI.RadSyntaxEditor();
       this.btn_kwic_clipboard = new Telerik.WinControls.UI.RadButton();
       this.radGroupBox2 = new Telerik.WinControls.UI.RadGroupBox();
       this.cmb_pattern = new Telerik.WinControls.UI.RadDropDownList();
       this.radLabel3 = new Telerik.WinControls.UI.RadLabel();
-      this.snippet_sample = new Telerik.WinControls.UI.RadSyntaxEditor();
+      this.btn_samples_clipboard = new Telerik.WinControls.UI.RadButton();
       ((System.ComponentModel.ISupportInitialize)(this.radGroupBox1)).BeginInit();
       this.radGroupBox1.SuspendLayout();
       ((System.ComponentModel.ISupportInitialize)(this.radSplitContainer2)).BeginInit();
@@ -79,6 +81,7 @@ namespace IDS.VAS.Excel2Xml.Forms
       ((System.ComponentModel.ISupportInitialize)(this.radPageView1)).BeginInit();
       this.radPageView1.SuspendLayout();
       this.page_samples.SuspendLayout();
+      ((System.ComponentModel.ISupportInitialize)(this.snippet_sample)).BeginInit();
       this.page_form.SuspendLayout();
       ((System.ComponentModel.ISupportInitialize)(this.snippet_form)).BeginInit();
       ((System.ComponentModel.ISupportInitialize)(this.radPanel3)).BeginInit();
@@ -95,10 +98,11 @@ namespace IDS.VAS.Excel2Xml.Forms
       ((System.ComponentModel.ISupportInitialize)(this.splitPanel7)).BeginInit();
       this.splitPanel7.SuspendLayout();
       ((System.ComponentModel.ISupportInitialize)(this.chk_kwic)).BeginInit();
+      ((System.ComponentModel.ISupportInitialize)(this.btn_kwic_unselectAll)).BeginInit();
       ((System.ComponentModel.ISupportInitialize)(this.radPanel1)).BeginInit();
       this.radPanel1.SuspendLayout();
       ((System.ComponentModel.ISupportInitialize)(this.txt_kwic_filter)).BeginInit();
-      ((System.ComponentModel.ISupportInitialize)(this.btn_kwic_filter)).BeginInit();
+      ((System.ComponentModel.ISupportInitialize)(this.btn_kwic_filterDelete)).BeginInit();
       ((System.ComponentModel.ISupportInitialize)(this.splitPanel8)).BeginInit();
       this.splitPanel8.SuspendLayout();
       ((System.ComponentModel.ISupportInitialize)(this.snippet_kwic)).BeginInit();
@@ -107,7 +111,7 @@ namespace IDS.VAS.Excel2Xml.Forms
       this.radGroupBox2.SuspendLayout();
       ((System.ComponentModel.ISupportInitialize)(this.cmb_pattern)).BeginInit();
       ((System.ComponentModel.ISupportInitialize)(this.radLabel3)).BeginInit();
-      ((System.ComponentModel.ISupportInitialize)(this.snippet_sample)).BeginInit();
+      ((System.ComponentModel.ISupportInitialize)(this.btn_samples_clipboard)).BeginInit();
       ((System.ComponentModel.ISupportInitialize)(this)).BeginInit();
       this.SuspendLayout();
       // 
@@ -248,6 +252,7 @@ namespace IDS.VAS.Excel2Xml.Forms
       // page_samples
       // 
       this.page_samples.Controls.Add(this.snippet_sample);
+      this.page_samples.Controls.Add(this.btn_samples_clipboard);
       this.page_samples.ForeColor = System.Drawing.Color.White;
       this.page_samples.Image = global::IDS.VAS.Excel2Xml.Properties.Resources.database;
       this.page_samples.ItemSize = new System.Drawing.SizeF(36F, 36F);
@@ -255,6 +260,14 @@ namespace IDS.VAS.Excel2Xml.Forms
       this.page_samples.Name = "page_samples";
       this.page_samples.Size = new System.Drawing.Size(752, 380);
       this.page_samples.Text = "<samples>";
+      // 
+      // snippet_sample
+      // 
+      this.snippet_sample.Dock = System.Windows.Forms.DockStyle.Fill;
+      this.snippet_sample.Location = new System.Drawing.Point(0, 0);
+      this.snippet_sample.Name = "snippet_sample";
+      this.snippet_sample.Size = new System.Drawing.Size(752, 339);
+      this.snippet_sample.TabIndex = 1;
       // 
       // page_form
       // 
@@ -374,6 +387,7 @@ namespace IDS.VAS.Excel2Xml.Forms
       // splitPanel7
       // 
       this.splitPanel7.Controls.Add(this.chk_kwic);
+      this.splitPanel7.Controls.Add(this.btn_kwic_unselectAll);
       this.splitPanel7.Controls.Add(this.radPanel1);
       this.splitPanel7.Location = new System.Drawing.Point(0, 0);
       this.splitPanel7.Name = "splitPanel7";
@@ -388,18 +402,35 @@ namespace IDS.VAS.Excel2Xml.Forms
       // 
       // chk_kwic
       // 
+      this.chk_kwic.AllowArbitraryItemWidth = true;
       this.chk_kwic.Dock = System.Windows.Forms.DockStyle.Fill;
       this.chk_kwic.GroupItemSize = new System.Drawing.Size(200, 24);
       this.chk_kwic.ItemSize = new System.Drawing.Size(200, 24);
-      this.chk_kwic.Location = new System.Drawing.Point(0, 35);
+      this.chk_kwic.Location = new System.Drawing.Point(0, 76);
       this.chk_kwic.Name = "chk_kwic";
-      this.chk_kwic.Size = new System.Drawing.Size(372, 345);
+      this.chk_kwic.Size = new System.Drawing.Size(372, 304);
       this.chk_kwic.TabIndex = 1;
+      this.chk_kwic.VerticalScrollState = Telerik.WinControls.UI.ScrollState.AlwaysShow;
+      this.chk_kwic.ItemCheckedChanged += new Telerik.WinControls.UI.ListViewItemEventHandler(this.chk_kwic_ItemCheckedChanged);
+      // 
+      // btn_kwic_unselectAll
+      // 
+      this.btn_kwic_unselectAll.Dock = System.Windows.Forms.DockStyle.Top;
+      this.btn_kwic_unselectAll.Image = global::IDS.VAS.Excel2Xml.Properties.Resources.remove_button;
+      this.btn_kwic_unselectAll.ImageAlignment = System.Drawing.ContentAlignment.MiddleRight;
+      this.btn_kwic_unselectAll.Location = new System.Drawing.Point(0, 35);
+      this.btn_kwic_unselectAll.Name = "btn_kwic_unselectAll";
+      this.btn_kwic_unselectAll.Size = new System.Drawing.Size(372, 41);
+      this.btn_kwic_unselectAll.TabIndex = 3;
+      this.btn_kwic_unselectAll.Text = "Alle Abwählen";
+      this.btn_kwic_unselectAll.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft;
+      this.btn_kwic_unselectAll.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+      this.btn_kwic_unselectAll.Click += new System.EventHandler(this.btn_kwic_unselectAll_Click);
       // 
       // radPanel1
       // 
       this.radPanel1.Controls.Add(this.txt_kwic_filter);
-      this.radPanel1.Controls.Add(this.btn_kwic_filter);
+      this.radPanel1.Controls.Add(this.btn_kwic_filterDelete);
       this.radPanel1.Dock = System.Windows.Forms.DockStyle.Top;
       this.radPanel1.Location = new System.Drawing.Point(0, 0);
       this.radPanel1.Name = "radPanel1";
@@ -414,18 +445,19 @@ namespace IDS.VAS.Excel2Xml.Forms
       this.txt_kwic_filter.Name = "txt_kwic_filter";
       this.txt_kwic_filter.Size = new System.Drawing.Size(284, 35);
       this.txt_kwic_filter.TabIndex = 2;
+      this.txt_kwic_filter.TextChanged += new System.EventHandler(this.txt_kwic_filter_TextChanged);
       // 
-      // btn_kwic_filter
+      // btn_kwic_filterDelete
       // 
-      this.btn_kwic_filter.Dock = System.Windows.Forms.DockStyle.Right;
-      this.btn_kwic_filter.Image = global::IDS.VAS.Excel2Xml.Properties.Resources.zoom;
-      this.btn_kwic_filter.Location = new System.Drawing.Point(284, 0);
-      this.btn_kwic_filter.Name = "btn_kwic_filter";
-      this.btn_kwic_filter.Size = new System.Drawing.Size(88, 35);
-      this.btn_kwic_filter.TabIndex = 1;
-      this.btn_kwic_filter.Text = "Suchen";
-      this.btn_kwic_filter.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-      this.btn_kwic_filter.Click += new System.EventHandler(this.btn_kwic_filter_Click);
+      this.btn_kwic_filterDelete.Dock = System.Windows.Forms.DockStyle.Right;
+      this.btn_kwic_filterDelete.Image = global::IDS.VAS.Excel2Xml.Properties.Resources.trash_bin;
+      this.btn_kwic_filterDelete.Location = new System.Drawing.Point(284, 0);
+      this.btn_kwic_filterDelete.Name = "btn_kwic_filterDelete";
+      this.btn_kwic_filterDelete.Size = new System.Drawing.Size(88, 35);
+      this.btn_kwic_filterDelete.TabIndex = 1;
+      this.btn_kwic_filterDelete.Text = "Leeren";
+      this.btn_kwic_filterDelete.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+      this.btn_kwic_filterDelete.Click += new System.EventHandler(this.btn_kwic_filterDelete_Click);
       // 
       // splitPanel8
       // 
@@ -502,13 +534,19 @@ namespace IDS.VAS.Excel2Xml.Forms
       this.radLabel3.TabIndex = 0;
       this.radLabel3.Text = "Muster:";
       // 
-      // snippet_sample
+      // btn_samples_clipboard
       // 
-      this.snippet_sample.Dock = System.Windows.Forms.DockStyle.Fill;
-      this.snippet_sample.Location = new System.Drawing.Point(0, 0);
-      this.snippet_sample.Name = "snippet_sample";
-      this.snippet_sample.Size = new System.Drawing.Size(752, 380);
-      this.snippet_sample.TabIndex = 1;
+      this.btn_samples_clipboard.Dock = System.Windows.Forms.DockStyle.Bottom;
+      this.btn_samples_clipboard.Image = global::IDS.VAS.Excel2Xml.Properties.Resources.clipboard;
+      this.btn_samples_clipboard.ImageAlignment = System.Drawing.ContentAlignment.MiddleRight;
+      this.btn_samples_clipboard.Location = new System.Drawing.Point(0, 339);
+      this.btn_samples_clipboard.Name = "btn_samples_clipboard";
+      this.btn_samples_clipboard.Size = new System.Drawing.Size(752, 41);
+      this.btn_samples_clipboard.TabIndex = 2;
+      this.btn_samples_clipboard.Text = "In Zwischenablage kopieren";
+      this.btn_samples_clipboard.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft;
+      this.btn_samples_clipboard.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+      this.btn_samples_clipboard.Click += new System.EventHandler(this.btn_samples_clipboard_Click);
       // 
       // MainForm
       // 
@@ -541,6 +579,7 @@ namespace IDS.VAS.Excel2Xml.Forms
       ((System.ComponentModel.ISupportInitialize)(this.radPageView1)).EndInit();
       this.radPageView1.ResumeLayout(false);
       this.page_samples.ResumeLayout(false);
+      ((System.ComponentModel.ISupportInitialize)(this.snippet_sample)).EndInit();
       this.page_form.ResumeLayout(false);
       ((System.ComponentModel.ISupportInitialize)(this.snippet_form)).EndInit();
       ((System.ComponentModel.ISupportInitialize)(this.radPanel3)).EndInit();
@@ -557,10 +596,11 @@ namespace IDS.VAS.Excel2Xml.Forms
       ((System.ComponentModel.ISupportInitialize)(this.splitPanel7)).EndInit();
       this.splitPanel7.ResumeLayout(false);
       ((System.ComponentModel.ISupportInitialize)(this.chk_kwic)).EndInit();
+      ((System.ComponentModel.ISupportInitialize)(this.btn_kwic_unselectAll)).EndInit();
       ((System.ComponentModel.ISupportInitialize)(this.radPanel1)).EndInit();
       this.radPanel1.ResumeLayout(false);
       ((System.ComponentModel.ISupportInitialize)(this.txt_kwic_filter)).EndInit();
-      ((System.ComponentModel.ISupportInitialize)(this.btn_kwic_filter)).EndInit();
+      ((System.ComponentModel.ISupportInitialize)(this.btn_kwic_filterDelete)).EndInit();
       ((System.ComponentModel.ISupportInitialize)(this.splitPanel8)).EndInit();
       this.splitPanel8.ResumeLayout(false);
       ((System.ComponentModel.ISupportInitialize)(this.snippet_kwic)).EndInit();
@@ -569,7 +609,7 @@ namespace IDS.VAS.Excel2Xml.Forms
       this.radGroupBox2.ResumeLayout(false);
       ((System.ComponentModel.ISupportInitialize)(this.cmb_pattern)).EndInit();
       ((System.ComponentModel.ISupportInitialize)(this.radLabel3)).EndInit();
-      ((System.ComponentModel.ISupportInitialize)(this.snippet_sample)).EndInit();
+      ((System.ComponentModel.ISupportInitialize)(this.btn_samples_clipboard)).EndInit();
       ((System.ComponentModel.ISupportInitialize)(this)).EndInit();
       this.ResumeLayout(false);
 
@@ -588,7 +628,7 @@ namespace IDS.VAS.Excel2Xml.Forms
     private Telerik.WinControls.UI.RadSplitContainer radSplitContainer4;
     private Telerik.WinControls.UI.SplitPanel splitPanel7;
     private Telerik.WinControls.UI.RadPanel radPanel1;
-    private Telerik.WinControls.UI.RadButton btn_kwic_filter;
+    private Telerik.WinControls.UI.RadButton btn_kwic_filterDelete;
     private Telerik.WinControls.UI.SplitPanel splitPanel8;
     private Telerik.WinControls.UI.RadSyntaxEditor snippet_kwic;
     private Telerik.WinControls.UI.RadCheckedListBox chk_kwic;
@@ -610,5 +650,7 @@ namespace IDS.VAS.Excel2Xml.Forms
     private Telerik.WinControls.UI.RadCheckBox chk_form_addSamples;
     private Telerik.WinControls.UI.RadPageViewPage page_samples;
     private Telerik.WinControls.UI.RadSyntaxEditor snippet_sample;
+    private Telerik.WinControls.UI.RadButton btn_kwic_unselectAll;
+    private Telerik.WinControls.UI.RadButton btn_samples_clipboard;
   }
 }

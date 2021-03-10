@@ -103,6 +103,16 @@ namespace IDS.VAS.Excel2Xml.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap remove_button {
+            get {
+                object obj = ResourceManager.GetObject("remove_button", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap snipet {
             get {
                 object obj = ResourceManager.GetObject("snipet", resourceCulture);
@@ -116,6 +126,16 @@ namespace IDS.VAS.Excel2Xml.Properties {
         internal static System.Drawing.Bitmap table {
             get {
                 object obj = ResourceManager.GetObject("table", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap trash_bin {
+            get {
+                object obj = ResourceManager.GetObject("trash_bin", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
