@@ -134,6 +134,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="ids.ico" />
+    <None Include="Resources\database.png" />
     <None Include="Resources\clipboard.png" />
     <None Include="Resources\zoom.png" />
     <None Include="Resources\form_items.png" />

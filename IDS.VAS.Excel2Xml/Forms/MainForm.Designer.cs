@@ -39,6 +39,7 @@ namespace IDS.VAS.Excel2Xml.Forms
       this.radLabel1 = new Telerik.WinControls.UI.RadLabel();
       this.radGroupBox3 = new Telerik.WinControls.UI.RadGroupBox();
       this.radPageView1 = new Telerik.WinControls.UI.RadPageView();
+      this.page_samples = new Telerik.WinControls.UI.RadPageViewPage();
       this.page_form = new Telerik.WinControls.UI.RadPageViewPage();
       this.snippet_form = new Telerik.WinControls.UI.RadSyntaxEditor();
       this.radPanel3 = new Telerik.WinControls.UI.RadPanel();
@@ -47,19 +48,20 @@ namespace IDS.VAS.Excel2Xml.Forms
       this.txt_form_defaultVsem = new Telerik.WinControls.UI.RadTextBox();
       this.radLabel2 = new Telerik.WinControls.UI.RadLabel();
       this.btn_form_clipboard = new Telerik.WinControls.UI.RadButton();
-      this.page_sample = new Telerik.WinControls.UI.RadPageViewPage();
+      this.page_kwic = new Telerik.WinControls.UI.RadPageViewPage();
       this.radSplitContainer4 = new Telerik.WinControls.UI.RadSplitContainer();
       this.splitPanel7 = new Telerik.WinControls.UI.SplitPanel();
-      this.chk_sample = new Telerik.WinControls.UI.RadCheckedListBox();
+      this.chk_kwic = new Telerik.WinControls.UI.RadCheckedListBox();
       this.radPanel1 = new Telerik.WinControls.UI.RadPanel();
-      this.txt_sample_filter = new Telerik.WinControls.UI.RadTextBox();
-      this.btn_sample_filter = new Telerik.WinControls.UI.RadButton();
+      this.txt_kwic_filter = new Telerik.WinControls.UI.RadTextBox();
+      this.btn_kwic_filter = new Telerik.WinControls.UI.RadButton();
       this.splitPanel8 = new Telerik.WinControls.UI.SplitPanel();
-      this.snippet_sample = new Telerik.WinControls.UI.RadSyntaxEditor();
-      this.btn_sample_clipboard = new Telerik.WinControls.UI.RadButton();
+      this.snippet_kwic = new Telerik.WinControls.UI.RadSyntaxEditor();
+      this.btn_kwic_clipboard = new Telerik.WinControls.UI.RadButton();
       this.radGroupBox2 = new Telerik.WinControls.UI.RadGroupBox();
       this.cmb_pattern = new Telerik.WinControls.UI.RadDropDownList();
       this.radLabel3 = new Telerik.WinControls.UI.RadLabel();
+      this.snippet_sample = new Telerik.WinControls.UI.RadSyntaxEditor();
       ((System.ComponentModel.ISupportInitialize)(this.radGroupBox1)).BeginInit();
       this.radGroupBox1.SuspendLayout();
       ((System.ComponentModel.ISupportInitialize)(this.radSplitContainer2)).BeginInit();
@@ -76,6 +78,7 @@ namespace IDS.VAS.Excel2Xml.Forms
       this.radGroupBox3.SuspendLayout();
       ((System.ComponentModel.ISupportInitialize)(this.radPageView1)).BeginInit();
       this.radPageView1.SuspendLayout();
+      this.page_samples.SuspendLayout();
       this.page_form.SuspendLayout();
       ((System.ComponentModel.ISupportInitialize)(this.snippet_form)).BeginInit();
       ((System.ComponentModel.ISupportInitialize)(this.radPanel3)).BeginInit();
@@ -86,24 +89,25 @@ namespace IDS.VAS.Excel2Xml.Forms
       ((System.ComponentModel.ISupportInitialize)(this.txt_form_defaultVsem)).BeginInit();
       ((System.ComponentModel.ISupportInitialize)(this.radLabel2)).BeginInit();
       ((System.ComponentModel.ISupportInitialize)(this.btn_form_clipboard)).BeginInit();
-      this.page_sample.SuspendLayout();
+      this.page_kwic.SuspendLayout();
       ((System.ComponentModel.ISupportInitialize)(this.radSplitContainer4)).BeginInit();
       this.radSplitContainer4.SuspendLayout();
       ((System.ComponentModel.ISupportInitialize)(this.splitPanel7)).BeginInit();
       this.splitPanel7.SuspendLayout();
-      ((System.ComponentModel.ISupportInitialize)(this.chk_sample)).BeginInit();
+      ((System.ComponentModel.ISupportInitialize)(this.chk_kwic)).BeginInit();
       ((System.ComponentModel.ISupportInitialize)(this.radPanel1)).BeginInit();
       this.radPanel1.SuspendLayout();
-      ((System.ComponentModel.ISupportInitialize)(this.txt_sample_filter)).BeginInit();
-      ((System.ComponentModel.ISupportInitialize)(this.btn_sample_filter)).BeginInit();
+      ((System.ComponentModel.ISupportInitialize)(this.txt_kwic_filter)).BeginInit();
+      ((System.ComponentModel.ISupportInitialize)(this.btn_kwic_filter)).BeginInit();
       ((System.ComponentModel.ISupportInitialize)(this.splitPanel8)).BeginInit();
       this.splitPanel8.SuspendLayout();
-      ((System.ComponentModel.ISupportInitialize)(this.snippet_sample)).BeginInit();
-      ((System.ComponentModel.ISupportInitialize)(this.btn_sample_clipboard)).BeginInit();
+      ((System.ComponentModel.ISupportInitialize)(this.snippet_kwic)).BeginInit();
+      ((System.ComponentModel.ISupportInitialize)(this.btn_kwic_clipboard)).BeginInit();
       ((System.ComponentModel.ISupportInitialize)(this.radGroupBox2)).BeginInit();
       this.radGroupBox2.SuspendLayout();
       ((System.ComponentModel.ISupportInitialize)(this.cmb_pattern)).BeginInit();
       ((System.ComponentModel.ISupportInitialize)(this.radLabel3)).BeginInit();
+      ((System.ComponentModel.ISupportInitialize)(this.snippet_sample)).BeginInit();
       ((System.ComponentModel.ISupportInitialize)(this)).BeginInit();
       this.SuspendLayout();
       // 
@@ -230,15 +234,27 @@ namespace IDS.VAS.Excel2Xml.Forms
       // 
       // radPageView1
       // 
+      this.radPageView1.Controls.Add(this.page_samples);
       this.radPageView1.Controls.Add(this.page_form);
-      this.radPageView1.Controls.Add(this.page_sample);
+      this.radPageView1.Controls.Add(this.page_kwic);
       this.radPageView1.Dock = System.Windows.Forms.DockStyle.Fill;
       this.radPageView1.Location = new System.Drawing.Point(2, 18);
       this.radPageView1.Name = "radPageView1";
-      this.radPageView1.SelectedPage = this.page_sample;
+      this.radPageView1.SelectedPage = this.page_samples;
       this.radPageView1.Size = new System.Drawing.Size(796, 420);
       this.radPageView1.TabIndex = 0;
       this.radPageView1.ViewMode = Telerik.WinControls.UI.PageViewMode.NavigationView;
+      // 
+      // page_samples
+      // 
+      this.page_samples.Controls.Add(this.snippet_sample);
+      this.page_samples.ForeColor = System.Drawing.Color.White;
+      this.page_samples.Image = global::IDS.VAS.Excel2Xml.Properties.Resources.database;
+      this.page_samples.ItemSize = new System.Drawing.SizeF(36F, 36F);
+      this.page_samples.Location = new System.Drawing.Point(42, 38);
+      this.page_samples.Name = "page_samples";
+      this.page_samples.Size = new System.Drawing.Size(752, 380);
+      this.page_samples.Text = "<samples>";
       // 
       // page_form
       // 
@@ -328,16 +344,16 @@ namespace IDS.VAS.Excel2Xml.Forms
       this.btn_form_clipboard.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
       this.btn_form_clipboard.Click += new System.EventHandler(this.btn_form_clipboard_Click);
       // 
-      // page_sample
+      // page_kwic
       // 
-      this.page_sample.Controls.Add(this.radSplitContainer4);
-      this.page_sample.ForeColor = System.Drawing.Color.White;
-      this.page_sample.Image = global::IDS.VAS.Excel2Xml.Properties.Resources.snipet;
-      this.page_sample.ItemSize = new System.Drawing.SizeF(36F, 36F);
-      this.page_sample.Location = new System.Drawing.Point(42, 38);
-      this.page_sample.Name = "page_sample";
-      this.page_sample.Size = new System.Drawing.Size(752, 380);
-      this.page_sample.Text = "<samples>";
+      this.page_kwic.Controls.Add(this.radSplitContainer4);
+      this.page_kwic.ForeColor = System.Drawing.Color.White;
+      this.page_kwic.Image = global::IDS.VAS.Excel2Xml.Properties.Resources.snipet;
+      this.page_kwic.ItemSize = new System.Drawing.SizeF(36F, 36F);
+      this.page_kwic.Location = new System.Drawing.Point(42, 38);
+      this.page_kwic.Name = "page_kwic";
+      this.page_kwic.Size = new System.Drawing.Size(752, 380);
+      this.page_kwic.Text = "Belege";
       // 
       // radSplitContainer4
       // 
@@ -357,7 +373,7 @@ namespace IDS.VAS.Excel2Xml.Forms
       // 
       // splitPanel7
       // 
-      this.splitPanel7.Controls.Add(this.chk_sample);
+      this.splitPanel7.Controls.Add(this.chk_kwic);
       this.splitPanel7.Controls.Add(this.radPanel1);
       this.splitPanel7.Location = new System.Drawing.Point(0, 0);
       this.splitPanel7.Name = "splitPanel7";
@@ -370,51 +386,51 @@ namespace IDS.VAS.Excel2Xml.Forms
       this.splitPanel7.TabStop = false;
       this.splitPanel7.Text = "splitPanel7";
       // 
-      // chk_sample
+      // chk_kwic
       // 
-      this.chk_sample.Dock = System.Windows.Forms.DockStyle.Fill;
-      this.chk_sample.GroupItemSize = new System.Drawing.Size(200, 24);
-      this.chk_sample.ItemSize = new System.Drawing.Size(200, 24);
-      this.chk_sample.Location = new System.Drawing.Point(0, 35);
-      this.chk_sample.Name = "chk_sample";
-      this.chk_sample.Size = new System.Drawing.Size(372, 345);
-      this.chk_sample.TabIndex = 1;
+      this.chk_kwic.Dock = System.Windows.Forms.DockStyle.Fill;
+      this.chk_kwic.GroupItemSize = new System.Drawing.Size(200, 24);
+      this.chk_kwic.ItemSize = new System.Drawing.Size(200, 24);
+      this.chk_kwic.Location = new System.Drawing.Point(0, 35);
+      this.chk_kwic.Name = "chk_kwic";
+      this.chk_kwic.Size = new System.Drawing.Size(372, 345);
+      this.chk_kwic.TabIndex = 1;
       // 
       // radPanel1
       // 
-      this.radPanel1.Controls.Add(this.txt_sample_filter);
-      this.radPanel1.Controls.Add(this.btn_sample_filter);
+      this.radPanel1.Controls.Add(this.txt_kwic_filter);
+      this.radPanel1.Controls.Add(this.btn_kwic_filter);
       this.radPanel1.Dock = System.Windows.Forms.DockStyle.Top;
       this.radPanel1.Location = new System.Drawing.Point(0, 0);
       this.radPanel1.Name = "radPanel1";
       this.radPanel1.Size = new System.Drawing.Size(372, 35);
       this.radPanel1.TabIndex = 0;
       // 
-      // txt_sample_filter
+      // txt_kwic_filter
       // 
-      this.txt_sample_filter.AutoSize = false;
-      this.txt_sample_filter.Dock = System.Windows.Forms.DockStyle.Fill;
-      this.txt_sample_filter.Location = new System.Drawing.Point(0, 0);
-      this.txt_sample_filter.Name = "txt_sample_filter";
-      this.txt_sample_filter.Size = new System.Drawing.Size(284, 35);
-      this.txt_sample_filter.TabIndex = 2;
+      this.txt_kwic_filter.AutoSize = false;
+      this.txt_kwic_filter.Dock = System.Windows.Forms.DockStyle.Fill;
+      this.txt_kwic_filter.Location = new System.Drawing.Point(0, 0);
+      this.txt_kwic_filter.Name = "txt_kwic_filter";
+      this.txt_kwic_filter.Size = new System.Drawing.Size(284, 35);
+      this.txt_kwic_filter.TabIndex = 2;
       // 
-      // btn_sample_filter
+      // btn_kwic_filter
       // 
-      this.btn_sample_filter.Dock = System.Windows.Forms.DockStyle.Right;
-      this.btn_sample_filter.Image = global::IDS.VAS.Excel2Xml.Properties.Resources.zoom;
-      this.btn_sample_filter.Location = new System.Drawing.Point(284, 0);
-      this.btn_sample_filter.Name = "btn_sample_filter";
-      this.btn_sample_filter.Size = new System.Drawing.Size(88, 35);
-      this.btn_sample_filter.TabIndex = 1;
-      this.btn_sample_filter.Text = "Suchen";
-      this.btn_sample_filter.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-      this.btn_sample_filter.Click += new System.EventHandler(this.btn_sample_filter_Click);
+      this.btn_kwic_filter.Dock = System.Windows.Forms.DockStyle.Right;
+      this.btn_kwic_filter.Image = global::IDS.VAS.Excel2Xml.Properties.Resources.zoom;
+      this.btn_kwic_filter.Location = new System.Drawing.Point(284, 0);
+      this.btn_kwic_filter.Name = "btn_kwic_filter";
+      this.btn_kwic_filter.Size = new System.Drawing.Size(88, 35);
+      this.btn_kwic_filter.TabIndex = 1;
+      this.btn_kwic_filter.Text = "Suchen";
+      this.btn_kwic_filter.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+      this.btn_kwic_filter.Click += new System.EventHandler(this.btn_kwic_filter_Click);
       // 
       // splitPanel8
       // 
-      this.splitPanel8.Controls.Add(this.snippet_sample);
-      this.splitPanel8.Controls.Add(this.btn_sample_clipboard);
+      this.splitPanel8.Controls.Add(this.snippet_kwic);
+      this.splitPanel8.Controls.Add(this.btn_kwic_clipboard);
       this.splitPanel8.Location = new System.Drawing.Point(380, 0);
       this.splitPanel8.Name = "splitPanel8";
       // 
@@ -426,28 +442,28 @@ namespace IDS.VAS.Excel2Xml.Forms
       this.splitPanel8.TabStop = false;
       this.splitPanel8.Text = "splitPanel8";
       // 
-      // snippet_sample
+      // snippet_kwic
       // 
-      this.snippet_sample.Dock = System.Windows.Forms.DockStyle.Fill;
-      this.snippet_sample.Location = new System.Drawing.Point(0, 0);
-      this.snippet_sample.Name = "snippet_sample";
-      this.snippet_sample.Size = new System.Drawing.Size(372, 339);
-      this.snippet_sample.TabIndex = 0;
-      this.snippet_sample.Text = "radSyntaxEditor1";
+      this.snippet_kwic.Dock = System.Windows.Forms.DockStyle.Fill;
+      this.snippet_kwic.Location = new System.Drawing.Point(0, 0);
+      this.snippet_kwic.Name = "snippet_kwic";
+      this.snippet_kwic.Size = new System.Drawing.Size(372, 339);
+      this.snippet_kwic.TabIndex = 0;
+      this.snippet_kwic.Text = "radSyntaxEditor1";
       // 
-      // btn_sample_clipboard
+      // btn_kwic_clipboard
       // 
-      this.btn_sample_clipboard.Dock = System.Windows.Forms.DockStyle.Bottom;
-      this.btn_sample_clipboard.Image = global::IDS.VAS.Excel2Xml.Properties.Resources.clipboard;
-      this.btn_sample_clipboard.ImageAlignment = System.Drawing.ContentAlignment.MiddleRight;
-      this.btn_sample_clipboard.Location = new System.Drawing.Point(0, 339);
-      this.btn_sample_clipboard.Name = "btn_sample_clipboard";
-      this.btn_sample_clipboard.Size = new System.Drawing.Size(372, 41);
-      this.btn_sample_clipboard.TabIndex = 2;
-      this.btn_sample_clipboard.Text = "In Zwischenablage kopieren";
-      this.btn_sample_clipboard.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft;
-      this.btn_sample_clipboard.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-      this.btn_sample_clipboard.Click += new System.EventHandler(this.btn_sample_clipboard_Click);
+      this.btn_kwic_clipboard.Dock = System.Windows.Forms.DockStyle.Bottom;
+      this.btn_kwic_clipboard.Image = global::IDS.VAS.Excel2Xml.Properties.Resources.clipboard;
+      this.btn_kwic_clipboard.ImageAlignment = System.Drawing.ContentAlignment.MiddleRight;
+      this.btn_kwic_clipboard.Location = new System.Drawing.Point(0, 339);
+      this.btn_kwic_clipboard.Name = "btn_kwic_clipboard";
+      this.btn_kwic_clipboard.Size = new System.Drawing.Size(372, 41);
+      this.btn_kwic_clipboard.TabIndex = 2;
+      this.btn_kwic_clipboard.Text = "In Zwischenablage kopieren";
+      this.btn_kwic_clipboard.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft;
+      this.btn_kwic_clipboard.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+      this.btn_kwic_clipboard.Click += new System.EventHandler(this.btn_kwic_clipboard_Click);
       // 
       // radGroupBox2
       // 
@@ -486,6 +502,14 @@ namespace IDS.VAS.Excel2Xml.Forms
       this.radLabel3.TabIndex = 0;
       this.radLabel3.Text = "Muster:";
       // 
+      // snippet_sample
+      // 
+      this.snippet_sample.Dock = System.Windows.Forms.DockStyle.Fill;
+      this.snippet_sample.Location = new System.Drawing.Point(0, 0);
+      this.snippet_sample.Name = "snippet_sample";
+      this.snippet_sample.Size = new System.Drawing.Size(752, 380);
+      this.snippet_sample.TabIndex = 1;
+      // 
       // MainForm
       // 
       this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -516,6 +540,7 @@ namespace IDS.VAS.Excel2Xml.Forms
       this.radGroupBox3.ResumeLayout(false);
       ((System.ComponentModel.ISupportInitialize)(this.radPageView1)).EndInit();
       this.radPageView1.ResumeLayout(false);
+      this.page_samples.ResumeLayout(false);
       this.page_form.ResumeLayout(false);
       ((System.ComponentModel.ISupportInitialize)(this.snippet_form)).EndInit();
       ((System.ComponentModel.ISupportInitialize)(this.radPanel3)).EndInit();
@@ -526,24 +551,25 @@ namespace IDS.VAS.Excel2Xml.Forms
       ((System.ComponentModel.ISupportInitialize)(this.txt_form_defaultVsem)).EndInit();
       ((System.ComponentModel.ISupportInitialize)(this.radLabel2)).EndInit();
       ((System.ComponentModel.ISupportInitialize)(this.btn_form_clipboard)).EndInit();
-      this.page_sample.ResumeLayout(false);
+      this.page_kwic.ResumeLayout(false);
       ((System.ComponentModel.ISupportInitialize)(this.radSplitContainer4)).EndInit();
       this.radSplitContainer4.ResumeLayout(false);
       ((System.ComponentModel.ISupportInitialize)(this.splitPanel7)).EndInit();
       this.splitPanel7.ResumeLayout(false);
-      ((System.ComponentModel.ISupportInitialize)(this.chk_sample)).EndInit();
+      ((System.ComponentModel.ISupportInitialize)(this.chk_kwic)).EndInit();
       ((System.ComponentModel.ISupportInitialize)(this.radPanel1)).EndInit();
       this.radPanel1.ResumeLayout(false);
-      ((System.ComponentModel.ISupportInitialize)(this.txt_sample_filter)).EndInit();
-      ((System.ComponentModel.ISupportInitialize)(this.btn_sample_filter)).EndInit();
+      ((System.ComponentModel.ISupportInitialize)(this.txt_kwic_filter)).EndInit();
+      ((System.ComponentModel.ISupportInitialize)(this.btn_kwic_filter)).EndInit();
       ((System.ComponentModel.ISupportInitialize)(this.splitPanel8)).EndInit();
       this.splitPanel8.ResumeLayout(false);
-      ((System.ComponentModel.ISupportInitialize)(this.snippet_sample)).EndInit();
-      ((System.ComponentModel.ISupportInitialize)(this.btn_sample_clipboard)).EndInit();
+      ((System.ComponentModel.ISupportInitialize)(this.snippet_kwic)).EndInit();
+      ((System.ComponentModel.ISupportInitialize)(this.btn_kwic_clipboard)).EndInit();
       ((System.ComponentModel.ISupportInitialize)(this.radGroupBox2)).EndInit();
       this.radGroupBox2.ResumeLayout(false);
       ((System.ComponentModel.ISupportInitialize)(this.cmb_pattern)).EndInit();
       ((System.ComponentModel.ISupportInitialize)(this.radLabel3)).EndInit();
+      ((System.ComponentModel.ISupportInitialize)(this.snippet_sample)).EndInit();
       ((System.ComponentModel.ISupportInitialize)(this)).EndInit();
       this.ResumeLayout(false);
 
@@ -556,22 +582,22 @@ namespace IDS.VAS.Excel2Xml.Forms
     private Telerik.WinControls.UI.RadLabel lbl_openFile;
     private Telerik.WinControls.UI.RadGroupBox radGroupBox3;
     private Telerik.WinControls.UI.RadPageView radPageView1;
-    private Telerik.WinControls.UI.RadPageViewPage page_sample;
+    private Telerik.WinControls.UI.RadPageViewPage page_kwic;
     private Telerik.WinControls.UI.RadPageViewPage page_form;
     private Telerik.WinControls.UI.RadSyntaxEditor snippet_form;
     private Telerik.WinControls.UI.RadSplitContainer radSplitContainer4;
     private Telerik.WinControls.UI.SplitPanel splitPanel7;
     private Telerik.WinControls.UI.RadPanel radPanel1;
-    private Telerik.WinControls.UI.RadButton btn_sample_filter;
+    private Telerik.WinControls.UI.RadButton btn_kwic_filter;
     private Telerik.WinControls.UI.SplitPanel splitPanel8;
-    private Telerik.WinControls.UI.RadSyntaxEditor snippet_sample;
-    private Telerik.WinControls.UI.RadCheckedListBox chk_sample;
-    private Telerik.WinControls.UI.RadTextBox txt_sample_filter;
+    private Telerik.WinControls.UI.RadSyntaxEditor snippet_kwic;
+    private Telerik.WinControls.UI.RadCheckedListBox chk_kwic;
+    private Telerik.WinControls.UI.RadTextBox txt_kwic_filter;
     private Telerik.WinControls.UI.RadGroupBox radGroupBox2;
     private Telerik.WinControls.UI.RadDropDownList cmb_pattern;
     private Telerik.WinControls.UI.RadLabel radLabel3;
     private Telerik.WinControls.UI.RadButton btn_form_clipboard;
-    private Telerik.WinControls.UI.RadButton btn_sample_clipboard;
+    private Telerik.WinControls.UI.RadButton btn_kwic_clipboard;
     private Telerik.WinControls.UI.RadSplitContainer radSplitContainer2;
     private Telerik.WinControls.UI.SplitPanel splitPanel3;
     private Telerik.WinControls.UI.SplitPanel splitPanel4;
@@ -582,5 +608,7 @@ namespace IDS.VAS.Excel2Xml.Forms
     private Telerik.WinControls.UI.RadLabel radLabel2;
     private Telerik.WinControls.UI.RadPanel radPanel3;
     private Telerik.WinControls.UI.RadCheckBox chk_form_addSamples;
+    private Telerik.WinControls.UI.RadPageViewPage page_samples;
+    private Telerik.WinControls.UI.RadSyntaxEditor snippet_sample;
   }
 }

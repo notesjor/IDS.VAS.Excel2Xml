@@ -20,6 +20,7 @@ namespace IDS.VAS.Excel2Xml.Forms
     private DataTable _worksheet;
     private ExcelColumnMapper _mapper;
     private string _clipboardForm;
+    private string _clipboardSamples;
 
     public MainForm()
     {
@@ -29,7 +30,12 @@ namespace IDS.VAS.Excel2Xml.Forms
       snippet_form.TaggersRegistry.RegisterTagger(form_tagger);
       var form_foldingtagger = new XmlFoldingTagger(this.snippet_form.SyntaxEditorElement);
       snippet_form.TaggersRegistry.RegisterTagger(form_foldingtagger);
-      
+
+      var kwic_tagger = new XmlTagger(this.snippet_kwic.SyntaxEditorElement);
+      snippet_kwic.TaggersRegistry.RegisterTagger(kwic_tagger);
+      var kwic_foldingtagger = new XmlFoldingTagger(this.snippet_kwic.SyntaxEditorElement);
+      snippet_kwic.TaggersRegistry.RegisterTagger(kwic_foldingtagger);
+
       var sample_tagger = new XmlTagger(this.snippet_sample.SyntaxEditorElement);
       snippet_sample.TaggersRegistry.RegisterTagger(sample_tagger);
       var sample_foldingtagger = new XmlFoldingTagger(this.snippet_sample.SyntaxEditorElement);
@@ -121,17 +127,60 @@ namespace IDS.VAS.Excel2Xml.Forms
 
     private void cmb_pattern_SelectedIndexChanged(object sender, Telerik.WinControls.UI.Data.PositionChangedEventArgs e)
     {
+      RefreshSnippets();
+    }
+
+    private void RefreshSnippets()
+    {
       if (cmb_pattern.SelectedIndex == -1)
         return;
 
-      BuildForm();
-    }
-
-    private void BuildForm()
-    {
       var items = _worksheet.Rows.Cast<DataRow>()
                             .Where(row => row.ItemArray[_mapper.Mapping["MUSTER"]].ToString() ==
-                                          cmb_pattern.SelectedItem.Text);
+                                          cmb_pattern.SelectedItem.Text).ToArray();
+
+      BuildSamples(items);
+      BuildForm(items);
+    }
+
+    private void BuildSamples(IEnumerable<DataRow> items)
+    {
+      var stb = new StringBuilder();
+      stb.Append("<samples>\r\n");
+      foreach (DataRow row in items)
+        stb.Append($"\t<sample id=\"s_{row.ItemArray[_mapper.Mapping["#"]]}\">{KwicFix(row.ItemArray[_mapper.Mapping["BELEG"]].ToString())}</sample>\r\n");
+      stb.Append("</samples>");
+
+      _clipboardSamples = stb.ToString();
+      using (var ms = new MemoryStream(Encoding.UTF8.GetBytes(_clipboardSamples)))
+      {
+        using (StreamReader reader = new StreamReader(ms))
+        {
+          snippet_sample.Document = new TextDocument(reader);
+        }
+      }
+    }
+
+    private string KwicFix(string str)
+    {
+      str = str.Replace(" , ", ", ")
+                .Replace(" : ", ": ")
+                .Replace(" ? ", "? ")
+                .Replace(" ! ", "! ")
+                .Replace(" . ", ". ")
+                .Replace(" ; ", "; ")
+                .Replace("  ", " ");
+      if (str.EndsWith(" ."))
+        str = str.Substring(0, str.Length - 2) + ".";
+      if (str.EndsWith(" ?"))
+        str = str.Substring(0, str.Length - 2) + "!";
+      if (str.EndsWith(" !"))
+        str = str.Substring(0, str.Length - 2) + "?";
+      return str;
+    }
+
+    private void BuildForm(IEnumerable<DataRow> items)
+    {
       var dict = new Dictionary<string, FormSlot>();
       foreach (var item in items)
       {
@@ -139,7 +188,7 @@ namespace IDS.VAS.Excel2Xml.Forms
         var key = slot.GetXml(false);
         if (dict.ContainsKey(key))
         {
-          if(chk_form_addSamples.Checked)
+          if (chk_form_addSamples.Checked)
             dict[key].Ids.Add(slot.Ids[0]);
           continue;
         }
@@ -177,26 +226,26 @@ namespace IDS.VAS.Excel2Xml.Forms
       Clipboard.SetText(_clipboardForm);
     }
 
-    private void btn_sample_filter_Click(object sender, EventArgs e)
+    private void btn_kwic_filter_Click(object sender, EventArgs e)
     {
-      chk_sample.EnableFiltering = true;
-      chk_sample.FilterDescriptors.Clear();
-      chk_sample.FilterDescriptors.Add(new FilterDescriptor("Value", FilterOperator.Contains, txt_sample_filter.Text));
+      chk_kwic.EnableFiltering = true;
+      chk_kwic.FilterDescriptors.Clear();
+      chk_kwic.FilterDescriptors.Add(new FilterDescriptor("Value", FilterOperator.Contains, txt_kwic_filter.Text));
     }
 
-    private void btn_sample_clipboard_Click(object sender, EventArgs e)
+    private void btn_kwic_clipboard_Click(object sender, EventArgs e)
     {
-      Clipboard.SetText(snippet_sample.Text);
+      Clipboard.SetText(snippet_kwic.Text);
     }
 
     private void txt_form_defaultVsem_TextChanged(object sender, EventArgs e)
     {
-      BuildForm();
+      RefreshSnippets();
     }
 
     private void chk_form_addSamples_ToggleStateChanged(object sender, Telerik.WinControls.UI.StateChangedEventArgs args)
     {
-      BuildForm();
+      RefreshSnippets();
     }
   }
 }
