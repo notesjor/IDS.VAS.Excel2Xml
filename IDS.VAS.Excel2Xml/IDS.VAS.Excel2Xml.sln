@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31025.194
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IDS.VAS.Excel2Xml", "IDS.VAS.Excel2Xml.csproj", "{326574A8-FE40-4827-852D-CCEC91947F32}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{326574A8-FE40-4827-852D-CCEC91947F32}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{326574A8-FE40-4827-852D-CCEC91947F32}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{326574A8-FE40-4827-852D-CCEC91947F32}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{326574A8-FE40-4827-852D-CCEC91947F32}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {342D386D-33CE-4416-A901-D43898ADE075}
+	EndGlobalSection
+EndGlobal
