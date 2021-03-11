@@ -41,6 +41,7 @@ namespace IDS.VAS.Excel2Xml.Forms
       this.radPageView1 = new Telerik.WinControls.UI.RadPageView();
       this.page_samples = new Telerik.WinControls.UI.RadPageViewPage();
       this.snippet_sample = new Telerik.WinControls.UI.RadSyntaxEditor();
+      this.btn_samples_clipboard = new Telerik.WinControls.UI.RadButton();
       this.page_form = new Telerik.WinControls.UI.RadPageViewPage();
       this.snippet_form = new Telerik.WinControls.UI.RadSyntaxEditor();
       this.radPanel3 = new Telerik.WinControls.UI.RadPanel();
@@ -63,7 +64,6 @@ namespace IDS.VAS.Excel2Xml.Forms
       this.radGroupBox2 = new Telerik.WinControls.UI.RadGroupBox();
       this.cmb_pattern = new Telerik.WinControls.UI.RadDropDownList();
       this.radLabel3 = new Telerik.WinControls.UI.RadLabel();
-      this.btn_samples_clipboard = new Telerik.WinControls.UI.RadButton();
       ((System.ComponentModel.ISupportInitialize)(this.radGroupBox1)).BeginInit();
       this.radGroupBox1.SuspendLayout();
       ((System.ComponentModel.ISupportInitialize)(this.radSplitContainer2)).BeginInit();
@@ -82,6 +82,7 @@ namespace IDS.VAS.Excel2Xml.Forms
       this.radPageView1.SuspendLayout();
       this.page_samples.SuspendLayout();
       ((System.ComponentModel.ISupportInitialize)(this.snippet_sample)).BeginInit();
+      ((System.ComponentModel.ISupportInitialize)(this.btn_samples_clipboard)).BeginInit();
       this.page_form.SuspendLayout();
       ((System.ComponentModel.ISupportInitialize)(this.snippet_form)).BeginInit();
       ((System.ComponentModel.ISupportInitialize)(this.radPanel3)).BeginInit();
@@ -111,7 +112,6 @@ namespace IDS.VAS.Excel2Xml.Forms
       this.radGroupBox2.SuspendLayout();
       ((System.ComponentModel.ISupportInitialize)(this.cmb_pattern)).BeginInit();
       ((System.ComponentModel.ISupportInitialize)(this.radLabel3)).BeginInit();
-      ((System.ComponentModel.ISupportInitialize)(this.btn_samples_clipboard)).BeginInit();
       ((System.ComponentModel.ISupportInitialize)(this)).BeginInit();
       this.SuspendLayout();
       // 
@@ -205,11 +205,11 @@ namespace IDS.VAS.Excel2Xml.Forms
       // 
       this.cmb_spreadsheet.AutoSize = false;
       this.cmb_spreadsheet.Dock = System.Windows.Forms.DockStyle.Fill;
-      this.cmb_spreadsheet.Location = new System.Drawing.Point(81, 0);
+      this.cmb_spreadsheet.Location = new System.Drawing.Point(89, 0);
       this.cmb_spreadsheet.Name = "cmb_spreadsheet";
       this.cmb_spreadsheet.NullText = "Bitte auswählen...";
       this.cmb_spreadsheet.Padding = new System.Windows.Forms.Padding(0, 3, 3, 3);
-      this.cmb_spreadsheet.Size = new System.Drawing.Size(308, 35);
+      this.cmb_spreadsheet.Size = new System.Drawing.Size(300, 35);
       this.cmb_spreadsheet.TabIndex = 1;
       this.cmb_spreadsheet.SelectedIndexChanged += new Telerik.WinControls.UI.Data.PositionChangedEventHandler(this.cmb_spreadsheet_SelectedIndexChanged);
       // 
@@ -219,7 +219,7 @@ namespace IDS.VAS.Excel2Xml.Forms
       this.radLabel1.Dock = System.Windows.Forms.DockStyle.Left;
       this.radLabel1.Location = new System.Drawing.Point(0, 0);
       this.radLabel1.Name = "radLabel1";
-      this.radLabel1.Size = new System.Drawing.Size(81, 35);
+      this.radLabel1.Size = new System.Drawing.Size(89, 35);
       this.radLabel1.TabIndex = 0;
       this.radLabel1.Text = "Tabellenblatt:";
       // 
@@ -268,6 +268,20 @@ namespace IDS.VAS.Excel2Xml.Forms
       this.snippet_sample.Name = "snippet_sample";
       this.snippet_sample.Size = new System.Drawing.Size(752, 339);
       this.snippet_sample.TabIndex = 1;
+      // 
+      // btn_samples_clipboard
+      // 
+      this.btn_samples_clipboard.Dock = System.Windows.Forms.DockStyle.Bottom;
+      this.btn_samples_clipboard.Image = global::IDS.VAS.Excel2Xml.Properties.Resources.clipboard;
+      this.btn_samples_clipboard.ImageAlignment = System.Drawing.ContentAlignment.MiddleRight;
+      this.btn_samples_clipboard.Location = new System.Drawing.Point(0, 339);
+      this.btn_samples_clipboard.Name = "btn_samples_clipboard";
+      this.btn_samples_clipboard.Size = new System.Drawing.Size(752, 41);
+      this.btn_samples_clipboard.TabIndex = 2;
+      this.btn_samples_clipboard.Text = "In Zwischenablage kopieren";
+      this.btn_samples_clipboard.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft;
+      this.btn_samples_clipboard.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+      this.btn_samples_clipboard.Click += new System.EventHandler(this.btn_samples_clipboard_Click);
       // 
       // page_form
       // 
@@ -534,24 +548,9 @@ namespace IDS.VAS.Excel2Xml.Forms
       this.radLabel3.TabIndex = 0;
       this.radLabel3.Text = "Muster:";
       // 
-      // btn_samples_clipboard
-      // 
-      this.btn_samples_clipboard.Dock = System.Windows.Forms.DockStyle.Bottom;
-      this.btn_samples_clipboard.Image = global::IDS.VAS.Excel2Xml.Properties.Resources.clipboard;
-      this.btn_samples_clipboard.ImageAlignment = System.Drawing.ContentAlignment.MiddleRight;
-      this.btn_samples_clipboard.Location = new System.Drawing.Point(0, 339);
-      this.btn_samples_clipboard.Name = "btn_samples_clipboard";
-      this.btn_samples_clipboard.Size = new System.Drawing.Size(752, 41);
-      this.btn_samples_clipboard.TabIndex = 2;
-      this.btn_samples_clipboard.Text = "In Zwischenablage kopieren";
-      this.btn_samples_clipboard.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft;
-      this.btn_samples_clipboard.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-      this.btn_samples_clipboard.Click += new System.EventHandler(this.btn_samples_clipboard_Click);
-      // 
       // MainForm
       // 
-      this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
-      this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+      this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
       this.ClientSize = new System.Drawing.Size(800, 570);
       this.Controls.Add(this.radGroupBox3);
       this.Controls.Add(this.radGroupBox2);
@@ -580,6 +579,7 @@ namespace IDS.VAS.Excel2Xml.Forms
       this.radPageView1.ResumeLayout(false);
       this.page_samples.ResumeLayout(false);
       ((System.ComponentModel.ISupportInitialize)(this.snippet_sample)).EndInit();
+      ((System.ComponentModel.ISupportInitialize)(this.btn_samples_clipboard)).EndInit();
       this.page_form.ResumeLayout(false);
       ((System.ComponentModel.ISupportInitialize)(this.snippet_form)).EndInit();
       ((System.ComponentModel.ISupportInitialize)(this.radPanel3)).EndInit();
@@ -609,7 +609,6 @@ namespace IDS.VAS.Excel2Xml.Forms
       this.radGroupBox2.ResumeLayout(false);
       ((System.ComponentModel.ISupportInitialize)(this.cmb_pattern)).EndInit();
       ((System.ComponentModel.ISupportInitialize)(this.radLabel3)).EndInit();
-      ((System.ComponentModel.ISupportInitialize)(this.btn_samples_clipboard)).EndInit();
       ((System.ComponentModel.ISupportInitialize)(this)).EndInit();
       this.ResumeLayout(false);
 
