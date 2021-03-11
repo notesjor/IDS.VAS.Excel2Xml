@@ -206,7 +206,10 @@ namespace IDS.VAS.Excel2Xml.Forms
         if (dict.ContainsKey(key))
         {
           if (chk_form_addSamples.Checked)
-            dict[key].Ids.Add(slot.Ids[0]);
+          {
+            var pair = slot.Kwics.First();
+            dict[key].Kwics.Add(pair.Key, pair.Value);
+          }
           continue;
         }
         dict.Add(key, slot);

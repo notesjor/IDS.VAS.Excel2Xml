@@ -39,14 +39,14 @@ namespace IDS.VAS.Excel2Xml.Model
           break;
       }
 
-      Ids.Add(row.ItemArray[map.Mapping["#"]].ToString());
+      Kwics.Add(row.ItemArray[map.Mapping["#"]].ToString(), row.ItemArray[map.Mapping["BELEG"]].ToString());
       Prd = row.ItemArray[map.Mapping["MUSTERPRÄDIKAT"]].ToString();
       Figure = row.ItemArray[map.Mapping["FIGUR(SYN)"]].ToString();
       Ground = row.ItemArray[map.Mapping["GRUND(SYN)"]].ToString();
       Effector = row.ItemArray[map.Mapping["AUSLÖSER(SYN)"]].ToString();
     }
 
-    public List<string> Ids { get; set; } = new List<string>();
+    public Dictionary<string, string> Kwics { get; set; } = new Dictionary<string, string>();
     public string Type { get; set; }
     public string Prd { get; set; }
     public string Figure { get; set; }
@@ -71,8 +71,8 @@ namespace IDS.VAS.Excel2Xml.Model
       if (addSamples)
       {
         res.Append("\t\t\t<examples>\r\n");
-        foreach (var id in Ids)
-          res.Append($"\t\t\t\t<xref href=\"s_{id}\"/>\r\n");
+        foreach (var id in Kwics)
+          res.Append($"\t\t\t\t<xref href=\"s_{id.Key}\"/> <!-- {id.Value} -->\r\n");
         res.Append("\t\t\t</examples>\r\n");
       }
 
