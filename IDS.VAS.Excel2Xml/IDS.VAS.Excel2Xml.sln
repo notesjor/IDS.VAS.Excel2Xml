@@ -5,6 +5,10 @@ VisualStudioVersion = 16.0.31025.194
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IDS.VAS.Excel2Xml", "IDS.VAS.Excel2Xml.csproj", "{326574A8-FE40-4827-852D-CCEC91947F32}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IDS.VAS.Excel2Xml.Convert", "..\IDS.VAS.Excel2Xml.Convert\IDS.VAS.Excel2Xml.Convert.csproj", "{7984C273-E9D5-4C2A-8683-7E0CEDFFDAF6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IDS.VAS.Excel2Xml.Automate", "..\IDS.VAS.Excel2Xml.Automate\IDS.VAS.Excel2Xml.Automate.csproj", "{264D8722-8149-41E0-B166-6B39A91C60C6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +19,14 @@ Global
 		{326574A8-FE40-4827-852D-CCEC91947F32}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{326574A8-FE40-4827-852D-CCEC91947F32}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{326574A8-FE40-4827-852D-CCEC91947F32}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7984C273-E9D5-4C2A-8683-7E0CEDFFDAF6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7984C273-E9D5-4C2A-8683-7E0CEDFFDAF6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7984C273-E9D5-4C2A-8683-7E0CEDFFDAF6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7984C273-E9D5-4C2A-8683-7E0CEDFFDAF6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{264D8722-8149-41E0-B166-6B39A91C60C6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{264D8722-8149-41E0-B166-6B39A91C60C6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{264D8722-8149-41E0-B166-6B39A91C60C6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{264D8722-8149-41E0-B166-6B39A91C60C6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

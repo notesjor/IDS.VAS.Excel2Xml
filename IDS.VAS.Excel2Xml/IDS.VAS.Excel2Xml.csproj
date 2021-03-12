@@ -167,6 +167,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="ids.ico" />
+    <None Include="Resources\control_check_box.png" />
     <None Include="Resources\trash_bin.png" />
     <None Include="Resources\remove_button.png" />
     <None Include="Resources\database.png" />

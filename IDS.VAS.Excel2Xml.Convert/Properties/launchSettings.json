@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "IDS.VAS.Excel2Xml.Convert": {
+      "commandName": "Project",
+      "commandLineArgs": "C:\\Users\\Jan\\Desktop\\VAS\\vor_Daten.xlsx"
+    }
+  }
+}

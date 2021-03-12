@@ -154,7 +154,7 @@ namespace IDS.VAS.Excel2Xml.Forms
       {
         chk_kwic.Items.Add(new ListViewDataItem(row.ItemArray[_mapper.Mapping["BELEG"]].ToString())
         {
-          Tag = $"\t<xref href=\"s_{ row.ItemArray[_mapper.Mapping["#"]]}\"/>\r\n",
+          Tag = $"\t<xref href=\"s_{ row.ItemArray[_mapper.Mapping["#"]]}\"/> <!-- { row.ItemArray[_mapper.Mapping["BELEG"]]} -->\r\n",
           CheckState = ToggleState.Off
         });
       }
@@ -270,6 +270,12 @@ namespace IDS.VAS.Excel2Xml.Forms
     {
       foreach (var item in chk_kwic.Items)
         item.CheckState = ToggleState.Off;
+    }
+
+    private void btn_kiwc_selectAll_Click(object sender, EventArgs e)
+    {
+      foreach (var item in chk_kwic.Items)
+        item.CheckState = ToggleState.On;
     }
 
     private void chk_kwic_ItemCheckedChanged(object sender, ListViewItemEventArgs e)
