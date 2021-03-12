@@ -52,16 +52,16 @@ namespace IDS.VAS.Excel2Xml.Model
     public string GetXml(bool addSamples)
     {
       var res = new StringBuilder();
-      res.Append($"<pattern>\r\n");
+      res.Append($"<prototype>\r\n\t\t\t\t<pattern>\r\n");
       if (Test(Prd))
-        res.Append($"\t\t\t\t<pitem slot=\"prd\" syn=\"{Prd}\"/>\r\n");
+        res.Append($"\t\t\t\t\t<pitem slot=\"prd\" syn=\"{Prd}\"/>\r\n");
       if (Test(Effector))
-        res.Append($"\t\t\t\t<pitem slot=\"effector\" syn=\"{Effector}\"/>\r\n");
+        res.Append($"\t\t\t\t\t<pitem slot=\"effector\" syn=\"{Effector}\"/>\r\n");
       if (Test(Figure))
-        res.Append($"\t\t\t\t<pitem slot=\"figure\" syn=\"{Figure}\"/>\r\n");
+        res.Append($"\t\t\t\t\t<pitem slot=\"figure\" syn=\"{Figure}\"/>\r\n");
       if (Test(Ground))
-        res.Append($"\t\t\t\t<pitem slot=\"ground\" syn=\"{Ground}\"/>\r\n");
-      res.Append($"\t\t\t</pattern>\r\n");
+        res.Append($"\t\t\t\t\t<pitem slot=\"ground\" syn=\"{Ground}\"/>\r\n");
+      res.Append("\t\t\t\t</pattern>\r\n");
 
       if (addSamples)
       {
@@ -71,6 +71,7 @@ namespace IDS.VAS.Excel2Xml.Model
           res.Append($"\t\t\t\t<xref href=\"s_{id.Key}\"/> <!-- {id.Value} -->\r\n");
         res.Append("\t\t\t</examples>\r\n");
       }
+      res.Append($"\t\t\t</prototype>\r\n");
       return res.ToString();
     }
     

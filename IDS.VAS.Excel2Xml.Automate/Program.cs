@@ -192,7 +192,8 @@ namespace IDS.VAS.Excel2Xml.Convert
                .Replace(" ! ", "! ")
                .Replace(" . ", ". ")
                .Replace(" ; ", "; ")
-               .Replace("  ", " ");
+               .Replace("  ", " ")
+               .Replace("&", "&amp;");
       if (str.EndsWith(" ."))
         str = str.Substring(0, str.Length - 2) + ".";
       if (str.EndsWith(" ?"))
@@ -220,6 +221,7 @@ namespace IDS.VAS.Excel2Xml.Convert
 
       // Detect _mainPattern
       _mainPattern = dict.OrderByDescending(x => x.Value.Kwics.Count).First().Value.GetXml(true);
+      _mainPattern = _mainPattern.Replace("<prototype>", "").Replace("</prototype>", "");
 
       var stb = new StringBuilder();
       stb.Append("<forms>\r\n");
