@@ -125,7 +125,7 @@ namespace IDS.VAS.Excel2Xml.Convert
         samples.Add($"\t\t\t<sample id=\"s_{id}\">{kw}</sample>");
         xrefs.Add($"\t<xref href=\"s_{id}\"/> {kw}");
       }
-      return $"<samples>\r\n{string.Join("\r\n", samples)}\r\n\t\t</samples>\r\n<!-- TODO: Folgender Code (auskommentiert) als Beleg-Referenz an benötigten Stellen einfügen -->\r\n<!--\r\n<examples>\r\n{string.Join("\r\n", xrefs)}\r\n</examples>\r\n-->";
+      return $"<samples>\r\n{string.Join("\r\n", samples)}\r\n\t\t</samples>\r\n\t\t<!--\r\n\t\tTODO: \r\n\t\tFür Beispiele im Texte <xref>-Elemente kopieren\r\n\t\t\t<examples>\r\n\t\t\t\t<xref href=\"s_1072\"/>\r\n\t\t\t</examples>\r\n\r\n\t\tAufeinander folgende Beispiele in EINEM <examples>-Element bündeln\r\n\t\t  \t<examples>\r\n\t\t\t\t<xref href=\"s_1072\"/>\r\n\t\t\t\t<xref href=\"s_4075\"/>\r\n\t\t\t</examples>\r\n\r\n\t\tAuf diese Weise referenzierte Beispiele MÜSSEN oben im <samples>-Block ausgezeichnet werden!\r\n\t\t-->\r\n<!--\r\n<examples>\r\n{string.Join("\r\n", xrefs)}\r\n</examples>\r\n-->";
     }
 
     private static string KwicHighlight(DataRow row, string str)
@@ -174,20 +174,36 @@ namespace IDS.VAS.Excel2Xml.Convert
 
       var stb = new StringBuilder();
       stb.Append("<forms>\r\n");
-      stb.Append("\t\t\t<akt>\r\n");
-      foreach (var pair in dict.Where(x => x.Value.Type == "akt"))
-        stb.Append("\t\t\t" + pair.Value.GetXml(true));
-      stb.Append("\t\t\t</akt>\r\n");
-      stb.Append("\t\t\t<med>\r\n");
-      foreach (var pair in dict.Where(x => x.Value.Type == "med"))
-        stb.Append("\t\t\t" + pair.Value.GetXml(true));
-      stb.Append("\t\t\t</med>\r\n");
-      stb.Append("\t\t\t<pass>\r\n");
-      foreach (var pair in dict.Where(x => x.Value.Type == "pass"))
-        stb.Append("\t\t\t" + pair.Value.GetXml(true));
-      stb.Append("\t\t\t</pass>\r\n");
-      stb.Append("\t\t</forms>\r\n");
+      
+      var akts = dict.Where(x => x.Value.Type == "akt").ToArray();
+      if (akts.Length > 0)
+      {
+        stb.Append("\t\t\t<akt>\r\n");
+        foreach (var pair in akts)
+          stb.Append("\t\t\t" + pair.Value.GetXml(true));
+        stb.Append("\t\t\t</akt>\r\n");
+      }
 
+      var meds = dict.Where(x => x.Value.Type == "med").ToArray();
+      if (meds.Length > 0)
+      {
+        stb.Append("\t\t\t<med>\r\n");
+        foreach (var pair in meds)
+          stb.Append("\t\t\t" + pair.Value.GetXml(true));
+        stb.Append("\t\t\t</med>\r\n");
+      }
+
+      var passs = dict.Where(x => x.Value.Type == "pass").ToArray();
+      if (passs.Length > 0)
+      {
+        stb.Append("\t\t\t<pass>\r\n");
+        foreach (var pair in passs)
+          stb.Append("\t\t\t" + pair.Value.GetXml(true));
+        stb.Append("\t\t\t</pass>\r\n");
+      }
+
+      stb.Append("\t\t<!-- TODO: ggf. löschen -->\r\n\t\t\t<section label=\"Besonderheiten\">\r\n\t\t\t\t<!-- \r\n\t\t\t\t\tText und Beispiele hierher \r\n\t\t\t\t\t<p></p>\r\n\t\t\t\t\t<examples></examples>\r\n\t\t\t\t-->\r\n\t\t\t\t<p/>\r\n\t\t\t</section>\r\n");
+      stb.Append("\t\t</forms>\r\n");
       return stb.ToString();
     }
 
