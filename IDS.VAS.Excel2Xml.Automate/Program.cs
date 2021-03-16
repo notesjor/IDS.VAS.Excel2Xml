@@ -104,67 +104,16 @@ namespace IDS.VAS.Excel2Xml.Convert
             continue;
 
           var templateJ = Resources.TEMPLATE.Replace("$$$MUSTER$$$", pattern);
-          templateJ = templateJ.Replace("$$$SAMPLES$$$", GetSamplesJAN(items, mapper));
+          templateJ = templateJ.Replace("$$$SAMPLES$$$", GetSamples(items, mapper));
           templateJ = templateJ.Replace("$$$FORMS$$$", GetForms(items, mapper));
           templateJ = templateJ.Replace("$$$MAIN_PATTERN$$$", _mainPattern); // Muss nach FORMS ausgeführt werden, da dort _mainPattern ermittelt wird
-          templateJ = templateJ.Replace("$$$PREDICATES$$$", GetPredicatesJAN(items, mapper));
+          templateJ = templateJ.Replace("$$$PREDICATES$$$", GetPredicates(items, mapper));
           File.WriteAllText(Path.Combine(outputDir, $"{pattern}_vJAN.xml"), templateJ, Encoding.UTF8);
-
-          var templateF = Resources.TEMPLATE.Replace("$$$MUSTER$$$", pattern);
-          templateF = templateF.Replace("$$$SAMPLES$$$", GetSamplesFRANK(items, mapper));
-          templateF = templateF.Replace("$$$FORMS$$$", GetForms(items, mapper));
-          templateF = templateF.Replace("$$$MAIN_PATTERN$$$", _mainPattern); // Muss nach FORMS ausgeführt werden, da dort _mainPattern ermittelt wird
-          templateF = templateF.Replace("$$$PREDICATES$$$", "<!-- @FRANK: Hier muss irgend etwas gneriert werden -->");
-          File.WriteAllText(Path.Combine(outputDir, $"{pattern}_vFRANK.xml"), templateF, Encoding.UTF8);
         }
       }
     }
-
-    private static string GetSamplesFRANK(DataRow[] items, ExcelColumnMapper mapper)
-    {
-      var simple = new Dictionary<string, List<string>>();
-      var complex = new Dictionary<string, List<string>>();
-
-      foreach (var row in items)
-      {
-        var id = row.ItemArray[mapper.Mapping["#"]].ToString();
-        var kw = KwicFix(KwicHighlight(row, row.ItemArray[mapper.Mapping["BELEG"]].ToString()));
-        var si = row.ItemArray[mapper.Mapping["PRÄDIKATSKERN(LEX)"]].ToString().Trim();
-        var co_orig = row.ItemArray[mapper.Mapping["KOMPLEXESPRÄDIKAT(LEX)"]].ToString().Trim();
-        var co = co_orig.Replace("_", " ");
-
-        if (!string.IsNullOrWhiteSpace(si))
-        {
-          var key = $"<samples xxx=\"stichprobe\" section=\"verben\">\r\n\t\t\t<prädikat id=\"{si}\" label=\"{si}\">";
-
-          if (simple.ContainsKey(key))
-            simple[key].Add($"\t\t\t\t<sample id=\"s_{id}\"/>{kw}</sample>");
-          else
-            simple.Add(key, new List<string> { $"\t\t\t\t<sample id=\"s_{id}\"/>{kw}</sample>" });
-        }
-
-        if (!string.IsNullOrWhiteSpace(co))
-        {
-          var key = $"<samples xxx=\"stichprobe\" section=\"kompl_präd\" >\r\n<prädikat id=\"{co_orig}\" label=\"{co}\" index=\"\">";
-
-          if (complex.ContainsKey(key))
-            complex[key].Add($"\t\t\t\t<sample id=\"s_{id}\"/>{kw}</sample>");
-          else
-            complex.Add(key, new List<string> { $"\t\t\t\t<sample id=\"s_{id}\"/>{kw}</sample>" });
-        }
-      }
-
-      return $"{GetPredicateItemsFRANK(simple)}\r\n{GetPredicateItemsFRANK(complex)}\r\n";
-    }
-
-    private static string GetPredicateItemsFRANK(Dictionary<string, List<string>> items)
-    {
-      return string.Join("\r\n",
-                         items.Select(x =>
-                                        $"\t\t{x.Key}\r\n{string.Join("\r\n", x.Value)}\r\n\t\t\t</prädikat>\r\n\t\t</samples>"));
-    }
-
-    private static string GetSamplesJAN(DataRow[] items, ExcelColumnMapper mapper)
+    
+    private static string GetSamples(DataRow[] items, ExcelColumnMapper mapper)
     {
       var samples = new List<string>();
       var xrefs = new List<string>();
@@ -242,7 +191,7 @@ namespace IDS.VAS.Excel2Xml.Convert
       return stb.ToString();
     }
 
-    private static string GetPredicatesJAN(DataRow[] items, ExcelColumnMapper mapper)
+    private static string GetPredicates(DataRow[] items, ExcelColumnMapper mapper)
     {
       var simple = new Dictionary<string, List<string>>();
       var complex = new Dictionary<string, List<string>>();
