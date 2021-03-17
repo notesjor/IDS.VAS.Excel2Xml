@@ -119,74 +119,168 @@
   </resheader>
   <data name="TEMPLATE" xml:space="preserve">
     <value>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
-&lt;vas-artikel xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
- xsi:noNamespaceSchemaLocation="vas.xsd"&gt;
-    &lt;head&gt;
-        &lt;meta type="name"&gt;$$$MUSTER$$$&lt;/meta&gt;
-        &lt;meta type="keyword"&gt;
-            &lt;!-- TODO: Hier Keywords eintragen --&gt;
-        &lt;/meta&gt;
-        &lt;meta type="author"&gt;
-            &lt;!-- TODO: Hier Artikel-Autor*in-Kürzel vermerken. z. B. AZ --&gt;
-        &lt;/meta&gt;
-        &lt;meta type="type"&gt;
-            &lt;!-- TODO: Hier Artikel-Typ eintragen. z. B. Prädikat-Argumentstrukturmuster mit autonom kodierender PP --&gt;
-        &lt;/meta&gt;
-        &lt;meta type="family"
-            &gt;&lt;!-- TODO: Hier Artikel-Familie eintragen. z. B. Konfrontation --&gt;
-        &lt;/meta&gt;
-        &lt;meta type="prep"&gt;
-            &lt;!-- TODO: Hier PREP eintragen. z. B. vor --&gt;
-        &lt;/meta&gt;
-    &lt;/head&gt;
-    &lt;body&gt;
-        &lt;overview&gt;
-            &lt;p&gt;
-                &lt;!-- TODO: Hier Kurzbeschreibung / Übersicht eintragen. --&gt;
-            &lt;/p&gt;
-        &lt;/overview&gt;
-        &lt;prototype&gt;
-            &lt;!-- TODO: Überprüfen ob Prototypische Realisierung korrekt ist - wird automatisch anhand der häufigsten Muster (mit Eingang=1) gewählt. --&gt;
-            &lt;!-- Falls Änderung nötig, s. u. alle Muster sind in &lt;forms&gt; zu finden. --&gt;
-            $$$MAIN_PATTERN$$$
-        &lt;/prototype&gt;
-        &lt;!-- TODO: Alle Samples sollten ausgezeichnet sein - &lt;prd&gt;, &lt;figure&gt;, usw. ... --&gt;
-        $$$SAMPLES$$$
-        &lt;meaning&gt;
-            &lt;p&gt;
-                &lt;!-- TODO: Hier sollte eine erweiterte Muster(-Familien)-Erklärung stehen. --&gt;
-                &lt;!-- Wird ein Textbereich mit &lt;prd&gt;, &lt;figure&gt;, usw. ausgezeichnet, wird dieser entsprechend hervorgehoben. --&gt;
-            &lt;/p&gt;
-            
-            &lt;!-- Abschnitte werden als &lt;section&gt; eingefügt - das label bestimmt die Überschrift.
+&lt;!DOCTYPE vas-artikel SYSTEM "../../etc/vas.dtd"&gt;
+&lt;vas-artikel&gt;	
+	&lt;head&gt;
+		&lt;meta type="name"&gt;$$$MUSTER$$$&lt;/meta&gt;
+		&lt;meta type="class"&gt;
+			&lt;!-- TODO: Artikel-Klasse: entweder Überblicksartikel, Familienartikel oder Musterartikel --&gt;
+		&lt;/meta&gt;
+		&lt;meta type="keyword"&gt;
+			&lt;!-- TODO: Keywords: z.B. autonom, binär, intensivierend, kausal, konsekutiv, ternär --&gt;
+		&lt;/meta&gt;
+		&lt;meta type="author"&gt;
+			&lt;!-- TODO: Autor*in-Kürzel: z. B. AZ --&gt;
+		&lt;/meta&gt;
+		&lt;meta type="type"&gt;
+			&lt;!-- TODO: Muster-Typ eintragen: z. B. Prädikat-Argumentstrukturmuster mit autonom kodierender PP --&gt;
+		&lt;/meta&gt;
+		&lt;meta type="family"&gt;
+			&lt;!-- TODO: Artikel-Familie: z. B. Konfrontation --&gt;
+		&lt;/meta&gt;
+		&lt;meta type="prep"&gt;
+			&lt;!-- TODO: Präposition eintragen: z. B. vor --&gt;
+		&lt;/meta&gt;
+	&lt;/head&gt;
+	&lt;body&gt;
+		&lt;overview&gt;
+			&lt;prototype&gt;
+				&lt;p&gt;
+					&lt;!-- TODO: Hier Kurzbeschreibung / Übersicht eintragen. --&gt;
+				&lt;/p&gt;
+
+				&lt;!-- TODO: Überprüfen ob Prototypische Realisierung korrekt ist.
+						   Das Muster wurde automatisch anhand der häufigsten  Muster (mit Eingang = 1) gewählt. --&gt;
+				&lt;!-- Falls Änderung nötig, alle Muster sind in &lt;forms&gt; (s. u.) zu finden. --&gt;
+				&lt;!-- TODO: (WICHTIG) max. 3 Beispiele auswählen --&gt;
+
+				$$$MAIN_PATTERN$$$
+			&lt;/prototype&gt;
+		&lt;/overview&gt;
+		&lt;!--
+			Für alle im Artikel referenzierten Belege:
+			TODO: Belege MÜSSEN ausgezeichnet werden - &lt;prd&gt;, &lt;figure&gt;, usw.
+			TODO: Text Korrektur lesen! Besonders Anführungszeichen und Interpunktion
+		--&gt;
+		$$$SAMPLES$$$
+
+		&lt;!-- #FM
+		TODO: 
+		Für Beispiele im Texte &lt;xref&gt;-Elemente kopieren
+			&lt;examples&gt;
+				&lt;xref href="s_1072"/&gt;
+			&lt;/examples&gt;
+
+		Aufeinander folgende Beispiele in EINEM &lt;examples&gt;-Element bündeln
+		  	&lt;examples&gt;
+				&lt;xref href="s_1072"/&gt;
+				&lt;xref href="s_4075"/&gt;
+			&lt;/examples&gt;
+
+		Auf diese Weise referenzierte Beispiele MÜSSEN oben im &lt;samples&gt;-Block ausgezeichnet werden!
+		--&gt;
+		
+		&lt;meaning&gt;
+			&lt;p&gt;
+				&lt;!-- TODO: Hier sollte eine erweiterte Muster(-Familien)-Erklärung stehen. --&gt;
+				&lt;!-- Wird ein Textbereich mit &lt;prd&gt;, &lt;figure&gt;, usw. ausgezeichnet, wird dieser entsprechend hervorgehoben. --&gt;
+			&lt;/p&gt;
+
+			&lt;!-- Abschnitte werden als &lt;section&gt; eingefügt - das label-Attribut bestimmt die Überschrift.
             &lt;section label="Konzeptualisierung"&gt;
                 &lt;p&gt;&lt;/p&gt;
             &lt;/section&gt;                
             &lt;section label="Verwendungsschwerpunkte"&gt;
                 &lt;p&gt;&lt;/p&gt;
+            &lt;/section&gt;
+			&lt;section label="Besonderheiten"&gt;
+                &lt;p&gt;&lt;/p&gt;
             &lt;/section&gt; 
             --&gt;
-        &lt;/meaning&gt;
-        
-        $$$FORMS$$$
-               
-        &lt;predicates&gt;
-            &lt;section label="Stichprobe"&gt;                
-                $$$PREDICATES$$$               
-                &lt;p&gt;
-                    &lt;!-- TODO: Erklärung zu Prädikaten einfügen --&gt;
-                &lt;/p&gt;
-            &lt;/section&gt;
-        &lt;/predicates&gt;
-                       
-        &lt;references&gt;
-            &lt;!-- TODO: Referenzen anlegen --&gt;
-            &lt;!-- Hinweis: id sollte so gestatltet sein, wie später referenziert werden soll (erscheint so im Text).
-            &lt;reference id="Laptieva (2017)"&gt;Laptieva, Ekaterina. 2017. ‚rot vor Wut‘ vs. ‚rot vor Blut‘: eine korpusbasierte Untersuchung kausaler vor-Phrasen in Kopulasätzen. &lt;i&gt;Deutsche Sprache 4/17,&lt;/i&gt; S. 335–361.&lt;/reference&gt;
-            &lt;reference id="Pusch (1973)"&gt;Pusch, Luise F. 1973. Kausale Adverbialphrasen vom Typ ‚aus/vor + NP’. In: ten Cate, Abraham P. / Jordens, Peter. (Hgg.): &lt;i&gt;Linguistische Perspektiven: Referate des VII. Linguistischen Kolloquiums Nijmegen&lt;/i&gt;, 26. - 30. Sept. 1972. Tübingen: Niemeyer, 1973, S. 149–159.&lt;/reference&gt;
-            --&gt;
-        &lt;/references&gt;        
-    &lt;/body&gt;
+		&lt;/meaning&gt;
+
+		&lt;!-- TODO: zusammengehörige &lt;prototype&gt;-Elemente  in jeweils eigenen
+				  &lt;akt&gt;, &lt;med&gt; oder &lt;pass&gt; Element bündeln
+
+				  &lt;akt&gt;
+				      &lt;prototype&gt;...&lt;/prototype&gt;
+					  &lt;prototype&gt;...&lt;/prototype&gt;
+					  ...
+				  &lt;/akt&gt;
+				  &lt;akt&gt;
+				      ...
+				  &lt;/akt&gt;
+		--&gt;
+		
+		$$$FORMS$$$
+
+		&lt;!--
+			#FM: todo... leitlinien für alt angeben ...
+			             bei komplexen Prädikaten den Prädikatskern aus Excel per default in @alt schreiben?
+
+			Wie im Formteil: nur das jeweils erste Sample nicht auskommentieren, als default.
+			                 alle anderen dazugehörigen auskommentieren mit TODO: Beispiele auswählen =&gt; einkommentieren
+
+			Hinweis: enthält ein &lt;section&gt;-Element eine &lt;predicate-list&gt; kann sie darf sie keine anderen Elemente wie
+			         &lt;p&gt; oder &lt;examples&gt; enthalten
+		--&gt;
+		&lt;predicates&gt;
+			&lt;section label="Stichprobe"&gt; 
+				$$$PREDICATES$$$ 
+			&lt;/section&gt;
+
+			&lt;!-- #FM
+				auskommentiertes Fragement für 'nachgesammelte Beispiele' einfügen			
+			--&gt;
+
+			&lt;!--
+				&lt;section label="TODO_NAME_VEREINBAREN"&gt;
+					&lt;predicate-list label="Verben"&gt;
+						DATEN HIER EINFÜGEN
+					&lt;/predicate-list&gt;
+					&lt;predicate-list label="Komplexe Prädikate"&gt;
+						DATEN HIER EINFÜGEN
+					&lt;/predicate-list&gt; 
+				&lt;/section&gt;
+			--&gt;
+
+			&lt;!-- # FM
+				TODO: 
+					* weitere Erklärungen hierher: &lt;p&gt; und &lt;examples&gt;
+					* ggf. löschen
+					* Hinweis: &lt;section&gt; ohne Label erscheint als Text ohne Überschrift
+			--&gt;
+			&lt;section&gt;
+				&lt;!-- 
+					Text und Beispiele hierher 
+					&lt;p&gt;&lt;/p&gt;
+					&lt;examples&gt;&lt;/examples&gt;
+				--&gt;
+				&lt;p/&gt;
+			&lt;/section&gt;
+
+			&lt;!-- TODO: ggf. löschen --&gt;
+			&lt;section label="Argumentteilung"&gt;
+				&lt;!-- 
+					Text und Beispiele hierher 
+					&lt;p&gt;&lt;/p&gt;
+					&lt;examples&gt;&lt;/examples&gt;
+				--&gt;
+				&lt;p/&gt;
+			&lt;/section&gt;
+		&lt;/predicates&gt;
+
+		&lt;references&gt;
+			&lt;!-- TODO:
+					* Einträge aus dem Literaturverzeichnis referenzieren (erscheinen in Ausgabe mit Volltitel)
+						&lt;bibl-ref href="Laptieva 2017"/&gt;
+            			&lt;bibl-ref href="Pusch 1973"/&gt;
+
+					* oder provisorisch bibliographische Angabe hier anlegen
+						&lt;reference id="Laptieva 2017"&gt;Laptieva, Ekaterina. 2017. ‚rot vor Wut‘ vs. ‚rot vor Blut‘: eine korpusbasierte Untersuchung kausaler vor-Phrasen in Kopulasätzen. &lt;i&gt;Deutsche Sprache 4/17,&lt;/i&gt; S. 335–361.&lt;/reference&gt;
+			--&gt;
+		&lt;/references&gt;        
+	&lt;/body&gt;
 &lt;/vas-artikel&gt;</value>
   </data>
 </root>

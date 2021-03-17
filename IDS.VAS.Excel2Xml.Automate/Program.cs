@@ -108,11 +108,20 @@ namespace IDS.VAS.Excel2Xml.Convert
           templateJ = templateJ.Replace("$$$FORMS$$$", GetForms(items, mapper));
           templateJ = templateJ.Replace("$$$MAIN_PATTERN$$$", _mainPattern); // Muss nach FORMS ausgeführt werden, da dort _mainPattern ermittelt wird
           templateJ = templateJ.Replace("$$$PREDICATES$$$", GetPredicates(items, mapper));
-          File.WriteAllText(Path.Combine(outputDir, $"{pattern}_vJAN.xml"), templateJ, Encoding.UTF8);
+          File.WriteAllText(Path.Combine(outputDir, $"{FileNameFix(pattern)}.xml"), templateJ, Encoding.UTF8);
         }
       }
     }
-    
+
+    private static string FileNameFix(string pattern)
+    {
+      return pattern.ToLower()
+                    .Replace("ä", "ae")
+                    .Replace("ö", "oe")
+                    .Replace("ü", "ue")
+                    .Replace("ß", "ss");
+    }
+
     private static string GetSamples(DataRow[] items, ExcelColumnMapper mapper)
     {
       var samples = new List<string>();
@@ -174,7 +183,7 @@ namespace IDS.VAS.Excel2Xml.Convert
 
       var stb = new StringBuilder();
       stb.Append("<forms>\r\n");
-      
+
       var akts = dict.Where(x => x.Value.Type == "akt").ToArray();
       if (akts.Length > 0)
       {
@@ -210,7 +219,7 @@ namespace IDS.VAS.Excel2Xml.Convert
     private static string GetPredicates(DataRow[] items, ExcelColumnMapper mapper)
     {
       var simple = new Dictionary<string, List<string>>();
-      var complex = new Dictionary<string, List<string>>();
+      var complex = new Dictionary<string, Dictionary<string, List<string>>>();
 
       foreach (var row in items)
       {
@@ -219,20 +228,30 @@ namespace IDS.VAS.Excel2Xml.Convert
         var si = row.ItemArray[mapper.Mapping["PRÄDIKATSKERN(LEX)"]].ToString().Trim();
         var co = row.ItemArray[mapper.Mapping["KOMPLEXESPRÄDIKAT(LEX)"]].ToString().Trim().Replace("_", " ");
 
-        if (!string.IsNullOrWhiteSpace(si))
+        if (string.IsNullOrWhiteSpace(co))
         {
+          if (string.IsNullOrWhiteSpace(si))
+            continue;
+
           if (simple.ContainsKey(si))
-            simple[si].Add($"\t\t\t\t\t\t\t<xref href=\"s_{id}\"/> <!-- {kw} -->");
+            simple[si].Add($"\t\t\t\t\t\t\t<!-- <xref href=\"s_{id}\"/> --> <!-- {kw} -->");
           else
             simple.Add(si, new List<string> { $"\t\t\t\t\t\t\t<xref href=\"s_{id}\"/> <!-- {kw} -->" });
         }
-
-        if (!string.IsNullOrWhiteSpace(co))
+        else
         {
-          if (complex.ContainsKey(co))
-            complex[co].Add($"\t\t\t\t\t\t\t<xref href=\"s_{id}\"/> <!-- {kw} -->");
+          if (complex.ContainsKey(si))
+          {
+            if (complex[si].ContainsKey(co))
+              complex[si][co].Add($"\t\t\t\t\t\t\t<!-- <xref href=\"s_{id}\"/> --> <!-- {kw} -->");
+            else
+              complex[si].Add(co, new List<string> { $"\t\t\t\t\t\t\t<xref href=\"s_{id}\"/> <!-- {kw} -->" });
+          }
           else
-            complex.Add(co, new List<string> { $"\t\t\t\t\t\t\t<xref href=\"s_{id}\"/> <!-- {kw} -->" });
+            complex.Add(si, new Dictionary<string, List<string>>
+            {
+              { co, new List<string>{$"\t\t\t\t\t\t\t<xref href=\"s_{id}\"/> <!-- {kw} -->" } }
+            });
         }
       }
 
@@ -241,9 +260,19 @@ namespace IDS.VAS.Excel2Xml.Convert
 
     private static string GetPredicateItems(Dictionary<string, List<string>> items)
     {
-      return string.Join("\r\n",
-                         items.Select(x =>
-                                        $"\t\t\t\t\t<predicate value=\"{x.Key}\" alt=\"\">\r\n\t\t\t\t\t\t<examples>\r\n{string.Join("\r\n", x.Value)}\r\n\t\t\t\t\t\t</examples>\r\n\t\t\t\t\t</predicate>"));
+      return string.Join("\r\n", items.OrderBy(x => x.Key).Select(x => GetPredicateItems(x.Key, x.Value, null)));
     }
+
+    private static string GetPredicateItems(Dictionary<string, Dictionary<string, List<string>>> items)
+    {
+      var res = new List<string>();
+      foreach(var cluster in items.OrderBy(x => x.Key))
+        res.AddRange(cluster.Value.OrderBy(x => x.Key).Select(x=> GetPredicateItems(x.Key, x.Value, cluster.Key)));
+
+      return string.Join("\r\n", res);
+    }
+
+    private static string GetPredicateItems(string key, IEnumerable<string> values, string alt) 
+      => $"\t\t\t\t\t<predicate value=\"{key}\" {(string.IsNullOrEmpty(alt) ? "alt=\"\"" : $"alt=\"{alt}\"")}>\r\n\t\t\t\t\t\t<examples>\r\n{string.Join("\r\n", values)}\r\n\t\t\t\t\t\t</examples>\r\n\t\t\t\t\t</predicate>";
   }
 }

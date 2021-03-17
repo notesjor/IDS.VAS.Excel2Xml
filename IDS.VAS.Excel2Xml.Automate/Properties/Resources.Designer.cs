@@ -62,18 +62,20 @@ namespace IDS.VAS.Excel2Xml.Automate.Properties {
         
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die &lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
-        ///&lt;vas-artikel xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;
-        /// xsi:noNamespaceSchemaLocation=&quot;vas.xsd&quot;&gt;
-        ///    &lt;head&gt;
-        ///        &lt;meta type=&quot;name&quot;&gt;$$$MUSTER$$$&lt;/meta&gt;
-        ///        &lt;meta type=&quot;keyword&quot;&gt;
-        ///            &lt;!-- TODO: Hier Keywords eintragen --&gt;
-        ///        &lt;/meta&gt;
-        ///        &lt;meta type=&quot;author&quot;&gt;
-        ///            &lt;!-- TODO: Hier Artikel-Autor*in-Kürzel vermerken. z. B. AZ --&gt;
-        ///        &lt;/meta&gt;
-        ///        &lt;meta type=&quot;type&quot;&gt;
-        ///            &lt;!-- TODO: Hier Artikel-Typ eintragen. [Rest der Zeichenfolge wurde abgeschnitten]&quot;; ähnelt.
+        ///&lt;!DOCTYPE vas-artikel SYSTEM &quot;../../etc/vas.dtd&quot;&gt;
+        ///&lt;vas-artikel&gt;	
+        ///	&lt;head&gt;
+        ///		&lt;meta type=&quot;name&quot;&gt;$$$MUSTER$$$&lt;/meta&gt;
+        ///		&lt;meta type=&quot;class&quot;&gt;
+        ///			&lt;!-- TODO: Artikel-Klasse: entweder Überblicksartikel, Familienartikel oder Musterartikel --&gt;
+        ///		&lt;/meta&gt;
+        ///		&lt;meta type=&quot;keyword&quot;&gt;
+        ///			&lt;!-- TODO: Keywords: z.B. autonom, binär, intensivierend, kausal, konsekutiv, ternär --&gt;
+        ///		&lt;/meta&gt;
+        ///		&lt;meta type=&quot;author&quot;&gt;
+        ///			&lt;!-- TODO: Autor*in-Kürzel: z. B. AZ --&gt;
+        ///		&lt;/meta&gt;
+        ///		&lt;meta type=&quot; [Rest der Zeichenfolge wurde abgeschnitten]&quot;; ähnelt.
         /// </summary>
         internal static string TEMPLATE {
             get {

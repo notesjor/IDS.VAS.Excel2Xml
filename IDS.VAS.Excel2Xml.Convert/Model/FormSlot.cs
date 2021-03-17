@@ -67,8 +67,17 @@ namespace IDS.VAS.Excel2Xml.Model
       {
         res.Append("\t\t\t<!-- TODO: Nicht benötigte Belege löschen -->\r\n");
         res.Append("\t\t\t<examples>\r\n");
+        var first = true;
         foreach (var id in Kwics)
-          res.Append($"\t\t\t\t<xref href=\"s_{id.Key}\"/> <!-- {id.Value} -->\r\n");
+        {
+          if (first)
+          {
+            res.Append($"\t\t\t\t<xref href=\"s_{id.Key}\"/> <!-- {id.Value} -->\r\n");
+            first = false;
+          }
+          else
+            res.Append($"\t\t\t\t<!-- <xref href=\"s_{id.Key}\"/> --> <!-- {id.Value} -->\r\n");
+        }
         res.Append("\t\t\t</examples>\r\n");
       }
       res.Append("\t\t\t</prototype>\r\n");
