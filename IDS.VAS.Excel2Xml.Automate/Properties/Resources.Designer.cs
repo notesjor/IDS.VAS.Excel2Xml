@@ -67,15 +67,18 @@ namespace IDS.VAS.Excel2Xml.Automate.Properties {
         ///	&lt;head&gt;
         ///		&lt;meta type=&quot;name&quot;&gt;$$$MUSTER$$$&lt;/meta&gt;
         ///		&lt;meta type=&quot;class&quot;&gt;
-        ///			&lt;!-- TODO: Artikel-Klasse: entweder Überblicksartikel, Familienartikel oder Musterartikel --&gt;
+        ///			&lt;!-- 
+        ///				TODO: Artikel-Klasse: entweder Überblicksartikel, Familienartikel oder Musterartikel 
+        ///				      DIESE ANGABE IST ZWINGEND ERFORDERLICH!
+        ///			--&gt;
         ///		&lt;/meta&gt;
-        ///		&lt;meta type=&quot;keyword&quot;&gt;
-        ///			&lt;!-- TODO: Keywords: z.B. autonom, binär, intensivierend, kausal, konsekutiv, ternär --&gt;
+        ///		&lt;meta type=&quot;prep&quot;&gt;
+        ///			&lt;!-- 
+        ///				TODO: Präposition eintragen: z. B. vor 
+        ///				 	 DIESE ANGABE IST ZWINGEND ERFORDERLICH!
+        ///			--&gt;
         ///		&lt;/meta&gt;
-        ///		&lt;meta type=&quot;author&quot;&gt;
-        ///			&lt;!-- TODO: Autor*in-Kürzel: z. B. AZ --&gt;
-        ///		&lt;/meta&gt;
-        ///		&lt;meta type=&quot; [Rest der Zeichenfolge wurde abgeschnitten]&quot;; ähnelt.
+        ///		&lt;meta type=&quot;key [Rest der Zeichenfolge wurde abgeschnitten]&quot;; ähnelt.
         /// </summary>
         internal static string TEMPLATE {
             get {

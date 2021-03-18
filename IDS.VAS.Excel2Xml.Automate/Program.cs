@@ -103,7 +103,7 @@ namespace IDS.VAS.Excel2Xml.Convert
           if (items.Length == 0)
             continue;
 
-          var templateJ = Resources.TEMPLATE.Replace("$$$MUSTER$$$", pattern);
+          var templateJ = Resources.TEMPLATE.Replace("$$$MUSTER$$$", PatternNameFix(pattern));
           templateJ = templateJ.Replace("$$$SAMPLES$$$", GetSamples(items, mapper));
           templateJ = templateJ.Replace("$$$FORMS$$$", GetForms(items, mapper));
           templateJ = templateJ.Replace("$$$MAIN_PATTERN$$$", _mainPattern); // Muss nach FORMS ausgeführt werden, da dort _mainPattern ermittelt wird
@@ -111,6 +111,11 @@ namespace IDS.VAS.Excel2Xml.Convert
           File.WriteAllText(Path.Combine(outputDir, $"{FileNameFix(pattern)}.xml"), templateJ, Encoding.UTF8);
         }
       }
+    }
+
+    private static string PatternNameFix(string pattern)
+    {
+      return pattern.Substring(0, 1).ToUpper() + pattern.Substring(1).ToLower();
     }
 
     private static string FileNameFix(string pattern)

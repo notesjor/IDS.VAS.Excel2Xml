@@ -124,7 +124,16 @@
 	&lt;head&gt;
 		&lt;meta type="name"&gt;$$$MUSTER$$$&lt;/meta&gt;
 		&lt;meta type="class"&gt;
-			&lt;!-- TODO: Artikel-Klasse: entweder Überblicksartikel, Familienartikel oder Musterartikel --&gt;
+			&lt;!-- 
+				TODO: Artikel-Klasse: entweder Überblicksartikel, Familienartikel oder Musterartikel 
+				      DIESE ANGABE IST ZWINGEND ERFORDERLICH!
+			--&gt;
+		&lt;/meta&gt;
+		&lt;meta type="prep"&gt;
+			&lt;!-- 
+				TODO: Präposition eintragen: z. B. vor 
+				 	 DIESE ANGABE IST ZWINGEND ERFORDERLICH!
+			--&gt;
 		&lt;/meta&gt;
 		&lt;meta type="keyword"&gt;
 			&lt;!-- TODO: Keywords: z.B. autonom, binär, intensivierend, kausal, konsekutiv, ternär --&gt;
@@ -137,9 +146,6 @@
 		&lt;/meta&gt;
 		&lt;meta type="family"&gt;
 			&lt;!-- TODO: Artikel-Familie: z. B. Konfrontation --&gt;
-		&lt;/meta&gt;
-		&lt;meta type="prep"&gt;
-			&lt;!-- TODO: Präposition eintragen: z. B. vor --&gt;
 		&lt;/meta&gt;
 	&lt;/head&gt;
 	&lt;body&gt;
@@ -154,31 +160,37 @@
 				&lt;!-- Falls Änderung nötig, alle Muster sind in &lt;forms&gt; (s. u.) zu finden. --&gt;
 				&lt;!-- TODO: (WICHTIG) max. 3 Beispiele auswählen --&gt;
 
+				
+				&lt;pattern&gt;
+					&lt;pitem slot="prd" syn="V" sem="TODO_PRD_SEM"/&gt;
+					&lt;pitem slot="figure" syn="SUB"/&gt;
+					&lt;pitem slot="ground" syn="DAT"/&gt;
+				&lt;/pattern&gt;
+			
+				&lt;!-- TODO: Beispiele auswählen --&gt;
 				$$$MAIN_PATTERN$$$
+			
 			&lt;/prototype&gt;
 		&lt;/overview&gt;
 		&lt;!--
 			Für alle im Artikel referenzierten Belege:
-			TODO: Belege MÜSSEN ausgezeichnet werden - &lt;prd&gt;, &lt;figure&gt;, usw.
+			TODO: refenrenzierte Belege MÜSSEN ausgezeichnet werden - &lt;prd&gt;, &lt;figure&gt;, usw.
 			TODO: Text Korrektur lesen! Besonders Anführungszeichen und Interpunktion
+			
+			Für Beispiele im Texte &lt;xref&gt;-Elemente kopieren
+				&lt;examples&gt;
+					&lt;xref href="s_1072"/&gt;
+				&lt;/examples&gt;
+	
+			Aufeinander folgende Beispiele in EINEM &lt;examples&gt;-Element bündeln
+			  	&lt;examples&gt;
+					&lt;xref href="s_1072"/&gt;
+					&lt;xref href="s_4075"/&gt;
+				&lt;/examples&gt;
+	
+			Auf diese Weise referenzierte Beispiele MÜSSEN im &lt;samples&gt;-Block ausgezeichnet werden!
 		--&gt;
 		$$$SAMPLES$$$
-
-		&lt;!-- #FM
-		TODO: 
-		Für Beispiele im Texte &lt;xref&gt;-Elemente kopieren
-			&lt;examples&gt;
-				&lt;xref href="s_1072"/&gt;
-			&lt;/examples&gt;
-
-		Aufeinander folgende Beispiele in EINEM &lt;examples&gt;-Element bündeln
-		  	&lt;examples&gt;
-				&lt;xref href="s_1072"/&gt;
-				&lt;xref href="s_4075"/&gt;
-			&lt;/examples&gt;
-
-		Auf diese Weise referenzierte Beispiele MÜSSEN oben im &lt;samples&gt;-Block ausgezeichnet werden!
-		--&gt;
 		
 		&lt;meaning&gt;
 			&lt;p&gt;
@@ -214,25 +226,22 @@
 		
 		$$$FORMS$$$
 
+
 		&lt;!--
-			#FM: todo... leitlinien für alt angeben ...
-			             bei komplexen Prädikaten den Prädikatskern aus Excel per default in @alt schreiben?
-
-			Wie im Formteil: nur das jeweils erste Sample nicht auskommentieren, als default.
-			                 alle anderen dazugehörigen auskommentieren mit TODO: Beispiele auswählen =&gt; einkommentieren
-
-			Hinweis: enthält ein &lt;section&gt;-Element eine &lt;predicate-list&gt; kann sie darf sie keine anderen Elemente wie
-			         &lt;p&gt; oder &lt;examples&gt; enthalten
+			TODO: wie im Formteil:
+			Gewünschte Belege einkommentieren. Nicht benötigte Belege auskommentieren oder ggf. löschen
 		--&gt;
 		&lt;predicates&gt;
 			&lt;section label="Stichprobe"&gt; 
-				$$$PREDICATES$$$ 
+				$$$PREDICATES$$$  
 			&lt;/section&gt;
 
-			&lt;!-- #FM
-				auskommentiertes Fragement für 'nachgesammelte Beispiele' einfügen			
+			&lt;!-- 
+				Prädikate, die nicht aus der Stichprobe stammen hierher.
+				
+				Die samples-Elemente müssen oben im samples-Block hinzugefügt werden,
+				und können dann hier referenziert werden.
 			--&gt;
-
 			&lt;!--
 				&lt;section label="TODO_NAME_VEREINBAREN"&gt;
 					&lt;predicate-list label="Verben"&gt;
@@ -244,7 +253,7 @@
 				&lt;/section&gt;
 			--&gt;
 
-			&lt;!-- # FM
+			&lt;!--
 				TODO: 
 					* weitere Erklärungen hierher: &lt;p&gt; und &lt;examples&gt;
 					* ggf. löschen
@@ -278,7 +287,10 @@
 
 					* oder provisorisch bibliographische Angabe hier anlegen
 						&lt;reference id="Laptieva 2017"&gt;Laptieva, Ekaterina. 2017. ‚rot vor Wut‘ vs. ‚rot vor Blut‘: eine korpusbasierte Untersuchung kausaler vor-Phrasen in Kopulasätzen. &lt;i&gt;Deutsche Sprache 4/17,&lt;/i&gt; S. 335–361.&lt;/reference&gt;
+			
+				Beispiel löschen
 			--&gt;
+			&lt;bibl-ref href="Laptieva 2017"/&gt;
 		&lt;/references&gt;        
 	&lt;/body&gt;
 &lt;/vas-artikel&gt;</value>
