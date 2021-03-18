@@ -139,7 +139,7 @@ namespace IDS.VAS.Excel2Xml.Convert
         samples.Add($"\t\t\t<sample id=\"s_{id}\">{kw}</sample>");
         xrefs.Add($"\t<xref href=\"s_{id}\"/> {kw}");
       }
-      return $"<samples>\r\n{string.Join("\r\n", samples)}\r\n\t\t</samples>\r\n\t\t<!--\r\n\t\tTODO: \r\n\t\tFür Beispiele im Texte <xref>-Elemente kopieren\r\n\t\t\t<examples>\r\n\t\t\t\t<xref href=\"s_1072\"/>\r\n\t\t\t</examples>\r\n\r\n\t\tAufeinander folgende Beispiele in EINEM <examples>-Element bündeln\r\n\t\t  \t<examples>\r\n\t\t\t\t<xref href=\"s_1072\"/>\r\n\t\t\t\t<xref href=\"s_4075\"/>\r\n\t\t\t</examples>\r\n\r\n\t\tAuf diese Weise referenzierte Beispiele MÜSSEN oben im <samples>-Block ausgezeichnet werden!\r\n\t\t-->\r\n<!--\r\n<examples>\r\n{string.Join("\r\n", xrefs)}\r\n</examples>\r\n-->";
+      return $"<samples>\r\n{string.Join("\r\n", samples)}\r\n\t\t</samples>\r\n\t\t<!--\r\n\t\tTODO: \r\n\t\tFür Beispiele im Texte <xref>-Elemente kopieren\r\n\t\t\t<examples>\r\n\t\t\t\t<xref href=\"s_1072\"/>\r\n\t\t\t</examples>\r\n\r\n\t\tAufeinander folgende Beispiele in EINEM <examples>-Element bündeln\r\n\t\t  \t<examples>\r\n\t\t\t\t<xref href=\"s_1072\"/>\r\n\t\t\t\t<xref href=\"s_4075\"/>\r\n\t\t\t</examples>\r\n\r\n\t\tAuf diese Weise referenzierte Beispiele MÜSSEN oben im <samples>-Block ausgezeichnet werden! -->\r\n";
     }
 
     private static string KwicHighlight(DataRow row, string str)
@@ -172,7 +172,7 @@ namespace IDS.VAS.Excel2Xml.Convert
       foreach (var item in items)
       {
         var slot = new FormSlot(mapper, item);
-        var key = slot.GetXml(false);
+        var key = slot.GetXml(0);
         if (dict.ContainsKey(key)) // MERGE Multi-KWICs
         {
           var pair = slot.Kwics.First();
@@ -183,7 +183,7 @@ namespace IDS.VAS.Excel2Xml.Convert
       }
 
       // Detect _mainPattern
-      _mainPattern = dict.OrderByDescending(x => x.Value.Kwics.Count).First().Value.GetXml(true);
+      _mainPattern = dict.OrderByDescending(x => x.Value.Kwics.Count).First().Value.GetXml(3);
       _mainPattern = _mainPattern.Replace("<prototype>", "").Replace("</prototype>", "");
 
       var stb = new StringBuilder();
@@ -194,7 +194,7 @@ namespace IDS.VAS.Excel2Xml.Convert
       {
         stb.Append("\t\t\t<akt>\r\n");
         foreach (var pair in akts)
-          stb.Append("\t\t\t" + pair.Value.GetXml(true));
+          stb.Append("\t\t\t" + pair.Value.GetXml(1));
         stb.Append("\t\t\t</akt>\r\n");
       }
 
@@ -203,7 +203,7 @@ namespace IDS.VAS.Excel2Xml.Convert
       {
         stb.Append("\t\t\t<med>\r\n");
         foreach (var pair in meds)
-          stb.Append("\t\t\t" + pair.Value.GetXml(true));
+          stb.Append("\t\t\t" + pair.Value.GetXml(1));
         stb.Append("\t\t\t</med>\r\n");
       }
 
@@ -212,7 +212,7 @@ namespace IDS.VAS.Excel2Xml.Convert
       {
         stb.Append("\t\t\t<pass>\r\n");
         foreach (var pair in passs)
-          stb.Append("\t\t\t" + pair.Value.GetXml(true));
+          stb.Append("\t\t\t" + pair.Value.GetXml(1));
         stb.Append("\t\t\t</pass>\r\n");
       }
 

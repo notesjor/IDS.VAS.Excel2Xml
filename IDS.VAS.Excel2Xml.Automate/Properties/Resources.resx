@@ -290,7 +290,7 @@
 			
 				Beispiel löschen
 			--&gt;
-			&lt;bibl-ref href="Laptieva 2017"/&gt;
+			&lt;!-- &lt;bibl-ref href="Laptieva 2017"/&gt; --&gt;
 		&lt;/references&gt;        
 	&lt;/body&gt;
 &lt;/vas-artikel&gt;</value>

@@ -49,7 +49,7 @@ namespace IDS.VAS.Excel2Xml.Model
     public string Ground { get; set; }
     public string Effector { get; set; }
 
-    public string GetXml(bool addSamples)
+    public string GetXml(int addSamples)
     {
       var res = new StringBuilder();
       res.Append("<prototype>\r\n\t\t\t\t<pattern>\r\n");
@@ -63,17 +63,16 @@ namespace IDS.VAS.Excel2Xml.Model
         res.Append($"\t\t\t\t\t<pitem slot=\"ground\" syn=\"{Ground}\"/>\r\n");
       res.Append("\t\t\t\t</pattern>\r\n");
 
-      if (addSamples)
+      if (addSamples > 0) // wenn addSamples == 0 dann gar keine Belege (wichtig für beleglosen Vergleich)
       {
-        res.Append("\t\t\t<!-- TODO: Nicht benötigte Belege löschen -->\r\n");
+        res.Append("\t\t\t<!-- TODO: Gewünschte Belege auskommentieren. Nicht benötigte Belege einkommentieren oder ggf. löschen -->\r\n");
         res.Append("\t\t\t<examples>\r\n");
-        var first = true;
         foreach (var id in Kwics)
         {
-          if (first)
+          if (addSamples > 0) // zähle addSamples runter (wichtig für overview = 3 und predicate = 1)
           {
             res.Append($"\t\t\t\t<xref href=\"s_{id.Key}\"/> <!-- {id.Value} -->\r\n");
-            first = false;
+            addSamples--;
           }
           else
             res.Append($"\t\t\t\t<!-- <xref href=\"s_{id.Key}\"/> --> <!-- {id.Value} -->\r\n");
