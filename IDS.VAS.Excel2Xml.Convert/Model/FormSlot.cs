@@ -65,19 +65,19 @@ namespace IDS.VAS.Excel2Xml.Model
 
       if (addSamples > 0) // wenn addSamples == 0 dann gar keine Belege (wichtig für beleglosen Vergleich)
       {
-        res.Append("\t\t\t<!-- TODO: Gewünschte Belege auskommentieren. Nicht benötigte Belege einkommentieren oder ggf. löschen -->\r\n");
-        res.Append("\t\t\t<examples>\r\n");
+        res.Append("\t\t\t\t<!-- TODO: Gewünschte Belege auskommentieren. Nicht benötigte Belege einkommentieren oder ggf. löschen -->\r\n");
+        res.Append("\t\t\t\t<examples>\r\n");
         foreach (var id in Kwics)
         {
           if (addSamples > 0) // zähle addSamples runter (wichtig für overview = 3 und predicate = 1)
           {
-            res.Append($"\t\t\t\t<xref href=\"s_{id.Key}\"/> <!-- {id.Value} -->\r\n");
+            res.Append($"\t\t\t\t\t<xref href=\"s_{id.Key}\"/> <!-- {id.Value} -->\r\n");
             addSamples--;
           }
           else
-            res.Append($"\t\t\t\t<!-- <xref href=\"s_{id.Key}\"/> --> <!-- {id.Value} -->\r\n");
+            res.Append($"\t\t\t\t\t<!-- <xref href=\"s_{id.Key}\"/> --> <!-- {id.Value} -->\r\n");
         }
-        res.Append("\t\t\t</examples>\r\n");
+        res.Append("\t\t\t\t</examples>\r\n");
       }
       res.Append("\t\t\t</prototype>\r\n");
       return res.ToString();

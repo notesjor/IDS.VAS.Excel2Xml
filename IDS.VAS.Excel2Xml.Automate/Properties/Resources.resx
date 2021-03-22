@@ -159,15 +159,7 @@
 						   Das Muster wurde automatisch anhand der häufigsten  Muster (mit Eingang = 1) gewählt. --&gt;
 				&lt;!-- Falls Änderung nötig, alle Muster sind in &lt;forms&gt; (s. u.) zu finden. --&gt;
 				&lt;!-- TODO: (WICHTIG) max. 3 Beispiele auswählen --&gt;
-
 				
-				&lt;pattern&gt;
-					&lt;pitem slot="prd" syn="V" sem="TODO_PRD_SEM"/&gt;
-					&lt;pitem slot="figure" syn="SUB"/&gt;
-					&lt;pitem slot="ground" syn="DAT"/&gt;
-				&lt;/pattern&gt;
-			
-				&lt;!-- TODO: Beispiele auswählen --&gt;
 				$$$MAIN_PATTERN$$$
 			
 			&lt;/prototype&gt;
