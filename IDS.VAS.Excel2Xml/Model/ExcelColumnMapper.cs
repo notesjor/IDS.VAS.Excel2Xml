@@ -19,7 +19,10 @@ namespace IDS.VAS.Excel2Xml.Model
         {"FIGUR(SYN)", -1},
         {"GRUND(LEX)", -1},
         {"GRUND(SYN)", -1},
-        {"ARG-STR", -1},
+        {"BSP", -1},
+        {"QUELLE", -1},
+        {"JAHR", -1},
+        {"COSMAS-SIGLE", -1 },
         {"PRÄDIKATSKERN(LEX)", -1 },
         {"KOMPLEXESPRÄDIKAT(LEX)",-1 }
       };

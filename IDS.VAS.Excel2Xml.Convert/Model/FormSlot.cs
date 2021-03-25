@@ -4,6 +4,7 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using IDS.VAS.Excel2Xml.Convert.Model;
 
 namespace IDS.VAS.Excel2Xml.Model
 {
@@ -19,9 +20,9 @@ namespace IDS.VAS.Excel2Xml.Model
   */
   public class FormSlot
   {
-    public FormSlot(ExcelColumnMapper map, DataRow row)
+    public FormSlot(ExcelColumnMapper mapper, DataRow row)
     {
-      Type = row.ItemArray[map.Mapping["PRÄDIKAT(TYP)"]].ToString();
+      Type = row.ItemArray[mapper.Mapping["PRÄDIKAT(TYP)"]].ToString();
       switch (Type.ToLower())
       {
         case "a":
@@ -35,14 +36,22 @@ namespace IDS.VAS.Excel2Xml.Model
           break;
       }
 
-      Kwics.Add(row.ItemArray[map.Mapping["#"]].ToString(), row.ItemArray[map.Mapping["BELEG"]].ToString());
-      Prd = row.ItemArray[map.Mapping["MUSTERPRÄDIKAT"]].ToString();
-      Figure = row.ItemArray[map.Mapping["FIGUR(SYN)"]].ToString();
-      Ground = row.ItemArray[map.Mapping["GRUND(SYN)"]].ToString();
-      Effector = row.ItemArray[map.Mapping["AUSLÖSER(SYN)"]].ToString();
+      Kwics.Add(row.ItemArray[mapper.Mapping["#"]].ToString(), new Kwic
+      {
+        Id = row.ItemArray[mapper.Mapping["#"]].ToString(),
+        Source = row.ItemArray[mapper.Mapping["QUELLE"]].ToString(),
+        Text = row.ItemArray[mapper.Mapping["BELEG"]].ToString(),
+        Year = row.ItemArray[mapper.Mapping["JAHR"]].ToString(),
+        Sigle = row.ItemArray[mapper.Mapping["COSMAS-SIGLE"]].ToString(),
+        Priority = row.ItemArray[mapper.Mapping["BSP"]].ToString(),
+      });
+      Prd = row.ItemArray[mapper.Mapping["MUSTERPRÄDIKAT"]].ToString();
+      Figure = row.ItemArray[mapper.Mapping["FIGUR(SYN)"]].ToString();
+      Ground = row.ItemArray[mapper.Mapping["GRUND(SYN)"]].ToString();
+      Effector = row.ItemArray[mapper.Mapping["AUSLÖSER(SYN)"]].ToString();
     }
 
-    public Dictionary<string, string> Kwics { get; set; } = new Dictionary<string, string>();
+    public Dictionary<string, Kwic> Kwics { get; set; } = new Dictionary<string, Kwic>();
     public string Type { get; set; }
     public string Prd { get; set; }
     public string Figure { get; set; }
@@ -67,7 +76,7 @@ namespace IDS.VAS.Excel2Xml.Model
       {
         res.Append("\t\t\t\t<!-- TODO: Gewünschte Belege auskommentieren. Nicht benötigte Belege einkommentieren oder ggf. löschen -->\r\n");
         res.Append("\t\t\t\t<examples>\r\n");
-        foreach (var id in Kwics)
+        foreach (var id in Kwics.OrderByDescending(x => x.Value.PriorityIndex))
         {
           if (addSamples > 0) // zähle addSamples runter (wichtig für overview = 3 und predicate = 1)
           {
@@ -82,7 +91,7 @@ namespace IDS.VAS.Excel2Xml.Model
       res.Append("\t\t\t</prototype>\r\n");
       return res.ToString();
     }
-    
+
     private bool Test(string property)
     {
       if (string.IsNullOrEmpty(property))

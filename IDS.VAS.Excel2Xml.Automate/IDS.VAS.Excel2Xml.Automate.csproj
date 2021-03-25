@@ -57,6 +57,9 @@
     <Compile Include="..\IDS.VAS.Excel2Xml.Convert\Model\FormSlot.cs">
       <Link>Model\FormSlot.cs</Link>
     </Compile>
+    <Compile Include="..\IDS.VAS.Excel2Xml.Convert\Model\Kwic.cs">
+      <Link>Model\Kwic.cs</Link>
+    </Compile>
     <Compile Include="..\IDS.VAS.Excel2Xml\Model\ExcelColumnMapper.cs">
       <Link>Model\ExcelColumnMapper.cs</Link>
     </Compile>
@@ -76,6 +79,7 @@
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

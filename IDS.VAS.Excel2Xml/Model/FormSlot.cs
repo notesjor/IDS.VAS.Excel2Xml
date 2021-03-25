@@ -39,14 +39,21 @@ namespace IDS.VAS.Excel2Xml.Model
           break;
       }
 
-      Kwics.Add(row.ItemArray[map.Mapping["#"]].ToString(), row.ItemArray[map.Mapping["BELEG"]].ToString());
+      Kwics.Add(row.ItemArray[map.Mapping["#"]].ToString(), new Kwic
+      {
+        Id = row.ItemArray[map.Mapping["#"]].ToString(),
+        Source = row.ItemArray[map.Mapping["QUELLE"]].ToString(),
+        Text = row.ItemArray[map.Mapping["BELEG"]].ToString(),
+        Year = row.ItemArray[map.Mapping["JAHR"]].ToString(),
+        Priority = row.ItemArray[map.Mapping["BSP"]].ToString(),
+      });
       Prd = row.ItemArray[map.Mapping["MUSTERPRÄDIKAT"]].ToString();
       Figure = row.ItemArray[map.Mapping["FIGUR(SYN)"]].ToString();
       Ground = row.ItemArray[map.Mapping["GRUND(SYN)"]].ToString();
       Effector = row.ItemArray[map.Mapping["AUSLÖSER(SYN)"]].ToString();
     }
 
-    public Dictionary<string, string> Kwics { get; set; } = new Dictionary<string, string>();
+    public Dictionary<string, Kwic> Kwics { get; set; } = new Dictionary<string, Kwic>();
     public string Type { get; set; }
     public string Prd { get; set; }
     public string Figure { get; set; }
@@ -59,7 +66,12 @@ namespace IDS.VAS.Excel2Xml.Model
       res.Append("\t\t<prototype>\r\n");
       res.Append("\t\t\t<pattern>\r\n");
       if (Test(Prd))
-        res.Append($"\t\t\t\t<pitem slot=\"prd\" syn=\"{Prd}\"{(string.IsNullOrEmpty(_vsem) ? "" : $" sem=\"{_vsem}\"")}/>\r\n");
+      {
+        if(addSamples)
+          res.Append($"\t\t\t\t<pitem slot=\"prd\" syn=\"{Prd}\"{(string.IsNullOrEmpty(_vsem) ? "" : $" sem=\"{_vsem}\"")}/>\r\n");
+        else
+          res.Append($"\t\t\t\t<pitem slot=\"prd\" syn=\"V\"{(string.IsNullOrEmpty(_vsem) ? "" : $" sem=\"{_vsem}\"")}/>\r\n");
+      }
       if (Test(Effector))
         res.Append($"\t\t\t\t<pitem slot=\"effector\" syn=\"{Effector}\"/>\r\n");
       if (Test(Figure))

@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using ExcelDataReader;
 using IDS.VAS.Excel2Xml.Automate.Properties;
+using IDS.VAS.Excel2Xml.Convert.Model;
 using IDS.VAS.Excel2Xml.Model;
 
 namespace IDS.VAS.Excel2Xml.Convert
@@ -104,7 +105,7 @@ namespace IDS.VAS.Excel2Xml.Convert
             continue;
 
           var templateJ = Resources.TEMPLATE.Replace("$$$MUSTER$$$", PatternNameFix(pattern));
-          templateJ = templateJ.Replace("$$$SAMPLES$$$", GetSamples(items, mapper));
+          templateJ = templateJ.Replace("$$$SAMPLES$$$", GetSamples(Path.Combine(outputDir, $"{FileNameFix(pattern)}_sigles.xml"), items, mapper));
           templateJ = templateJ.Replace("$$$FORMS$$$", GetForms(items, mapper));
           templateJ = templateJ.Replace("$$$MAIN_PATTERN$$$", _mainPattern); // Muss nach FORMS ausgeführt werden, da dort _mainPattern ermittelt wird
           templateJ = templateJ.Replace("$$$PREDICATES$$$", GetPredicates(items, mapper));
@@ -127,29 +128,46 @@ namespace IDS.VAS.Excel2Xml.Convert
                     .Replace("ß", "ss");
     }
 
-    private static string GetSamples(DataRow[] items, ExcelColumnMapper mapper)
+    private static string GetSamples(string outputPath, DataRow[] items, ExcelColumnMapper mapper)
     {
       var samples = new List<string>();
-      var xrefs = new List<string>();
+      var sigle = new List<string>
+      {
+        "<?xml version=\"1.0\" encoding=\"UTF-8\"?>",
+        "<!DOCTYPE references SYSTEM \"../../etc/vas-sigle.dtd\">",
+        $"<sigles file=\"{Path.GetFileName(outputPath).Replace("_sigles", "")}\">",
+      };
+
       foreach (var row in items)
       {
-        var id = row.ItemArray[mapper.Mapping["#"]].ToString();
-        var kw = KwicFix(KwicHighlight(row, row.ItemArray[mapper.Mapping["BELEG"]].ToString()));
+        var kwic = KwicFix(KwicHighlight(row, new Kwic
+        {
+          Id = row.ItemArray[mapper.Mapping["#"]].ToString(),
+          Source = row.ItemArray[mapper.Mapping["QUELLE"]].ToString(),
+          Text = row.ItemArray[mapper.Mapping["BELEG"]].ToString(),
+          Year = row.ItemArray[mapper.Mapping["JAHR"]].ToString(),
+          Sigle = row.ItemArray[mapper.Mapping["COSMAS-SIGLE"]].ToString(),
+          Priority = row.ItemArray[mapper.Mapping["BSP"]].ToString(),
+        }));
 
-        samples.Add($"\t\t\t<sample id=\"s_{id}\">{kw}</sample>");
-        xrefs.Add($"\t<xref href=\"s_{id}\"/> {kw}");
+        samples.Add($"\t\t\t<sample id=\"s_{kwic.Id}\">{kwic.Text}</sample>");
+        sigle.Add($"\t<sigle cosmas=\"{kwic.Sigle}\" source=\"{kwic.Source}\" year=\"{kwic.Year}\"/>");
       }
+
+      sigle.Add("</sigles>");
+      File.WriteAllLines(outputPath, sigle, Encoding.UTF8);
+
       return $"<samples>\r\n{string.Join("\r\n", samples)}\r\n\t\t</samples>\r\n\t\t<!--\r\n\t\tTODO: \r\n\t\tFür Beispiele im Texte <xref>-Elemente kopieren\r\n\t\t\t<examples>\r\n\t\t\t\t<xref href=\"s_1072\"/>\r\n\t\t\t</examples>\r\n\r\n\t\tAufeinander folgende Beispiele in EINEM <examples>-Element bündeln\r\n\t\t  \t<examples>\r\n\t\t\t\t<xref href=\"s_1072\"/>\r\n\t\t\t\t<xref href=\"s_4075\"/>\r\n\t\t\t</examples>\r\n\r\n\t\tAuf diese Weise referenzierte Beispiele MÜSSEN oben im <samples>-Block ausgezeichnet werden! -->\r\n";
     }
 
-    private static string KwicHighlight(DataRow row, string str)
+    private static Kwic KwicHighlight(DataRow row, Kwic str)
     {
       return str;
     }
 
-    private static string KwicFix(string str)
+    private static Kwic KwicFix(Kwic kwic)
     {
-      str = str.Replace(" , ", ", ")
+      var str = kwic.Text.Replace(" , ", ", ")
                .Replace(" : ", ": ")
                .Replace(" ? ", "? ")
                .Replace(" ! ", "! ")
@@ -163,7 +181,10 @@ namespace IDS.VAS.Excel2Xml.Convert
         str = str.Substring(0, str.Length - 2) + "!";
       if (str.EndsWith(" !"))
         str = str.Substring(0, str.Length - 2) + "?";
-      return str;
+
+      kwic.Text = str;
+
+      return kwic;
     }
 
     private static string GetForms(DataRow[] items, ExcelColumnMapper mapper)
@@ -228,8 +249,15 @@ namespace IDS.VAS.Excel2Xml.Convert
 
       foreach (var row in items)
       {
-        var id = row.ItemArray[mapper.Mapping["#"]].ToString();
-        var kw = KwicFix(row.ItemArray[mapper.Mapping["BELEG"]].ToString());
+        var kwic = KwicFix(new Kwic
+        {
+          Id = row.ItemArray[mapper.Mapping["#"]].ToString(),
+          Source = row.ItemArray[mapper.Mapping["QUELLE"]].ToString(),
+          Text = row.ItemArray[mapper.Mapping["BELEG"]].ToString(),
+          Year = row.ItemArray[mapper.Mapping["JAHR"]].ToString(),
+          Sigle = row.ItemArray[mapper.Mapping["COSMAS-SIGLE"]].ToString(),
+          Priority = row.ItemArray[mapper.Mapping["BSP"]].ToString(),
+        });
         var si = row.ItemArray[mapper.Mapping["PRÄDIKATSKERN(LEX)"]].ToString().Trim();
         var co = row.ItemArray[mapper.Mapping["KOMPLEXESPRÄDIKAT(LEX)"]].ToString().Trim().Replace("_", " ");
 
@@ -239,23 +267,23 @@ namespace IDS.VAS.Excel2Xml.Convert
             continue;
 
           if (simple.ContainsKey(si))
-            simple[si].Add($"\t\t\t\t\t\t\t<!-- <xref href=\"s_{id}\"/> --> <!-- {kw} -->");
+            simple[si].Add($"\t\t\t\t\t\t\t<!-- <xref href=\"s_{kwic.Id}\"/> --> <!-- {kwic.Text} -->");
           else
-            simple.Add(si, new List<string> { $"\t\t\t\t\t\t\t<xref href=\"s_{id}\"/> <!-- {kw} -->" });
+            simple.Add(si, new List<string> { $"\t\t\t\t\t\t\t<xref href=\"s_{kwic.Id}\"/> <!-- {kwic.Text} -->" });
         }
         else
         {
           if (complex.ContainsKey(si))
           {
             if (complex[si].ContainsKey(co))
-              complex[si][co].Add($"\t\t\t\t\t\t\t<!-- <xref href=\"s_{id}\"/> --> <!-- {kw} -->");
+              complex[si][co].Add($"\t\t\t\t\t\t\t<!-- <xref href=\"s_{kwic.Id}\"/> --> <!-- {kwic.Text} -->");
             else
-              complex[si].Add(co, new List<string> { $"\t\t\t\t\t\t\t<xref href=\"s_{id}\"/> <!-- {kw} -->" });
+              complex[si].Add(co, new List<string> { $"\t\t\t\t\t\t\t<xref href=\"s_{kwic.Id}\"/> <!-- {kwic.Text} -->" });
           }
           else
             complex.Add(si, new Dictionary<string, List<string>>
             {
-              { co, new List<string>{$"\t\t\t\t\t\t\t<xref href=\"s_{id}\"/> <!-- {kw} -->" } }
+              { co, new List<string>{$"\t\t\t\t\t\t\t<xref href=\"s_{kwic.Id}\"/> <!-- {kwic.Text} -->" } }
             });
         }
       }
