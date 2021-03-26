@@ -151,7 +151,7 @@ namespace IDS.VAS.Excel2Xml.Convert
         }));
 
         samples.Add($"\t\t\t<sample id=\"s_{kwic.Id}\">{kwic.Text}</sample>");
-        sigle.Add($"\t<sigle cosmas=\"{kwic.Sigle}\" source=\"{kwic.Source}\" year=\"{kwic.Year}\"/>");
+        sigle.Add($"\t<sigle id=\"s_{kwic.Id}\" cosmas=\"{kwic.Sigle}\" source=\"{kwic.Source}\" year=\"{kwic.Year}\"/>");
       }
 
       sigle.Add("</sigles>");
