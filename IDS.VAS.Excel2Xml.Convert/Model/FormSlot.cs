@@ -39,9 +39,7 @@ namespace IDS.VAS.Excel2Xml.Model
       Kwics.Add(row.ItemArray[mapper.Mapping["#"]].ToString(), new Kwic
       {
         Id = row.ItemArray[mapper.Mapping["#"]].ToString(),
-        Source = row.ItemArray[mapper.Mapping["QUELLE"]].ToString(),
         Text = row.ItemArray[mapper.Mapping["BELEG"]].ToString(),
-        Year = row.ItemArray[mapper.Mapping["JAHR"]].ToString(),
         Sigle = row.ItemArray[mapper.Mapping["COSMAS-SIGLE"]].ToString(),
         Priority = row.ItemArray[mapper.Mapping["BSP"]].ToString(),
       });

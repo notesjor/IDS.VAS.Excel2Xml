@@ -105,7 +105,7 @@ namespace IDS.VAS.Excel2Xml.Convert
             continue;
 
           var templateJ = Resources.TEMPLATE.Replace("$$$MUSTER$$$", PatternNameFix(pattern));
-          templateJ = templateJ.Replace("$$$SAMPLES$$$", GetSamples(Path.Combine(outputDir, $"{FileNameFix(pattern)}_sigles.xml"), items, mapper));
+          templateJ = templateJ.Replace("$$$SAMPLES$$$", GetSamples(items, mapper));
           templateJ = templateJ.Replace("$$$FORMS$$$", GetForms(items, mapper));
           templateJ = templateJ.Replace("$$$MAIN_PATTERN$$$", _mainPattern); // Muss nach FORMS ausgeführt werden, da dort _mainPattern ermittelt wird
           templateJ = templateJ.Replace("$$$PREDICATES$$$", GetPredicates(items, mapper));
@@ -128,34 +128,21 @@ namespace IDS.VAS.Excel2Xml.Convert
                     .Replace("ß", "ss");
     }
 
-    private static string GetSamples(string outputPath, DataRow[] items, ExcelColumnMapper mapper)
+    private static string GetSamples(DataRow[] items, ExcelColumnMapper mapper)
     {
       var samples = new List<string>();
-      var sigle = new List<string>
-      {
-        "<?xml version=\"1.0\" encoding=\"UTF-8\"?>",
-        "<!DOCTYPE references SYSTEM \"../../etc/vas-sigle.dtd\">",
-        $"<sigles file=\"{Path.GetFileName(outputPath).Replace("_sigles", "")}\">",
-      };
-
       foreach (var row in items)
       {
         var kwic = KwicFix(KwicHighlight(row, new Kwic
         {
           Id = row.ItemArray[mapper.Mapping["#"]].ToString(),
-          Source = row.ItemArray[mapper.Mapping["QUELLE"]].ToString(),
           Text = row.ItemArray[mapper.Mapping["BELEG"]].ToString(),
-          Year = row.ItemArray[mapper.Mapping["JAHR"]].ToString(),
           Sigle = row.ItemArray[mapper.Mapping["COSMAS-SIGLE"]].ToString(),
           Priority = row.ItemArray[mapper.Mapping["BSP"]].ToString(),
         }));
 
-        samples.Add($"\t\t\t<sample id=\"s_{kwic.Id}\">{kwic.Text}</sample>");
-        sigle.Add($"\t<sigle id=\"s_{kwic.Id}\" cosmas=\"{kwic.Sigle}\" source=\"{kwic.Source}\" year=\"{kwic.Year}\"/>");
+        samples.Add($"\t\t\t<sample id=\"s_{kwic.Id}\" cosmas=\"{kwic.Sigle}\">{kwic.Text}</sample>");
       }
-
-      sigle.Add("</sigles>");
-      File.WriteAllLines(outputPath, sigle, Encoding.UTF8);
 
       return $"<samples>\r\n{string.Join("\r\n", samples)}\r\n\t\t</samples>\r\n\t\t<!--\r\n\t\tTODO: \r\n\t\tFür Beispiele im Texte <xref>-Elemente kopieren\r\n\t\t\t<examples>\r\n\t\t\t\t<xref href=\"s_1072\"/>\r\n\t\t\t</examples>\r\n\r\n\t\tAufeinander folgende Beispiele in EINEM <examples>-Element bündeln\r\n\t\t  \t<examples>\r\n\t\t\t\t<xref href=\"s_1072\"/>\r\n\t\t\t\t<xref href=\"s_4075\"/>\r\n\t\t\t</examples>\r\n\r\n\t\tAuf diese Weise referenzierte Beispiele MÜSSEN oben im <samples>-Block ausgezeichnet werden! -->\r\n";
     }
@@ -252,9 +239,7 @@ namespace IDS.VAS.Excel2Xml.Convert
         var kwic = KwicFix(new Kwic
         {
           Id = row.ItemArray[mapper.Mapping["#"]].ToString(),
-          Source = row.ItemArray[mapper.Mapping["QUELLE"]].ToString(),
           Text = row.ItemArray[mapper.Mapping["BELEG"]].ToString(),
-          Year = row.ItemArray[mapper.Mapping["JAHR"]].ToString(),
           Sigle = row.ItemArray[mapper.Mapping["COSMAS-SIGLE"]].ToString(),
           Priority = row.ItemArray[mapper.Mapping["BSP"]].ToString(),
         });
