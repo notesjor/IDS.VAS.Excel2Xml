@@ -13,8 +13,8 @@ namespace IDS.VAS.Excel2Xml.Model
         {"BELEG", -1},
         {"EINGANG", -1 },
         {"MUSTER", -1},
-        {"PRÄDIKAT(TYP)", -1},
-        {"MUSTERPRÄDIKAT", -1},
+        {"DIATHESE", -1},
+        {"PRD(MUSTERSLOT)", -1},
         {"AUSLÖSER(SYN)", -1},
         {"FIGUR(SYN)", -1},
         {"GRUND(LEX)", -1},
@@ -22,7 +22,8 @@ namespace IDS.VAS.Excel2Xml.Model
         {"BSP", -1},
         {"COSMAS-SIGLE", -1 },
         {"PRÄDIKATSKERN(LEX)", -1 },
-        {"KOMPLEXESPRÄDIKAT(LEX)",-1 }
+        {"MUSTERTYP", -1 },
+        {"PRÄDIKAT(LEX)",-1 }
       };
 
     public bool Map(DataTable table)

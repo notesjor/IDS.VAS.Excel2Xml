@@ -105,6 +105,7 @@ namespace IDS.VAS.Excel2Xml.Convert
             continue;
 
           var templateJ = Resources.TEMPLATE.Replace("$$$MUSTER$$$", PatternNameFix(pattern));
+          templateJ = templateJ.Replace("$$$TYPE$$$", GetType(items, mapper, pattern));
           templateJ = templateJ.Replace("$$$SAMPLES$$$", GetSamples(items, mapper));
           templateJ = templateJ.Replace("$$$FORMS$$$", GetForms(items, mapper));
           templateJ = templateJ.Replace("$$$MAIN_PATTERN$$$", _mainPattern); // Muss nach FORMS ausgeführt werden, da dort _mainPattern ermittelt wird
@@ -126,6 +127,24 @@ namespace IDS.VAS.Excel2Xml.Convert
                     .Replace("ö", "oe")
                     .Replace("ü", "ue")
                     .Replace("ß", "ss");
+    }
+
+    private static string GetType(DataRow[] items, ExcelColumnMapper mapper, string pattern)
+    {
+      var freq = new Dictionary<string, int>();
+      foreach (var row in items)
+      {
+        var val = row.ItemArray[mapper.Mapping["MUSTERTYP"]].ToString();
+        if (freq.ContainsKey(val))
+          freq[val]++;
+        else
+          freq.Add(val, 1);
+      }
+
+      if (freq.Count > 1)
+        Console.WriteLine($"WARN: {pattern} hat {freq.Count} verschiedene MUSTERTYPEN");
+
+      return freq.OrderByDescending(x => x.Value).First().Key;
     }
 
     private static string GetSamples(DataRow[] items, ExcelColumnMapper mapper)
@@ -206,15 +225,15 @@ namespace IDS.VAS.Excel2Xml.Convert
         stb.Append("\t\t\t</akt>\r\n");
       }
 
-      var meds = dict.Where(x => x.Value.Type == "med").ToArray();
+      var meds = dict.Where(x => x.Value.Type == "kon").ToArray();
       if (meds.Length > 0)
       {
-        stb.Append("\t\t\t<med>\r\n");
+        stb.Append("\t\t\t<kon>\r\n");
         foreach (var pair in meds)
           stb.Append("\t\t\t" + pair.Value.GetXml(1));
-        stb.Append("\t\t\t</med>\r\n");
+        stb.Append("\t\t\t</kon>\r\n");
       }
-
+      
       var passs = dict.Where(x => x.Value.Type == "pass").ToArray();
       if (passs.Length > 0)
       {
@@ -222,6 +241,15 @@ namespace IDS.VAS.Excel2Xml.Convert
         foreach (var pair in passs)
           stb.Append("\t\t\t" + pair.Value.GetXml(1));
         stb.Append("\t\t\t</pass>\r\n");
+      }
+
+      var ambigs = dict.Where(x => x.Value.Type == "ambig").ToArray();
+      if (ambigs.Length > 0)
+      {
+        stb.Append("\t\t\t<ambig>\r\n");
+        foreach (var pair in ambigs)
+          stb.Append("\t\t\t" + pair.Value.GetXml(1));
+        stb.Append("\t\t\t</ambig>\r\n");
       }
 
       stb.Append("\t\t<!-- TODO: ggf. löschen -->\r\n\t\t\t<section label=\"Besonderheiten\">\r\n\t\t\t\t<!-- \r\n\t\t\t\t\tText und Beispiele hierher \r\n\t\t\t\t\t<p></p>\r\n\t\t\t\t\t<examples></examples>\r\n\t\t\t\t-->\r\n\t\t\t\t<p/>\r\n\t\t\t</section>\r\n");
@@ -244,7 +272,7 @@ namespace IDS.VAS.Excel2Xml.Convert
           Priority = row.ItemArray[mapper.Mapping["BSP"]].ToString(),
         });
         var si = row.ItemArray[mapper.Mapping["PRÄDIKATSKERN(LEX)"]].ToString().Trim();
-        var co = row.ItemArray[mapper.Mapping["KOMPLEXESPRÄDIKAT(LEX)"]].ToString().Trim().Replace("_", " ");
+        var co = row.ItemArray[mapper.Mapping["PRÄDIKAT(LEX)"]].ToString().Trim().Replace("_", " ");
 
         if (string.IsNullOrWhiteSpace(co))
         {
@@ -284,13 +312,13 @@ namespace IDS.VAS.Excel2Xml.Convert
     private static string GetPredicateItems(Dictionary<string, Dictionary<string, List<string>>> items)
     {
       var res = new List<string>();
-      foreach(var cluster in items.OrderBy(x => x.Key))
-        res.AddRange(cluster.Value.OrderBy(x => x.Key).Select(x=> GetPredicateItems(x.Key, x.Value, cluster.Key)));
+      foreach (var cluster in items.OrderBy(x => x.Key))
+        res.AddRange(cluster.Value.OrderBy(x => x.Key).Select(x => GetPredicateItems(x.Key, x.Value, cluster.Key)));
 
       return string.Join("\r\n", res);
     }
 
-    private static string GetPredicateItems(string key, IEnumerable<string> values, string alt) 
+    private static string GetPredicateItems(string key, IEnumerable<string> values, string alt)
       => $"\t\t\t\t\t<predicate value=\"{key}\" {(string.IsNullOrEmpty(alt) ? "alt=\"\"" : $"alt=\"{alt}\"")}>\r\n\t\t\t\t\t\t<examples>\r\n{string.Join("\r\n", values)}\r\n\t\t\t\t\t\t</examples>\r\n\t\t\t\t\t</predicate>";
   }
 }

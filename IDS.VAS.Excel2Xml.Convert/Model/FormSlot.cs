@@ -22,17 +22,20 @@ namespace IDS.VAS.Excel2Xml.Model
   {
     public FormSlot(ExcelColumnMapper mapper, DataRow row)
     {
-      Type = row.ItemArray[mapper.Mapping["PRÄDIKAT(TYP)"]].ToString();
+      Type = row.ItemArray[mapper.Mapping["DIATHESE"]].ToString();
       switch (Type.ToLower())
       {
         case "a":
           Type = "akt";
           break;
-        case "m":
-          Type = "med";
+        case "k":
+          Type = "kon";
           break;
         case "p":
           Type = "pass";
+          break;
+        case "ambig":
+          Type = "ambig";
           break;
       }
 
@@ -43,7 +46,7 @@ namespace IDS.VAS.Excel2Xml.Model
         Sigle = row.ItemArray[mapper.Mapping["COSMAS-SIGLE"]].ToString(),
         Priority = row.ItemArray[mapper.Mapping["BSP"]].ToString(),
       });
-      Prd = row.ItemArray[mapper.Mapping["MUSTERPRÄDIKAT"]].ToString();
+      Prd = row.ItemArray[mapper.Mapping["PRD(MUSTERSLOT)"]].ToString();
       Figure = row.ItemArray[mapper.Mapping["FIGUR(SYN)"]].ToString();
       Ground = row.ItemArray[mapper.Mapping["GRUND(SYN)"]].ToString();
       Effector = row.ItemArray[mapper.Mapping["AUSLÖSER(SYN)"]].ToString();
