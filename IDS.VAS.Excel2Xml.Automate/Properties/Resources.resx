@@ -142,7 +142,7 @@
 			&lt;!-- TODO: Autor*in-Kürzel: z. B. AZ --&gt;
 		&lt;/meta&gt;
 		&lt;meta type="type"&gt;
-			$$$TYPE$$$
+			&lt;!-- TODO: Muster-Typ eintragen: z. B. Prädikat-Argumentstrukturmuster mit autonom kodierender PP --&gt;
 		&lt;/meta&gt;
 		&lt;meta type="family"&gt;
 			&lt;!-- TODO: Artikel-Familie: z. B. Konfrontation --&gt;

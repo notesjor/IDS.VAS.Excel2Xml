@@ -20,6 +20,7 @@ namespace IDS.VAS.Excel2Xml.Model
         {"GRUND(LEX)", -1},
         {"GRUND(SYN)", -1},
         {"BSP", -1},
+        {"KTYP", -1},
         {"COSMAS-SIGLE", -1 },
         {"PRÄDIKATSKERN(LEX)", -1 },
         {"MUSTERTYP", -1 },

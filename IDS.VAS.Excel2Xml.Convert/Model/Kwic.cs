@@ -7,6 +7,8 @@
     public string Priority { get; set; }
     public int PriorityIndex => int.TryParse(Priority, out var res) ? res : 0;
     public string Sigle { get; set; }
+    public string MType { get; set; }
+    public string KType { get; set; }
 
     public override string ToString() => Text;
   }

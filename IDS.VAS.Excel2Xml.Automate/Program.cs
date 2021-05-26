@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using ExcelDataReader;
+using IDS.VAS.Excel2Xml.Automate.Model;
 using IDS.VAS.Excel2Xml.Automate.Properties;
 using IDS.VAS.Excel2Xml.Convert.Model;
 using IDS.VAS.Excel2Xml.Model;
@@ -104,8 +105,10 @@ namespace IDS.VAS.Excel2Xml.Convert
           if (items.Length == 0)
             continue;
 
-          var templateJ = Resources.TEMPLATE.Replace("$$$MUSTER$$$", PatternNameFix(pattern));
-          templateJ = templateJ.Replace("$$$TYPE$$$", GetType(items, mapper, pattern));
+          var patternFixed = PatternNameFix(pattern);
+          IdGenerator.Init(patternFixed);
+
+          var templateJ = Resources.TEMPLATE.Replace("$$$MUSTER$$$", patternFixed);
           templateJ = templateJ.Replace("$$$SAMPLES$$$", GetSamples(items, mapper));
           templateJ = templateJ.Replace("$$$FORMS$$$", GetForms(items, mapper));
           templateJ = templateJ.Replace("$$$MAIN_PATTERN$$$", _mainPattern); // Muss nach FORMS ausgeführt werden, da dort _mainPattern ermittelt wird
@@ -127,24 +130,6 @@ namespace IDS.VAS.Excel2Xml.Convert
                     .Replace("ö", "oe")
                     .Replace("ü", "ue")
                     .Replace("ß", "ss");
-    }
-
-    private static string GetType(DataRow[] items, ExcelColumnMapper mapper, string pattern)
-    {
-      var freq = new Dictionary<string, int>();
-      foreach (var row in items)
-      {
-        var val = row.ItemArray[mapper.Mapping["MUSTERTYP"]].ToString();
-        if (freq.ContainsKey(val))
-          freq[val]++;
-        else
-          freq.Add(val, 1);
-      }
-
-      if (freq.Count > 1)
-        Console.WriteLine($"WARN: {pattern} hat {freq.Count} verschiedene MUSTERTYPEN");
-
-      return freq.OrderByDescending(x => x.Value).First().Key;
     }
 
     private static string GetSamples(DataRow[] items, ExcelColumnMapper mapper)
@@ -233,7 +218,7 @@ namespace IDS.VAS.Excel2Xml.Convert
           stb.Append("\t\t\t" + pair.Value.GetXml(1));
         stb.Append("\t\t\t</kon>\r\n");
       }
-      
+
       var passs = dict.Where(x => x.Value.Type == "pass").ToArray();
       if (passs.Length > 0)
       {
@@ -259,7 +244,6 @@ namespace IDS.VAS.Excel2Xml.Convert
 
     private static string GetPredicates(DataRow[] items, ExcelColumnMapper mapper)
     {
-      var simple = new Dictionary<string, List<string>>();
       var complex = new Dictionary<string, Dictionary<string, List<string>>>();
 
       foreach (var row in items)
@@ -273,35 +257,22 @@ namespace IDS.VAS.Excel2Xml.Convert
         });
         var si = row.ItemArray[mapper.Mapping["PRÄDIKATSKERN(LEX)"]].ToString().Trim();
         var co = row.ItemArray[mapper.Mapping["PRÄDIKAT(LEX)"]].ToString().Trim().Replace("_", " ");
-
-        if (string.IsNullOrWhiteSpace(co))
+        
+        if (complex.ContainsKey(si))
         {
-          if (string.IsNullOrWhiteSpace(si))
-            continue;
-
-          if (simple.ContainsKey(si))
-            simple[si].Add($"\t\t\t\t\t\t\t<!-- <xref href=\"s_{kwic.Id}\"/> --> <!-- {kwic.Text} -->");
+          if (complex[si].ContainsKey(co))
+            complex[si][co].Add($"\t\t\t\t\t\t\t<!-- <xref href=\"s_{kwic.Id}\"/> --> <!-- {kwic.Text} -->");
           else
-            simple.Add(si, new List<string> { $"\t\t\t\t\t\t\t<xref href=\"s_{kwic.Id}\"/> <!-- {kwic.Text} -->" });
+            complex[si].Add(co, new List<string> { $"\t\t\t\t\t\t\t<xref href=\"s_{kwic.Id}\"/> <!-- {kwic.Text} -->" });
         }
         else
-        {
-          if (complex.ContainsKey(si))
-          {
-            if (complex[si].ContainsKey(co))
-              complex[si][co].Add($"\t\t\t\t\t\t\t<!-- <xref href=\"s_{kwic.Id}\"/> --> <!-- {kwic.Text} -->");
-            else
-              complex[si].Add(co, new List<string> { $"\t\t\t\t\t\t\t<xref href=\"s_{kwic.Id}\"/> <!-- {kwic.Text} -->" });
-          }
-          else
-            complex.Add(si, new Dictionary<string, List<string>>
+          complex.Add(si, new Dictionary<string, List<string>>
             {
               { co, new List<string>{$"\t\t\t\t\t\t\t<xref href=\"s_{kwic.Id}\"/> <!-- {kwic.Text} -->" } }
             });
-        }
       }
 
-      return $"<predicate-list label=\"Verben\">\r\n{GetPredicateItems(simple)}\r\n\t\t\t\t</predicate-list>\r\n\t\t\t\t<predicate-list label=\"Komplexe Prädikate\">\r\n{GetPredicateItems(complex)}\r\n\t\t\t\t</predicate-list>";
+      return $"<predicate-list label=\"Komplexe Prädikate\">\r\n{GetPredicateItems(complex)}\r\n\t\t\t\t</predicate-list>";
     }
 
     private static string GetPredicateItems(Dictionary<string, List<string>> items)

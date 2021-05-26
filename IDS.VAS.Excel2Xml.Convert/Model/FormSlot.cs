@@ -4,6 +4,7 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using IDS.VAS.Excel2Xml.Automate.Model;
 using IDS.VAS.Excel2Xml.Convert.Model;
 
 namespace IDS.VAS.Excel2Xml.Model
@@ -45,6 +46,8 @@ namespace IDS.VAS.Excel2Xml.Model
         Text = row.ItemArray[mapper.Mapping["BELEG"]].ToString(),
         Sigle = row.ItemArray[mapper.Mapping["COSMAS-SIGLE"]].ToString(),
         Priority = row.ItemArray[mapper.Mapping["BSP"]].ToString(),
+        MType = row.ItemArray[mapper.Mapping["MUSTERTYP"]].ToString(),
+        KType = row.ItemArray[mapper.Mapping["KTYP"]].ToString(),
       });
       Prd = row.ItemArray[mapper.Mapping["PRD(MUSTERSLOT)"]].ToString();
       Figure = row.ItemArray[mapper.Mapping["FIGUR(SYN)"]].ToString();
@@ -62,9 +65,12 @@ namespace IDS.VAS.Excel2Xml.Model
     public string GetXml(int addSamples)
     {
       var res = new StringBuilder();
-      res.Append("<prototype>\r\n\t\t\t\t<pattern>\r\n");
+      res.Append($"<prototype>\r\n\t\t\t\t<pattern id=\"{IdGenerator.GetId("p")}\" mtype=\"{Kwics.First().Value.MType}\">\r\n");
       if (Test(Prd))
+      {
         res.Append($"\t\t\t\t\t<pitem slot=\"prd\" syn=\"{Prd}\" sem=\"TODO_PRD_SEM\"/>\r\n");
+        res.Append($"\t\t\t\t\t<pitem slot=\"ktype\" syn=\"{Kwics.First().Value.KType}\"/>\r\n");
+      }
       if (Test(Effector))
         res.Append($"\t\t\t\t\t<pitem slot=\"effector\" syn=\"{Effector}\"/>\r\n");
       if (Test(Figure))
