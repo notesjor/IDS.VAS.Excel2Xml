@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="..\IDS.VAS.Excel2Xml\Model\ExcelColumnMapper.cs" Link="Model\ExcelColumnMapper.cs" />
+    <Compile Include="..\IDS.VAS.Excel2Xml\Model\FormSlot.cs" Link="Model\FormSlot.cs" />
+    <Compile Include="..\IDS.VAS.Excel2Xml\Model\Kwic.cs" Link="Model\Kwic.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="ExcelDataReader" Version="3.6.0" />
+    <PackageReference Include="ExcelDataReader.DataSet" Version="3.6.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+  </ItemGroup>
+
+</Project>

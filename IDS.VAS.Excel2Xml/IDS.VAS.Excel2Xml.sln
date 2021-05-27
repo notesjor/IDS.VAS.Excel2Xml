@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IDS.VAS.Excel2Xml.Convert",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IDS.VAS.Excel2Xml.Automate", "..\IDS.VAS.Excel2Xml.Automate\IDS.VAS.Excel2Xml.Automate.csproj", "{264D8722-8149-41E0-B166-6B39A91C60C6}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IDS.VAS.Excel2Json", "..\IDS.VAS.Excel2Json\IDS.VAS.Excel2Json.csproj", "{D1326D65-448B-47A8-99E9-189C9118E699}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{264D8722-8149-41E0-B166-6B39A91C60C6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{264D8722-8149-41E0-B166-6B39A91C60C6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{264D8722-8149-41E0-B166-6B39A91C60C6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D1326D65-448B-47A8-99E9-189C9118E699}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D1326D65-448B-47A8-99E9-189C9118E699}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D1326D65-448B-47A8-99E9-189C9118E699}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D1326D65-448B-47A8-99E9-189C9118E699}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

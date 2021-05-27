@@ -24,7 +24,9 @@ namespace IDS.VAS.Excel2Xml.Model
         {"COSMAS-SIGLE", -1 },
         {"PRÄDIKATSKERN(LEX)", -1 },
         {"MUSTERTYP", -1 },
-        {"PRÄDIKAT(LEX)",-1 }
+        {"PRÄDIKAT(LEX)",-1 },
+        {"QUELLE", -1},
+        {"JAHR", -1}
       };
 
     public bool Map(DataTable table)
