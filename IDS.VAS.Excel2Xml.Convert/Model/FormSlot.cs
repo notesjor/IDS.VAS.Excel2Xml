@@ -62,10 +62,10 @@ namespace IDS.VAS.Excel2Xml.Model
     public string Ground { get; set; }
     public string Effector { get; set; }
 
-    public string GetXml(int addSamples)
+    public string GetXml(int addSamples, bool useGenerator)
     {
       var res = new StringBuilder();
-      res.Append($"<prototype>\r\n\t\t\t\t<pattern id=\"{IdGenerator.GetId("p")}\" mtype=\"{Kwics.First().Value.MType}\">\r\n");
+      res.Append($"<prototype>\r\n\t\t\t\t<pattern id=\"{(useGenerator ? IdGenerator.GetId("p") : IdGenerator.GetNullId("p"))}\" mtype=\"{Kwics.First().Value.MType}\">\r\n");
       if (Test(Prd))
       {
         res.Append($"\t\t\t\t\t<pitem slot=\"prd\" syn=\"{Prd}\" sem=\"TODO_PRD_SEM\"/>\r\n");

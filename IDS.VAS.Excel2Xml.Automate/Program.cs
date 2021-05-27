@@ -184,7 +184,7 @@ namespace IDS.VAS.Excel2Xml.Convert
       foreach (var item in items)
       {
         var slot = new FormSlot(mapper, item);
-        var key = slot.GetXml(0);
+        var key = slot.GetXml(0, false);
         if (dict.ContainsKey(key)) // MERGE Multi-KWICs
         {
           var pair = slot.Kwics.First();
@@ -195,7 +195,7 @@ namespace IDS.VAS.Excel2Xml.Convert
       }
 
       // Detect _mainPattern
-      _mainPattern = dict.OrderByDescending(x => x.Value.Kwics.Count).First().Value.GetXml(3);
+      _mainPattern = dict.OrderByDescending(x => x.Value.Kwics.Count).First().Value.GetXml(3, false);
       _mainPattern = _mainPattern.Replace("<prototype>", "").Replace("</prototype>", "");
 
       var stb = new StringBuilder();
@@ -206,7 +206,7 @@ namespace IDS.VAS.Excel2Xml.Convert
       {
         stb.Append("\t\t\t<akt>\r\n");
         foreach (var pair in akts)
-          stb.Append("\t\t\t" + pair.Value.GetXml(1));
+          stb.Append("\t\t\t" + pair.Value.GetXml(1, true));
         stb.Append("\t\t\t</akt>\r\n");
       }
 
@@ -215,7 +215,7 @@ namespace IDS.VAS.Excel2Xml.Convert
       {
         stb.Append("\t\t\t<kon>\r\n");
         foreach (var pair in meds)
-          stb.Append("\t\t\t" + pair.Value.GetXml(1));
+          stb.Append("\t\t\t" + pair.Value.GetXml(1, true));
         stb.Append("\t\t\t</kon>\r\n");
       }
 
@@ -224,7 +224,7 @@ namespace IDS.VAS.Excel2Xml.Convert
       {
         stb.Append("\t\t\t<pass>\r\n");
         foreach (var pair in passs)
-          stb.Append("\t\t\t" + pair.Value.GetXml(1));
+          stb.Append("\t\t\t" + pair.Value.GetXml(1, true));
         stb.Append("\t\t\t</pass>\r\n");
       }
 
@@ -233,7 +233,7 @@ namespace IDS.VAS.Excel2Xml.Convert
       {
         stb.Append("\t\t\t<ambig>\r\n");
         foreach (var pair in ambigs)
-          stb.Append("\t\t\t" + pair.Value.GetXml(1));
+          stb.Append("\t\t\t" + pair.Value.GetXml(1, true));
         stb.Append("\t\t\t</ambig>\r\n");
       }
 

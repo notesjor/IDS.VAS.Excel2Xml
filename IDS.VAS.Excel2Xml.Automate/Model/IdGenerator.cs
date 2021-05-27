@@ -21,5 +21,10 @@ namespace IDS.VAS.Excel2Xml.Automate.Model
       _id[idName]++;
       return $"{_doc}_{idName}{_id[idName]:D3}";
     }
+
+    public static string GetNullId(string idName)
+    {
+      return $"{_doc}_{idName}{000}";
+    }
   }
 }
