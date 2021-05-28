@@ -5,10 +5,10 @@ namespace IDS.VAS.Excel2Json.Model
   public class Pattern
   {
     public int Id { get; set; }
-    public string Prd { get; set; }
-    public string Trigger { get; set; }
-    public string Figure { get; set; }
-    public string Ground { get; set; }
+    public int Prd { get; set; }
+    public int Trigger { get; set; }
+    public int Figure { get; set; }
+    public int Ground { get; set; }
 
     public List<int> KwicIds { get; set; } = new List<int>();
     public HashSet<int> ArticleIds { get; set; } = new HashSet<int>();

@@ -105,6 +105,11 @@ namespace IDS.VAS.Excel2Json
         var prdlexcore = new Dictionary<string, int>();
         var sources = new Dictionary<string, int>();
 
+        var syn_figure = new Dictionary<string, int>();
+        var syn_ground = new Dictionary<string, int>();
+        var syn_prd = new Dictionary<string, int>();
+        var syn_trigger = new Dictionary<string, int>();
+
         foreach (var pattern in new HashSet<string>(from DataRow row in sheet.Rows select row.ItemArray[idx].ToString()))
         {
           if (string.IsNullOrWhiteSpace(pattern))
@@ -130,26 +135,26 @@ namespace IDS.VAS.Excel2Json
             if (string.IsNullOrWhiteSpace(idStr))
               continue;
             var id = int.Parse(idStr);
-            
-            kwicFulltexts.Add(new KwicFulltext{ Id = id, Text = row.ItemArray[mapper.Mapping["BELEG"]].ToString() });
+
+            kwicFulltexts.Add(new KwicFulltext { Id = id, Text = row.ItemArray[mapper.Mapping["BELEG"]].ToString() });
             kwics.Add(new Kwic
             {
               Id = id,
-              Diathesis = GetDictonaryIndex(row, mapper, ref diathesis, "DIATHESE"),
+              Diathesis = GetDictonaryIndex(row, mapper, ref diathesis, "DIATHESE", FixDiathesis),
               KType = GetDictonaryIndex(row, mapper, ref ktypes, "KTYP"),
               MType = GetDictonaryIndex(row, mapper, ref mtypes, "MUSTERTYP"),
-              PrdLex = GetDictonaryIndex(row, mapper, ref prdlex, "PRÄDIKAT(LEX)"),
-              PrdLexCore = GetDictonaryIndex(row, mapper, ref prdlexcore, "PRÄDIKATSKERN(LEX)"),
+              PrdLex = GetDictonaryIndex(row, mapper, ref prdlex, "PRÄDIKAT(LEX)", x => x.Replace("_", " ").Trim()),
+              PrdLexCore = GetDictonaryIndex(row, mapper, ref prdlexcore, "PRÄDIKATSKERN(LEX)", x=>x.Replace("_", " ").Trim()),
               Source = GetDictonaryIndex(row, mapper, ref sources, "QUELLE"),
               Year = GetYear(row, mapper)
             });
 
             var pnew = new Pattern
             {
-              Figure = row.ItemArray[mapper.Mapping["FIGUR(SYN)"]].ToString(),
-              Ground = row.ItemArray[mapper.Mapping["GRUND(SYN)"]].ToString(),
-              Prd = row.ItemArray[mapper.Mapping["PRD(MUSTERSLOT)"]].ToString(),
-              Trigger = row.ItemArray[mapper.Mapping["AUSLÖSER(SYN)"]].ToString(),
+              Figure = GetDictonaryIndex(row, mapper, ref syn_figure, "FIGUR(SYN)"),
+              Ground = GetDictonaryIndex(row, mapper, ref syn_ground, "GRUND(SYN)"),
+              Prd = GetDictonaryIndex(row, mapper, ref syn_prd, "PRD(MUSTERSLOT)"),
+              Trigger = GetDictonaryIndex(row, mapper, ref syn_trigger, "AUSLÖSER(SYN)"),
             };
 
             if (patterns.ContainsKey(pnew.Key))
@@ -161,6 +166,7 @@ namespace IDS.VAS.Excel2Json
             }
 
             pnew.KwicIds.Add(id);
+            pnew.ArticleIds.Add(article.Id);
             article.PetternIds.Add(pnew.Id);
           }
         }
@@ -180,15 +186,41 @@ namespace IDS.VAS.Excel2Json
         File.WriteAllText("output/meta_prdlex.json", JsonConvert.SerializeObject(prdlex), Encoding.UTF8);
         File.WriteAllText("output/meta_prdlexcore.json", JsonConvert.SerializeObject(prdlexcore), Encoding.UTF8);
         File.WriteAllText("output/meta_sources.json", JsonConvert.SerializeObject(sources), Encoding.UTF8);
+        File.WriteAllText("output/meta_years.json", JsonConvert.SerializeObject(new HashSet<int>(kwics.Select(x => x.Year))), Encoding.UTF8);
+
+        File.WriteAllText("output/syn_figure.json", JsonConvert.SerializeObject(syn_figure), Encoding.UTF8);
+        File.WriteAllText("output/syn_ground.json", JsonConvert.SerializeObject(syn_ground), Encoding.UTF8);
+        File.WriteAllText("output/syn_prd.json", JsonConvert.SerializeObject(syn_prd), Encoding.UTF8);
+        File.WriteAllText("output/syn_trigger.json", JsonConvert.SerializeObject(syn_trigger), Encoding.UTF8);
       }
     }
 
-    private static int GetDictonaryIndex(DataRow row, ExcelColumnMapper mapper, ref Dictionary<string, int> dict, string name)
+    private static string FixDiathesis(string diathesis)
+    {
+      switch (diathesis)
+      {
+        case "a":
+          return "Aktiv";
+        case "p":
+          return "Passiv";
+        case "k":
+          return "Konvers";
+        case "ambig":
+          return "Ambig";
+        default:
+          return diathesis;
+      }
+    }
+
+    private static int GetDictonaryIndex(DataRow row, ExcelColumnMapper mapper, ref Dictionary<string, int> dict, string name, Func<string, string> mod = null)
     {
       var res = -1;
       try
       {
         var str = row.ItemArray[mapper.Mapping[name]]?.ToString();
+        if (mod != null)
+          str = mod(str);
+
         if (dict.ContainsKey(str))
           res = dict[str];
         else
