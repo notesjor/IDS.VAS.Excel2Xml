@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Newtonsoft.Json;
 
 namespace IDS.VAS.Excel2Json.Model
 {
@@ -13,6 +14,7 @@ namespace IDS.VAS.Excel2Json.Model
     public List<int> KwicIds { get; set; } = new List<int>();
     public HashSet<int> ArticleIds { get; set; } = new HashSet<int>();
 
+    [JsonIgnore]
     public string Key => $"{Prd} / {Trigger} / {Figure} / {Ground}";
   }
 }

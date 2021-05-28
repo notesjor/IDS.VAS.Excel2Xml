@@ -10,5 +10,6 @@
     public int Diathesis { get; set; }
     public int KType { get; set; }
     public int MType { get; set; }
+    public int PatternId { get; set; }
   }
 }

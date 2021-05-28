@@ -136,19 +136,6 @@ namespace IDS.VAS.Excel2Json
               continue;
             var id = int.Parse(idStr);
 
-            kwicFulltexts.Add(new KwicFulltext { Id = id, Text = row.ItemArray[mapper.Mapping["BELEG"]].ToString() });
-            kwics.Add(new Kwic
-            {
-              Id = id,
-              Diathesis = GetDictonaryIndex(row, mapper, ref diathesis, "DIATHESE", FixDiathesis),
-              KType = GetDictonaryIndex(row, mapper, ref ktypes, "KTYP"),
-              MType = GetDictonaryIndex(row, mapper, ref mtypes, "MUSTERTYP"),
-              PrdLex = GetDictonaryIndex(row, mapper, ref prdlex, "PRÄDIKAT(LEX)", x => x.Replace("_", " ").Trim()),
-              PrdLexCore = GetDictonaryIndex(row, mapper, ref prdlexcore, "PRÄDIKATSKERN(LEX)", x=>x.Replace("_", " ").Trim()),
-              Source = GetDictonaryIndex(row, mapper, ref sources, "QUELLE"),
-              Year = GetYear(row, mapper)
-            });
-
             var pnew = new Pattern
             {
               Figure = GetDictonaryIndex(row, mapper, ref syn_figure, "FIGUR(SYN)"),
@@ -164,6 +151,20 @@ namespace IDS.VAS.Excel2Json
               pnew.Id = patterns.Count + 1;
               patterns.Add(pnew.Key, pnew);
             }
+
+            kwicFulltexts.Add(new KwicFulltext { Id = id, Text = row.ItemArray[mapper.Mapping["BELEG"]].ToString() });
+            kwics.Add(new Kwic
+            {
+              Id = id,
+              Diathesis = GetDictonaryIndex(row, mapper, ref diathesis, "DIATHESE", FixDiathesis),
+              KType = GetDictonaryIndex(row, mapper, ref ktypes, "KTYP"),
+              MType = GetDictonaryIndex(row, mapper, ref mtypes, "MUSTERTYP"),
+              PrdLex = GetDictonaryIndex(row, mapper, ref prdlex, "PRÄDIKAT(LEX)", x => x.Replace("_", " ").Trim()),
+              PrdLexCore = GetDictonaryIndex(row, mapper, ref prdlexcore, "PRÄDIKATSKERN(LEX)", x => x.Replace("_", " ").Trim()),
+              Source = GetDictonaryIndex(row, mapper, ref sources, "QUELLE"),
+              Year = GetYear(row, mapper),
+              PatternId = pnew.Id
+            });
 
             pnew.KwicIds.Add(id);
             pnew.ArticleIds.Add(article.Id);
