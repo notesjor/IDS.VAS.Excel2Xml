@@ -11,7 +11,7 @@ namespace IDS.VAS.Excel2Json.Model
     public int Figure { get; set; }
     public int Ground { get; set; }
 
-    public List<int> KwicIds { get; set; } = new List<int>();
+    public HashSet<int> KwicIds { get; set; } = new HashSet<int>();
     public HashSet<int> ArticleIds { get; set; } = new HashSet<int>();
 
     [JsonIgnore]
