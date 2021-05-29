@@ -141,7 +141,7 @@ namespace IDS.VAS.Excel2Json
               Figure = GetDictonaryIndex(row, mapper, ref syn_figure, "FIGUR(SYN)"),
               Ground = GetDictonaryIndex(row, mapper, ref syn_ground, "GRUND(SYN)"),
               Prd = GetDictonaryIndex(row, mapper, ref syn_prd, "PRD(MUSTERSLOT)"),
-              Trigger = GetDictonaryIndex(row, mapper, ref syn_trigger, "AUSLÖSER(SYN)"),
+              Trigger = GetDictonaryIndex(row, mapper, ref syn_trigger, "AUSLÖSER(SYN)"), 
             };
 
             if (patterns.ContainsKey(pnew.Key))
@@ -163,12 +163,13 @@ namespace IDS.VAS.Excel2Json
               PrdLexCore = GetDictonaryIndex(row, mapper, ref prdlexcore, "PRÄDIKATSKERN(LEX)", x => x.Replace("_", " ").Trim()),
               Source = GetDictonaryIndex(row, mapper, ref sources, "QUELLE"),
               Year = GetYear(row, mapper),
-              PatternId = pnew.Id
+              PatternId = pnew.Id,
+              ArticleId = article.Id
             });
 
             pnew.KwicIds.Add(id);
             pnew.ArticleIds.Add(article.Id);
-            article.PetternIds.Add(pnew.Id);
+            article.PatternIds.Add(pnew.Id);
           }
         }
 

@@ -11,5 +11,6 @@
     public int KType { get; set; }
     public int MType { get; set; }
     public int PatternId { get; set; }
+    public int ArticleId { get; set; }
   }
 }
