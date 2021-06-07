@@ -1,16 +1,18 @@
 ﻿namespace IDS.VAS.Excel2Json.Model
 {
+  /*
   public class Kwic
   {
-    public int Id { get; set; }
-    public int Source { get; set; }
-    public int Year { get; set; }
-    public int PrdLexCore { get; set; }
-    public int PrdLex { get; set; }
-    public int Diathesis { get; set; }
-    public int KType { get; set; }
-    public int MType { get; set; }
-    public int PatternId { get; set; }
-    public int ArticleId { get; set; }
+    public int Id { get; set; } -> KEY
+    public int Source { get; set; } -> 0
+    public int Year { get; set; } -> 1
+    public int PrdLexCore { get; set; } -> 2
+    public int PrdLex { get; set; } -> 3
+    public int Diathesis { get; set; } -> 4
+    public int KType { get; set; } -> 5
+    public int MType { get; set; } -> 6
+    public int PatternId { get; set; } -> 7
+    public int ArticleId { get; set; } -> 8
   }
+  */
 }

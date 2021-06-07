@@ -94,7 +94,7 @@ namespace IDS.VAS.Excel2Json
         var idx = mapper.Mapping["MUSTER"];
 
         var kwicFulltexts = new List<KwicFulltext>();
-        var kwics = new List<Kwic>();
+        var kwics = new Dictionary<int, int[]>();
         var patterns = new Dictionary<string, Pattern>();
         var articles = new List<Article>();
 
@@ -153,18 +153,18 @@ namespace IDS.VAS.Excel2Json
             }
 
             kwicFulltexts.Add(new KwicFulltext { Id = id, Text = row.ItemArray[mapper.Mapping["BELEG"]].ToString() });
-            kwics.Add(new Kwic
+
+            kwics.Add(id, new[]
             {
-              Id = id,
-              Diathesis = GetDictonaryIndex(row, mapper, ref diathesis, "DIATHESE", FixDiathesis),
-              KType = GetDictonaryIndex(row, mapper, ref ktypes, "KTYP"),
-              MType = GetDictonaryIndex(row, mapper, ref mtypes, "MUSTERTYP"),
-              PrdLex = GetDictonaryIndex(row, mapper, ref prdlex, "PRÄDIKAT(LEX)", x => x.Replace("_", " ").Trim()),
-              PrdLexCore = GetDictonaryIndex(row, mapper, ref prdlexcore, "PRÄDIKATSKERN(LEX)", x => x.Replace("_", " ").Trim()),
-              Source = GetDictonaryIndex(row, mapper, ref sources, "QUELLE"),
-              Year = GetYear(row, mapper),
-              PatternId = pnew.Id,
-              ArticleId = article.Id
+              GetDictonaryIndex(row, mapper, ref sources, "QUELLE"),
+              GetYear(row, mapper),
+              GetDictonaryIndex(row, mapper, ref prdlexcore, "PRÄDIKATSKERN(LEX)", x => x.Replace("_", " ").Trim()),
+              GetDictonaryIndex(row, mapper, ref prdlex, "PRÄDIKAT(LEX)", x => x.Replace("_", " ").Trim()),
+              GetDictonaryIndex(row, mapper, ref diathesis, "DIATHESE", FixDiathesis),
+              GetDictonaryIndex(row, mapper, ref ktypes, "KTYP"),
+              GetDictonaryIndex(row, mapper, ref mtypes, "MUSTERTYP"),
+              pnew.Id,
+              article.Id
             });
 
             pnew.KwicIds.Add(id);
@@ -188,7 +188,7 @@ namespace IDS.VAS.Excel2Json
         File.WriteAllText("output/meta_prdlex.json", JsonConvert.SerializeObject(prdlex), Encoding.UTF8);
         File.WriteAllText("output/meta_prdlexcore.json", JsonConvert.SerializeObject(prdlexcore), Encoding.UTF8);
         File.WriteAllText("output/meta_sources.json", JsonConvert.SerializeObject(sources), Encoding.UTF8);
-        File.WriteAllText("output/meta_years.json", JsonConvert.SerializeObject(new HashSet<int>(kwics.Select(x => x.Year))), Encoding.UTF8);
+        File.WriteAllText("output/meta_years.json", JsonConvert.SerializeObject(new HashSet<int>(kwics.Select(x => x.Value[1]))), Encoding.UTF8);
 
         File.WriteAllText("output/syn_figure.json", JsonConvert.SerializeObject(syn_figure), Encoding.UTF8);
         File.WriteAllText("output/syn_ground.json", JsonConvert.SerializeObject(syn_ground), Encoding.UTF8);
