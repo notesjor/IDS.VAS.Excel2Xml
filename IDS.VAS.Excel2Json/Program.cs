@@ -183,8 +183,8 @@ namespace IDS.VAS.Excel2Json
         File.WriteAllText("output/articles.json", JsonConvert.SerializeObject(articles, GlobalJsonConfig.Get()), Encoding.UTF8);
 
         File.WriteAllText("output/meta_diathesis.json", JsonConvert.SerializeObject(diathesis, GlobalJsonConfig.Get()), Encoding.UTF8);
-        File.WriteAllText("output/meta_ktypes.json", JsonConvert.SerializeObject(ktypes, GlobalJsonConfig.Get()), Encoding.UTF8);
-        File.WriteAllText("output/meta_mtypes.json", JsonConvert.SerializeObject(mtypes, GlobalJsonConfig.Get()), Encoding.UTF8);
+        File.WriteAllText("output/meta_ktype.json", JsonConvert.SerializeObject(ktypes, GlobalJsonConfig.Get()), Encoding.UTF8);
+        File.WriteAllText("output/meta_mtype.json", JsonConvert.SerializeObject(mtypes, GlobalJsonConfig.Get()), Encoding.UTF8);
         File.WriteAllText("output/meta_prdlex.json", JsonConvert.SerializeObject(prdlex, GlobalJsonConfig.Get()), Encoding.UTF8);
         File.WriteAllText("output/meta_prdlexcore.json", JsonConvert.SerializeObject(prdlexcore, GlobalJsonConfig.Get()), Encoding.UTF8);
         File.WriteAllText("output/meta_sources.json", JsonConvert.SerializeObject(sources, GlobalJsonConfig.Get()), Encoding.UTF8);
