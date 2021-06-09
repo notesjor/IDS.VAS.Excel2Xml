@@ -177,23 +177,23 @@ namespace IDS.VAS.Excel2Json
         if (!Directory.Exists("output"))
           Directory.CreateDirectory("output");
 
-        File.WriteAllText("output/kwics.json", JsonConvert.SerializeObject(kwicFulltexts), Encoding.UTF8);
-        File.WriteAllText("output/documents.json", JsonConvert.SerializeObject(kwics), Encoding.UTF8);
-        File.WriteAllText("output/patterns.json", JsonConvert.SerializeObject(patterns.Values.ToArray()), Encoding.UTF8);
-        File.WriteAllText("output/articles.json", JsonConvert.SerializeObject(articles), Encoding.UTF8);
+        File.WriteAllText("output/kwics.json", JsonConvert.SerializeObject(kwicFulltexts, GlobalJsonConfig.Get()), Encoding.UTF8);
+        File.WriteAllText("output/documents.json", JsonConvert.SerializeObject(kwics, GlobalJsonConfig.Get()), Encoding.UTF8);
+        File.WriteAllText("output/patterns.json", JsonConvert.SerializeObject(patterns.Values.ToArray(), GlobalJsonConfig.Get()), Encoding.UTF8);
+        File.WriteAllText("output/articles.json", JsonConvert.SerializeObject(articles, GlobalJsonConfig.Get()), Encoding.UTF8);
 
-        File.WriteAllText("output/meta_diathesis.json", JsonConvert.SerializeObject(diathesis), Encoding.UTF8);
-        File.WriteAllText("output/meta_ktypes.json", JsonConvert.SerializeObject(ktypes), Encoding.UTF8);
-        File.WriteAllText("output/meta_mtypes.json", JsonConvert.SerializeObject(mtypes), Encoding.UTF8);
-        File.WriteAllText("output/meta_prdlex.json", JsonConvert.SerializeObject(prdlex), Encoding.UTF8);
-        File.WriteAllText("output/meta_prdlexcore.json", JsonConvert.SerializeObject(prdlexcore), Encoding.UTF8);
-        File.WriteAllText("output/meta_sources.json", JsonConvert.SerializeObject(sources), Encoding.UTF8);
-        File.WriteAllText("output/meta_years.json", JsonConvert.SerializeObject(new HashSet<int>(kwics.Select(x => x.Value[1]))), Encoding.UTF8);
+        File.WriteAllText("output/meta_diathesis.json", JsonConvert.SerializeObject(diathesis, GlobalJsonConfig.Get()), Encoding.UTF8);
+        File.WriteAllText("output/meta_ktypes.json", JsonConvert.SerializeObject(ktypes, GlobalJsonConfig.Get()), Encoding.UTF8);
+        File.WriteAllText("output/meta_mtypes.json", JsonConvert.SerializeObject(mtypes, GlobalJsonConfig.Get()), Encoding.UTF8);
+        File.WriteAllText("output/meta_prdlex.json", JsonConvert.SerializeObject(prdlex, GlobalJsonConfig.Get()), Encoding.UTF8);
+        File.WriteAllText("output/meta_prdlexcore.json", JsonConvert.SerializeObject(prdlexcore, GlobalJsonConfig.Get()), Encoding.UTF8);
+        File.WriteAllText("output/meta_sources.json", JsonConvert.SerializeObject(sources, GlobalJsonConfig.Get()), Encoding.UTF8);
+        File.WriteAllText("output/meta_years.json", JsonConvert.SerializeObject(new HashSet<int>(kwics.Select(x => x.Value[1])), GlobalJsonConfig.Get()), Encoding.UTF8);
 
-        File.WriteAllText("output/syn_figure.json", JsonConvert.SerializeObject(syn_figure), Encoding.UTF8);
-        File.WriteAllText("output/syn_ground.json", JsonConvert.SerializeObject(syn_ground), Encoding.UTF8);
-        File.WriteAllText("output/syn_prd.json", JsonConvert.SerializeObject(syn_prd), Encoding.UTF8);
-        File.WriteAllText("output/syn_trigger.json", JsonConvert.SerializeObject(syn_trigger), Encoding.UTF8);
+        File.WriteAllText("output/syn_figure.json", JsonConvert.SerializeObject(syn_figure, GlobalJsonConfig.Get()), Encoding.UTF8);
+        File.WriteAllText("output/syn_ground.json", JsonConvert.SerializeObject(syn_ground, GlobalJsonConfig.Get()), Encoding.UTF8);
+        File.WriteAllText("output/syn_prd.json", JsonConvert.SerializeObject(syn_prd, GlobalJsonConfig.Get()), Encoding.UTF8);
+        File.WriteAllText("output/syn_trigger.json", JsonConvert.SerializeObject(syn_trigger, GlobalJsonConfig.Get()), Encoding.UTF8);
       }
     }
 
