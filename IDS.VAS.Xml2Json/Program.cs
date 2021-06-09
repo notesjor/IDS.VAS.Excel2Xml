@@ -17,8 +17,8 @@ namespace IDS.VAS.Xml2Json
       if (!Directory.Exists("output"))
         Directory.CreateDirectory("output");
 
-      var kwicsPure = new List<KwicFulltext>();
-      var kwicsAnnotated = new List<KwicFulltext>();
+      var kwicsPure = new Dictionary<int, KwicFulltext>();
+      var kwicsAnnotated = new Dictionary<int, KwicFulltext>();
 
       foreach (var path in args)
       {
@@ -37,9 +37,19 @@ namespace IDS.VAS.Xml2Json
           var text = sample.InnerText;
 
           if (html.Length == text.Length)
-            kwicsPure.Add(new KwicFulltext { Id = id, CosmasId = cosmas, Text = text});
+          {
+            if(kwicsPure.ContainsKey(id))
+              kwicsPure[id] = new KwicFulltext { CosmasId = cosmas, Text = text };
+            else
+              kwicsPure.Add(id, new KwicFulltext { CosmasId = cosmas, Text = text });
+          }
           else
-            kwicsAnnotated.Add(new KwicFulltext { Id = id, CosmasId = cosmas, Text = ParseHtml(html) });
+          {
+            if (kwicsAnnotated.ContainsKey(id))
+              kwicsAnnotated[id] = new KwicFulltext { CosmasId = cosmas, Text = ParseHtml(html) };
+            else
+              kwicsAnnotated.Add(id, new KwicFulltext { CosmasId = cosmas, Text = ParseHtml(html) });
+          }
         }
       }
 

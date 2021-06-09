@@ -22,7 +22,8 @@ namespace IDS.VAS.Excel2Json
     {
       if (args.Length == 0)
         return;
-      System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
+      
+      Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
 
       _baseDir = Path.Combine(Path.GetDirectoryName(args[0]), Path.GetFileNameWithoutExtension(args[0]));
 
@@ -93,7 +94,7 @@ namespace IDS.VAS.Excel2Json
 
         var idx = mapper.Mapping["MUSTER"];
 
-        var kwicFulltexts = new List<KwicFulltext>();
+        var kwicFulltexts = new Dictionary<int, KwicFulltext>();
         var kwics = new Dictionary<int, int[]>();
         var patterns = new Dictionary<string, Pattern>();
         var articles = new List<Article>();
@@ -152,7 +153,7 @@ namespace IDS.VAS.Excel2Json
               patterns.Add(pnew.Key, pnew);
             }
 
-            kwicFulltexts.Add(new KwicFulltext { Id = id, Text = row.ItemArray[mapper.Mapping["BELEG"]].ToString() });
+            kwicFulltexts.Add(id, new KwicFulltext { Text = row.ItemArray[mapper.Mapping["BELEG"]].ToString() });
 
             kwics.Add(id, new[]
             {
