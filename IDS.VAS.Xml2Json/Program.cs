@@ -19,6 +19,7 @@ namespace IDS.VAS.Xml2Json
 
       var kwicsPure = new Dictionary<int, KwicFulltext>();
       var kwicsAnnotated = new Dictionary<int, KwicFulltext>();
+      var articleInfos = new Dictionary<string, string>();
 
       foreach (var path in args)
       {
@@ -32,29 +33,23 @@ namespace IDS.VAS.Xml2Json
         {
           var id = int.Parse(sample.GetAttributeValue("id", "").Replace("s_", ""));
           var cosmas = sample.GetAttributeValue("cosmas", null);
-
+        
           var html = sample.InnerHtml;
           var text = sample.InnerText;
-
+        
           if (html.Length == text.Length)
-          {
-            if(kwicsPure.ContainsKey(id))
-              kwicsPure[id] = new KwicFulltext { CosmasId = cosmas, Text = text };
-            else
-              kwicsPure.Add(id, new KwicFulltext { CosmasId = cosmas, Text = text });
-          }
+            kwicsPure.Add(id, new KwicFulltext { CosmasId = cosmas, Text = text });
           else
-          {
-            if (kwicsAnnotated.ContainsKey(id))
-              kwicsAnnotated[id] = new KwicFulltext { CosmasId = cosmas, Text = ParseHtml(html) };
-            else
-              kwicsAnnotated.Add(id, new KwicFulltext { CosmasId = cosmas, Text = ParseHtml(html) });
-          }
+            kwicsAnnotated.Add(id, new KwicFulltext { CosmasId = cosmas, Text = ParseHtml(html) });
         }
+
+        var info = string.Join(" " ,doc.DocumentNode.SelectNodes("//prototype/p").Select(x => x.InnerHtml));
+        articleInfos.Add(Path.GetFileNameWithoutExtension(path), ParseHtml(info.Replace("\r"," ").Replace("\n", " ").Replace("\t", "").Replace("  ", " ").Replace("  ", " ").Replace("  ", " ").Trim()));
       }
 
       File.WriteAllText("output/kwics.json", JsonConvert.SerializeObject(kwicsPure, GlobalJsonConfig.Get()), Encoding.UTF8);
       File.WriteAllText("output/kwics_annotated.json", JsonConvert.SerializeObject(kwicsAnnotated, GlobalJsonConfig.Get()), Encoding.UTF8);
+      File.WriteAllText("output/article_info.json", JsonConvert.SerializeObject(articleInfos, GlobalJsonConfig.Get()), Encoding.UTF8);
     }
 
     private static string[] _slots = new[] { "prd", "effector", "figure", "ground" };
