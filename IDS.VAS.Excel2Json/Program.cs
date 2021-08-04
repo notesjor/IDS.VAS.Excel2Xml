@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Data;
 using System.IO;
 using System.Linq;
-using System.Reflection.Metadata.Ecma335;
 using System.Text;
 using ExcelDataReader;
 using IDS.VAS.Excel2Json.Model;
@@ -15,14 +14,13 @@ namespace IDS.VAS.Excel2Json
   class Program
   {
     private static DataSet _workbook;
-    private static string _mainPattern;
     private static string _baseDir;
 
     static void Main(string[] args)
     {
       if (args.Length == 0)
         return;
-      
+
       Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
 
       _baseDir = Path.Combine(Path.GetDirectoryName(args[0]), Path.GetFileNameWithoutExtension(args[0]));
@@ -139,10 +137,10 @@ namespace IDS.VAS.Excel2Json
 
             var pnew = new Pattern
             {
-              Figure = GetDictonaryIndex(row, mapper, ref syn_figure, "FIGUR(SYN)"),
-              Ground = GetDictonaryIndex(row, mapper, ref syn_ground, "GRUND(SYN)"),
-              Prd = GetDictonaryIndex(row, mapper, ref syn_prd, "PRD(MUSTERSLOT)"),
-              Trigger = GetDictonaryIndex(row, mapper, ref syn_trigger, "AUSLÖSER(SYN)"), 
+              Figure = GetDictonaryTokenizedIndex(row, mapper, ref syn_figure, "FIGUR(SYN)"),
+              Ground = GetDictonaryTokenizedIndex(row, mapper, ref syn_ground, "GRUND(SYN)"),
+              Prd = GetDictonaryTokenizedIndex(row, mapper, ref syn_prd, "PRD(MUSTERSLOT)"),
+              Trigger = GetDictonaryTokenizedIndex(row, mapper, ref syn_trigger, "AUSLÖSER(SYN)"),
             };
 
             if (patterns.ContainsKey(pnew.Key))
@@ -212,6 +210,33 @@ namespace IDS.VAS.Excel2Json
           return "Ambig";
         default:
           return diathesis;
+      }
+    }
+
+    private static IEnumerable<int> GetDictonaryTokenizedIndex(DataRow row, ExcelColumnMapper mapper, ref Dictionary<string, int> dict, string name)
+    {
+      try
+      {
+        // Sorgt dafür, dass nur einmalige Werte aufgenommen werden: V akk akk akk wird zu: V, akk
+        var res = new HashSet<int>();
+
+        var txt = row.ItemArray[mapper.Mapping[name]]?.ToString();
+        txt = txt.Replace("(", "").Replace(")", "").Replace("_", " ").ToUpper();
+        var tokens = txt.Split(new[] { " " }, StringSplitOptions.RemoveEmptyEntries);
+
+        foreach (var str in tokens)
+        {
+          if (!dict.ContainsKey(str))
+            dict.Add(str, dict.Count + 1);
+          res.Add(dict[str]);
+        }
+
+        // Ordnung ist das halbe Leben - kann später für Abbruchbedingung verwendet werden.
+        return res.OrderBy(x => x);
+      }
+      catch
+      {
+        return null;
       }
     }
 
