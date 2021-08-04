@@ -15,6 +15,6 @@ namespace IDS.VAS.Excel2Json.Model
     public HashSet<int> ArticleIds { get; set; } = new HashSet<int>();
 
     [JsonIgnore]
-    public string Key => $"{Prd} / {Trigger} / {Figure} / {Ground}";
+    public string Key => $"{string.Join("|", Prd)}/{string.Join("|", Trigger)}/{string.Join("|", Figure)}/{string.Join("|", Ground)}";
   }
 }
