@@ -141,6 +141,11 @@ namespace IDS.VAS.Excel2Json
               Ground = GetDictonaryTokenizedIndex(row, mapper, ref syn_ground, "GRUND(SYN)"),
               Prd = GetDictonaryTokenizedIndex(row, mapper, ref syn_prd, "PRD(MUSTERSLOT)"),
               Trigger = GetDictonaryTokenizedIndex(row, mapper, ref syn_trigger, "AUSLÖSER(SYN)"),
+
+              DisplayFigure = GetRowValue(row, mapper, "FIGUR(SYN)"),
+              DisplayGround = GetRowValue(row, mapper, "GRUND(SYN)"),
+              DisplayPrd = GetRowValue(row, mapper, "PRD(MUSTERSLOT)"),
+              DisplayTrigger = GetRowValue(row, mapper, "AUSLÖSER(SYN)"),
             };
 
             if (patterns.ContainsKey(pnew.Key))
@@ -210,6 +215,21 @@ namespace IDS.VAS.Excel2Json
           return "Ambig";
         default:
           return diathesis;
+      }
+    }
+
+    private static string GetRowValue(DataRow row, ExcelColumnMapper mapper, string name, Func<string, string> mod = null)
+    {
+      try
+      {
+        var txt = row.ItemArray[mapper.Mapping[name]]?.ToString();
+        if (mod != null)
+          txt = mod(txt);
+        return txt;
+      }
+      catch
+      {
+        return null;
       }
     }
 
