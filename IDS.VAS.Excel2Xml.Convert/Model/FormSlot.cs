@@ -49,7 +49,7 @@ namespace IDS.VAS.Excel2Xml.Model
         MType = row.ItemArray[mapper.Mapping["MUSTERTYP"]].ToString(),
         KType = row.ItemArray[mapper.Mapping["KONSTRUKTIONSTYP"]].ToString(),
       });
-      Prd = row.ItemArray[mapper.Mapping["PRD(MUSTERSLOT)"]].ToString();
+      Prd = row.ItemArray[mapper.Mapping["PRÄDIKATSTYP"]].ToString();
       Figure = row.ItemArray[mapper.Mapping["FIGUR(SYN)"]].ToString();
       GroundHead = row.ItemArray[mapper.Mapping["GRUND(KOPF)"]].ToString();
       GroundCase = row.ItemArray[mapper.Mapping["GRUND(KASUS)"]].ToString();
