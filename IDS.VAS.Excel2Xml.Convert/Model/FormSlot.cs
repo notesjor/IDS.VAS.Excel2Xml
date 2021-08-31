@@ -47,7 +47,7 @@ namespace IDS.VAS.Excel2Xml.Model
         Sigle = row.ItemArray[mapper.Mapping["COSMAS-SIGLE"]].ToString(),
         Priority = row.ItemArray[mapper.Mapping["BSP"]].ToString(),
         MType = row.ItemArray[mapper.Mapping["MUSTERTYP"]].ToString(),
-        KType = row.ItemArray[mapper.Mapping["KTYP"]].ToString(),
+        KType = row.ItemArray[mapper.Mapping["KONSTRUKTIONSTYP"]].ToString(),
       });
       Prd = row.ItemArray[mapper.Mapping["PRD(MUSTERSLOT)"]].ToString();
       Figure = row.ItemArray[mapper.Mapping["FIGUR(SYN)"]].ToString();

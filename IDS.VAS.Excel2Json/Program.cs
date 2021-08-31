@@ -165,7 +165,7 @@ namespace IDS.VAS.Excel2Json
               GetYear(row, mapper),
               GetDictonaryIndex(row, mapper, ref prdlex, "LEXIKALISCHERPRÄDIKATSKERN", x => x.Replace("_", " ").Trim()),
               GetDictonaryIndex(row, mapper, ref diathesis, "DIATHESE", FixDiathesis),
-              GetDictonaryIndex(row, mapper, ref ktypes, "KTYP"),
+              GetDictonaryIndex(row, mapper, ref ktypes, "KONSTRUKTIONSTYP"),
               GetDictonaryIndex(row, mapper, ref mtypes, "MUSTERTYP"),
               pnew.Id,
               article.Id
