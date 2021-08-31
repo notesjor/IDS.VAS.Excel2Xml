@@ -101,7 +101,6 @@ namespace IDS.VAS.Excel2Json
         var ktypes = new Dictionary<string, int>();
         var mtypes = new Dictionary<string, int>();
         var prdlex = new Dictionary<string, int>();
-        var prdlexcore = new Dictionary<string, int>();
         var sources = new Dictionary<string, int>();
 
         var syn_figure = new Dictionary<string, int>();
@@ -162,8 +161,7 @@ namespace IDS.VAS.Excel2Json
             {
               GetDictonaryIndex(row, mapper, ref sources, "QUELLE"),
               GetYear(row, mapper),
-              GetDictonaryIndex(row, mapper, ref prdlexcore, "PRÄDIKATSKERN(LEX)", x => x.Replace("_", " ").Trim()),
-              GetDictonaryIndex(row, mapper, ref prdlex, "PRÄDIKAT(LEX)", x => x.Replace("_", " ").Trim()),
+              GetDictonaryIndex(row, mapper, ref prdlex, "LEXIKALISCHERPRÄDIKATSKERN", x => x.Replace("_", " ").Trim()),
               GetDictonaryIndex(row, mapper, ref diathesis, "DIATHESE", FixDiathesis),
               GetDictonaryIndex(row, mapper, ref ktypes, "KTYP"),
               GetDictonaryIndex(row, mapper, ref mtypes, "MUSTERTYP"),
@@ -190,7 +188,6 @@ namespace IDS.VAS.Excel2Json
         File.WriteAllText("output/meta_ktype.json", JsonConvert.SerializeObject(ktypes, GlobalJsonConfig.Get()), Encoding.UTF8);
         File.WriteAllText("output/meta_mtype.json", JsonConvert.SerializeObject(mtypes, GlobalJsonConfig.Get()), Encoding.UTF8);
         File.WriteAllText("output/meta_prdlex.json", JsonConvert.SerializeObject(prdlex, GlobalJsonConfig.Get()), Encoding.UTF8);
-        File.WriteAllText("output/meta_prdlexcore.json", JsonConvert.SerializeObject(prdlexcore, GlobalJsonConfig.Get()), Encoding.UTF8);
         File.WriteAllText("output/meta_sources.json", JsonConvert.SerializeObject(sources, GlobalJsonConfig.Get()), Encoding.UTF8);
         File.WriteAllText("output/meta_years.json", JsonConvert.SerializeObject(new HashSet<int>(kwics.Select(x => x.Value[1])), GlobalJsonConfig.Get()), Encoding.UTF8);
 

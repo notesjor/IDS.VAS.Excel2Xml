@@ -244,7 +244,7 @@ namespace IDS.VAS.Excel2Xml.Convert
 
     private static string GetPredicates(DataRow[] items, ExcelColumnMapper mapper)
     {
-      var complex = new Dictionary<string, Dictionary<string, List<string>>>();
+      var complex = new Dictionary<string, List<string>>();
 
       foreach (var row in items)
       {
@@ -255,21 +255,12 @@ namespace IDS.VAS.Excel2Xml.Convert
           Sigle = row.ItemArray[mapper.Mapping["COSMAS-SIGLE"]].ToString(),
           Priority = row.ItemArray[mapper.Mapping["BSP"]].ToString(),
         });
-        var si = row.ItemArray[mapper.Mapping["PRÄDIKATSKERN(LEX)"]].ToString().Trim();
-        var co = row.ItemArray[mapper.Mapping["PRÄDIKAT(LEX)"]].ToString().Trim().Replace("_", " ");
-        
-        if (complex.ContainsKey(si))
-        {
-          if (complex[si].ContainsKey(co))
-            complex[si][co].Add($"\t\t\t\t\t\t\t<!-- <xref href=\"s_{kwic.Id}\"/> --> <!-- {kwic.Text} -->");
-          else
-            complex[si].Add(co, new List<string> { $"\t\t\t\t\t\t\t<xref href=\"s_{kwic.Id}\"/> <!-- {kwic.Text} -->" });
-        }
+        var co = row.ItemArray[mapper.Mapping["LEXIKALISCHERPRÄDIKATSKERN"]].ToString().Trim().Replace("_", " ");
+
+        if (complex.ContainsKey(co))
+          complex[co].Add($"\t\t\t\t\t\t\t<!-- <xref href=\"s_{kwic.Id}\"/> --> <!-- {kwic.Text} -->");
         else
-          complex.Add(si, new Dictionary<string, List<string>>
-            {
-              { co, new List<string>{$"\t\t\t\t\t\t\t<xref href=\"s_{kwic.Id}\"/> <!-- {kwic.Text} -->" } }
-            });
+          complex.Add(co, new List<string> { $"\t\t\t\t\t\t\t<xref href=\"s_{kwic.Id}\"/> <!-- {kwic.Text} -->" });
       }
 
       return $"<predicate-list label=\"Komplexe Prädikate\">\r\n{GetPredicateItems(complex)}\r\n\t\t\t\t</predicate-list>";
@@ -278,15 +269,6 @@ namespace IDS.VAS.Excel2Xml.Convert
     private static string GetPredicateItems(Dictionary<string, List<string>> items)
     {
       return string.Join("\r\n", items.OrderBy(x => x.Key).Select(x => GetPredicateItems(x.Key, x.Value, null)));
-    }
-
-    private static string GetPredicateItems(Dictionary<string, Dictionary<string, List<string>>> items)
-    {
-      var res = new List<string>();
-      foreach (var cluster in items.OrderBy(x => x.Key))
-        res.AddRange(cluster.Value.OrderBy(x => x.Key).Select(x => GetPredicateItems(x.Key, x.Value, cluster.Key)));
-
-      return string.Join("\r\n", res);
     }
 
     private static string GetPredicateItems(string key, IEnumerable<string> values, string alt)

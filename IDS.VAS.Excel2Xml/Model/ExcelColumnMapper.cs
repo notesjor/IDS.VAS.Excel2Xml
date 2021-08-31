@@ -9,24 +9,28 @@ namespace IDS.VAS.Excel2Xml.Model
     public Dictionary<string, int> Mapping { get; set; }
       = new Dictionary<string, int>
       {
-        {"#", -1},
-        {"BELEG", -1},
-        {"EINGANG", -1 },
-        {"MUSTER", -1},
-        {"DIATHESE", -1},
-        {"PRD(MUSTERSLOT)", -1},
-        {"AUSLÖSER(SYN)", -1},
-        {"FIGUR(SYN)", -1},
-        {"GRUND(LEX)", -1},
-        {"GRUND(SYN)", -1},
-        {"BSP", -1},
-        {"KTYP", -1},
-        {"COSMAS-SIGLE", -1 },
-        {"PRÄDIKATSKERN(LEX)", -1 },
-        {"MUSTERTYP", -1 },
-        {"PRÄDIKAT(LEX)",-1 },
-        {"QUELLE", -1},
-        {"JAHR", -1}
+        {"#", -1}, // 1, 2, 3, ...
+        {"BELEG", -1}, // Text
+        {"EINGANG", -1 }, // 1
+        {"MUSTER", -1}, // VERBERGEN, BEZEUGEN, ...
+        {"DIATHESE", -1}, // a, m, ...
+        {"AUSLÖSER(SYN)", -1}, // SUB
+        {"AUSLÖSER:ELEMENTE", -1}, // NP
+        {"FIGUR(SYN)", -1}, // AKK, S, SUB
+        {"FIGUR:ELEMENTE", -1}, // NP, sub, V, akk ...
+        {"PRÄDIKATSTYP", -1}, // V, V-m
+        {"PG:ELEMENTE", -1}, // akk
+        {"GRUND(LEX)", -1}, // Fiskus, Problem, Zuschauer, ...
+        {"GRUND(KOPF)", -1}, // VOR
+        {"GRUND(KASUS)", -1}, // DAT
+        {"BSP", -1}, // 1
+        {"KONSTRUKTIONSTYP", -1}, // zu-inf
+        {"COSMAS-SIGLE", -1 }, // R97/MAR.16447...
+        {"MUSTERTYP", -1 }, // asm, akm
+        {"LEXIKALISCHERPRÄDIKATSKERN",-1 }, // warnen, sich_drücken...
+        {"QUELLE", -1}, // Frankfurter Rundschau,...
+        {"JAHR", -1}, // 2007... 2012 ...
+        {"TAGS", -1} // ...
       };
 
     public bool Map(DataTable table)
