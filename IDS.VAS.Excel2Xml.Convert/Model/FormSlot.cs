@@ -51,7 +51,8 @@ namespace IDS.VAS.Excel2Xml.Model
       });
       Prd = row.ItemArray[mapper.Mapping["PRD(MUSTERSLOT)"]].ToString();
       Figure = row.ItemArray[mapper.Mapping["FIGUR(SYN)"]].ToString();
-      Ground = row.ItemArray[mapper.Mapping["GRUND(SYN)"]].ToString();
+      GroundHead = row.ItemArray[mapper.Mapping["GRUND(KOPF)"]].ToString();
+      GroundCase = row.ItemArray[mapper.Mapping["GRUND(KASUS)"]].ToString();
       Effector = row.ItemArray[mapper.Mapping["AUSLÖSER(SYN)"]].ToString();
     }
 
@@ -59,7 +60,8 @@ namespace IDS.VAS.Excel2Xml.Model
     public string Type { get; set; }
     public string Prd { get; set; }
     public string Figure { get; set; }
-    public string Ground { get; set; }
+    public string GroundHead { get; set; }
+    public string GroundCase { get; set; }
     public string Effector { get; set; }
 
     public string GetXml(int addSamples, bool useGenerator)
@@ -75,8 +77,10 @@ namespace IDS.VAS.Excel2Xml.Model
         res.Append($"\t\t\t\t\t<pitem slot=\"effector\" syn=\"{Effector}\"/>\r\n");
       if (Test(Figure))
         res.Append($"\t\t\t\t\t<pitem slot=\"figure\" syn=\"{Figure}\"/>\r\n");
-      if (Test(Ground))
-        res.Append($"\t\t\t\t\t<pitem slot=\"ground\" syn=\"{Ground}\"/>\r\n");
+
+      var ground = $"{GroundHead}+{GroundCase}";
+      if (Test(ground))
+        res.Append($"\t\t\t\t\t<pitem slot=\"ground\" syn=\"{ground}\"/>\r\n");
       res.Append("\t\t\t\t</pattern>\r\n");
 
       if (addSamples > 0) // wenn addSamples == 0 dann gar keine Belege (wichtig für beleglosen Vergleich)

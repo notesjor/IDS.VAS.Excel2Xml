@@ -137,12 +137,14 @@ namespace IDS.VAS.Excel2Json
             var pnew = new Pattern
             {
               Figure = GetDictonaryTokenizedIndex(row, mapper, ref syn_figure, "FIGUR(SYN)"),
-              Ground = GetDictonaryTokenizedIndex(row, mapper, ref syn_ground, "GRUND(SYN)"),
+              GroundHead = GetDictonaryTokenizedIndex(row, mapper, ref syn_ground, "GRUND(KOPF)"),
+              GroundCase = GetDictonaryTokenizedIndex(row, mapper, ref syn_ground, "GRUND(KASUS)"),
               Prd = GetDictonaryTokenizedIndex(row, mapper, ref syn_prd, "PRD(MUSTERSLOT)"),
               Trigger = GetDictonaryTokenizedIndex(row, mapper, ref syn_trigger, "AUSLÖSER(SYN)"),
 
               DisplayFigure = GetRowValue(row, mapper, "FIGUR(SYN)"),
-              DisplayGround = GetRowValue(row, mapper, "GRUND(SYN)"),
+              DisplayGroundHead = GetRowValue(row, mapper, "GRUND(KOPF)"),
+              DisplayGroundCase = GetRowValue(row, mapper, "GRUND(KASUS)"),
               DisplayPrd = GetRowValue(row, mapper, "PRD(MUSTERSLOT)"),
               DisplayTrigger = GetRowValue(row, mapper, "AUSLÖSER(SYN)"),
             };
