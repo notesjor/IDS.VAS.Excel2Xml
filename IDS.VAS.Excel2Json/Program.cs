@@ -254,7 +254,7 @@ namespace IDS.VAS.Excel2Json
 
         var txt = row.ItemArray[mapper.Mapping[name]]?.ToString();
         txt = txt.Replace("(", "").Replace(")", "").Replace("_", " ").ToUpper();
-        var tokens = txt.Split(new[] { " " }, StringSplitOptions.RemoveEmptyEntries);
+        var tokens = txt.Split(new[] { " ", "," }, StringSplitOptions.RemoveEmptyEntries);
 
         foreach (var str in tokens)
         {
