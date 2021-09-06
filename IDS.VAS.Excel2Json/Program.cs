@@ -108,6 +108,11 @@ namespace IDS.VAS.Excel2Json
         var syn_prd = new Dictionary<string, int>();
         var syn_trigger = new Dictionary<string, int>();
 
+        var elements_figure = new Dictionary<string, int>();
+        var elements_ground = new Dictionary<string, int>();
+        var elements_prd = new Dictionary<string, int>();
+        var elements_trigger = new Dictionary<string, int>();
+
         foreach (var pattern in new HashSet<string>(from DataRow row in sheet.Rows select row.ItemArray[idx].ToString()))
         {
           if (string.IsNullOrWhiteSpace(pattern))
@@ -136,15 +141,18 @@ namespace IDS.VAS.Excel2Json
 
             var pnew = new Pattern
             {
-              Figure = GetDictonaryTokenizedIndex(row, mapper, ref syn_figure, "FIGUR(SYN)"),
-              GroundHead = GetDictonaryTokenizedIndex(row, mapper, ref syn_ground, "GRUND(KOPF)"),
-              GroundCase = GetDictonaryTokenizedIndex(row, mapper, ref syn_ground, "GRUND(KASUS)"),
-              Prd = GetDictonaryTokenizedIndex(row, mapper, ref syn_prd, "PRÄDIKATSTYP"),
-              Trigger = GetDictonaryTokenizedIndex(row, mapper, ref syn_trigger, "AUSLÖSER(SYN)"),
+              Figure = GetRowValueIndexed(row, mapper, ref syn_figure, "FIGUR(SYN)"),
+              Ground = GetRowValueIndexed(row, mapper, ref syn_ground, "GRUND(KOPF)"),
+              Prd = GetRowValueIndexed(row, mapper, ref syn_prd, "PRÄDIKATSTYP"),
+              Trigger = GetRowValueIndexed(row, mapper, ref syn_trigger, "AUSLÖSER(SYN)"),
+
+              ElementsFigure = GetDictonaryTokenizedIndex(row, mapper, ref elements_figure, "FIGUR:ELEMENTE"),
+              ElementsGround = GetDictonaryTokenizedIndex(row, mapper, ref elements_ground, "GRUND(KASUS)"),
+              ElementsPrd = GetDictonaryTokenizedIndex(row, mapper, ref elements_prd, "PG:ELEMENTE"),
+              ElementsTrigger = GetDictonaryTokenizedIndex(row, mapper, ref elements_trigger, "AUSLÖSER:ELEMENTE"),
 
               DisplayFigure = GetRowValue(row, mapper, "FIGUR(SYN)"),
-              DisplayGroundHead = GetRowValue(row, mapper, "GRUND(KOPF)"),
-              DisplayGroundCase = GetRowValue(row, mapper, "GRUND(KASUS)"),
+              DisplayGround = GetRowValue(row, mapper, "GRUND(KASUS)"),//GetRowValue(row, mapper, "GRUND(KOPF)") + "+" + GetRowValue(row, mapper, "GRUND(KASUS)"),
               DisplayPrd = GetRowValue(row, mapper, "PRÄDIKATSTYP"),
               DisplayTrigger = GetRowValue(row, mapper, "AUSLÖSER(SYN)"),
             };
@@ -197,6 +205,11 @@ namespace IDS.VAS.Excel2Json
         File.WriteAllText("output/syn_ground.json", JsonConvert.SerializeObject(syn_ground, GlobalJsonConfig.Get()), Encoding.UTF8);
         File.WriteAllText("output/syn_prd.json", JsonConvert.SerializeObject(syn_prd, GlobalJsonConfig.Get()), Encoding.UTF8);
         File.WriteAllText("output/syn_trigger.json", JsonConvert.SerializeObject(syn_trigger, GlobalJsonConfig.Get()), Encoding.UTF8);
+
+        File.WriteAllText("output/elements_figure.json", JsonConvert.SerializeObject(elements_figure, GlobalJsonConfig.Get()), Encoding.UTF8);
+        File.WriteAllText("output/elements_ground.json", JsonConvert.SerializeObject(elements_ground, GlobalJsonConfig.Get()), Encoding.UTF8);
+        File.WriteAllText("output/elements_prd.json", JsonConvert.SerializeObject(elements_prd, GlobalJsonConfig.Get()), Encoding.UTF8);
+        File.WriteAllText("output/elements_trigger.json", JsonConvert.SerializeObject(elements_trigger, GlobalJsonConfig.Get()), Encoding.UTF8);
       }
     }
 
@@ -256,6 +269,23 @@ namespace IDS.VAS.Excel2Json
       catch
       {
         return null;
+      }
+    }
+
+    private static int GetRowValueIndexed(DataRow row, ExcelColumnMapper mapper, ref Dictionary<string, int> dict, string name)
+    {
+      try
+      {
+        var txt = row.ItemArray[mapper.Mapping[name]]?.ToString();
+        txt = txt.Replace("(", "").Replace(")", "").Replace("_", " ").ToUpper();
+
+        if (!dict.ContainsKey(txt))
+          dict.Add(txt, dict.Count + 1);
+        return dict[txt];
+      }
+      catch
+      {
+        return -1;
       }
     }
 

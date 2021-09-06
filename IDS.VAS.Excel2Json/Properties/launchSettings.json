@@ -2,7 +2,7 @@
   "profiles": {
     "IDS.VAS.Excel2Json": {
       "commandName": "Project",
-      "commandLineArgs": "C:\\Users\\Jan\\Desktop\\VAS\\vor_Daten_neu2.xlsx"
+      "commandLineArgs": "C:\\Users\\Jan\\Desktop\\VAS\\vor_Daten_Schlussfassung.xlsx"
     }
   }
 }
