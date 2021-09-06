@@ -51,7 +51,7 @@ namespace IDS.VAS.Excel2Xml.Model
       });
       Prd = row.ItemArray[mapper.Mapping["PRÄDIKATSTYP"]].ToString();
       Figure = row.ItemArray[mapper.Mapping["FIGUR(SYN)"]].ToString();
-      Ground = row.ItemArray[mapper.Mapping["GRUND(KASUS)"]].ToString();
+      Ground = row.ItemArray[mapper.Mapping["GRUND(KOPF)"]] + "+" +  row.ItemArray[mapper.Mapping["GRUND(KASUS)"]];
       Effector = row.ItemArray[mapper.Mapping["AUSLÖSER(SYN)"]].ToString();
     }
 
