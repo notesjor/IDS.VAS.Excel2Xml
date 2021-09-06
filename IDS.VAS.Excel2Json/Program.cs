@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.IO;
 using System.Linq;
+using System.Net.Sockets;
 using System.Text;
 using ExcelDataReader;
 using IDS.VAS.Excel2Json.Model;
@@ -210,7 +211,36 @@ namespace IDS.VAS.Excel2Json
         File.WriteAllText("output/elements_ground.json", JsonConvert.SerializeObject(elements_ground, GlobalJsonConfig.Get()), Encoding.UTF8);
         File.WriteAllText("output/elements_prd.json", JsonConvert.SerializeObject(elements_prd, GlobalJsonConfig.Get()), Encoding.UTF8);
         File.WriteAllText("output/elements_trigger.json", JsonConvert.SerializeObject(elements_trigger, GlobalJsonConfig.Get()), Encoding.UTF8);
+
+        // Key-Liste
+        File.WriteAllLines("output/patterns.txt", GetPatternKeyList(patterns, articles));
       }
+    }
+
+    private static IEnumerable<string> GetPatternKeyList(Dictionary<string, Pattern> patterns, List<Article> articles)
+    {
+      var tmp = new Dictionary<string, HashSet<string>>();
+      foreach (var p in patterns)
+      {
+        foreach (var name in p.Value.ArticleIds.Select(id => (from x in articles where x.Id == id select x.Name).First()))
+        {
+          if (tmp.ContainsKey(name))
+            tmp[name].Add(p.Key);
+          else
+            tmp.Add(name, new HashSet<string> { p.Key });
+        }
+      }
+
+      return tmp.Select(line => $"{FileNameFix(line.Key)}\t{string.Join("\t", line.Value)}");
+    }
+    
+    private static string FileNameFix(string pattern)
+    {
+      return pattern.ToLower()
+                    .Replace("ä", "ae")
+                    .Replace("ö", "oe")
+                    .Replace("ü", "ue")
+                    .Replace("ß", "ss");
     }
 
     private static string FixDiathesis(string diathesis)
