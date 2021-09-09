@@ -49,7 +49,7 @@ namespace IDS.VAS.Excel2Xml.Model
         MType = row.ItemArray[mapper.Mapping["MUSTERTYP"]].ToString(),
         KType = row.ItemArray[mapper.Mapping["KONSTRUKTIONSTYP"]].ToString(),
       });
-      Prd = row.ItemArray[mapper.Mapping["PRÄDIKATSTYP"]].ToString();
+      Prd = row.ItemArray[mapper.Mapping["PRD(SYN)"]].ToString();
       Figure = row.ItemArray[mapper.Mapping["FIGUR(SYN)"]].ToString();
       Ground = row.ItemArray[mapper.Mapping["GRUND(KOPF)"]] + "+" +  row.ItemArray[mapper.Mapping["GRUND(KASUS)"]];
       Effector = row.ItemArray[mapper.Mapping["AUSLÖSER(SYN)"]].ToString();

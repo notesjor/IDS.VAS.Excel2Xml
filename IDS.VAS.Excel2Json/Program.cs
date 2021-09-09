@@ -144,7 +144,7 @@ namespace IDS.VAS.Excel2Json
             {
               Figure = GetRowValueIndexed(row, mapper, ref syn_figure, "FIGUR(SYN)"),
               Ground = GetRowValueIndexed(row, mapper, ref syn_ground, "GRUND(KOPF)"),
-              Prd = GetRowValueIndexed(row, mapper, ref syn_prd, "PRÄDIKATSTYP"),
+              Prd = GetRowValueIndexed(row, mapper, ref syn_prd, "PRD(SYN)"),
               Trigger = GetRowValueIndexed(row, mapper, ref syn_trigger, "AUSLÖSER(SYN)"),
 
               ElementsFigure = GetDictonaryTokenizedIndex(row, mapper, ref elements_figure, "FIGUR:ELEMENTE"),
@@ -154,7 +154,7 @@ namespace IDS.VAS.Excel2Json
 
               DisplayFigure = GetRowValue(row, mapper, "FIGUR(SYN)"),
               DisplayGround = GetRowValue(row, mapper, "GRUND(KASUS)"),//GetRowValue(row, mapper, "GRUND(KOPF)") + "+" + GetRowValue(row, mapper, "GRUND(KASUS)"),
-              DisplayPrd = GetRowValue(row, mapper, "PRÄDIKATSTYP"),
+              DisplayPrd = GetRowValue(row, mapper, "PRD(SYN)"),
               DisplayTrigger = GetRowValue(row, mapper, "AUSLÖSER(SYN)"),
             };
 
@@ -168,16 +168,18 @@ namespace IDS.VAS.Excel2Json
 
             kwicFulltexts.Add(id, new KwicFulltext { Text = row.ItemArray[mapper.Mapping["BELEG"]].ToString() });
 
+            // Hinweis: Wird einmal als Index aber auch von GeneratePatternArticleKwicDictionary verwendet
+            // WARNUNG: Indices müssen ggf. in GeneratePatternArticleKwicDictionary angepasst werden
             kwics.Add(id, new[]
             {
-              GetDictonaryIndex(row, mapper, ref sources, "QUELLE"),
-              GetYear(row, mapper),
-              GetDictonaryIndex(row, mapper, ref prdlex, "LEXIKALISCHERPRÄDIKATSKERN", x => x.Replace("_", " ").Trim()),
-              GetDictonaryIndex(row, mapper, ref diathesis, "DIATHESE", FixDiathesis),
-              GetDictonaryIndex(row, mapper, ref ktypes, "KONSTRUKTIONSTYP"),
-              GetDictonaryIndex(row, mapper, ref mtypes, "MUSTERTYP"),
-              pnew.Id,
-              article.Id
+              GetDictonaryIndex(row, mapper, ref sources, "QUELLE"), // 0
+              GetYear(row, mapper), // 1
+              GetDictonaryIndex(row, mapper, ref prdlex, "LEXIKALISCHERPRÄDIKATSKERN", x => x.Replace("_", " ").Trim()), // 2
+              GetDictonaryIndex(row, mapper, ref diathesis, "DIATHESE", FixDiathesis), // 3
+              GetDictonaryIndex(row, mapper, ref ktypes, "KONSTRUKTIONSTYP"), // 4
+              GetDictonaryIndex(row, mapper, ref mtypes, "MUSTERTYP"), // 5
+              pnew.Id, // 6
+              article.Id // 7
             });
 
             pnew.KwicIds.Add(id);
@@ -213,34 +215,64 @@ namespace IDS.VAS.Excel2Json
         File.WriteAllText("output/elements_trigger.json", JsonConvert.SerializeObject(elements_trigger, GlobalJsonConfig.Get()), Encoding.UTF8);
 
         // Key-Liste
-        File.WriteAllLines("output/patterns.txt", GetPatternKeyList(patterns, articles));
+        var pak = GeneratePatternArticleKwicDictionary(kwics);
+        File.WriteAllLines("output/patterns.txt", GetPatternKeyList(articles, patterns, pak));
       }
     }
 
-    private static IEnumerable<string> GetPatternKeyList(Dictionary<string, Pattern> patterns, List<Article> articles)
+    private static Dictionary<int, Dictionary<int, HashSet<int>>> GeneratePatternArticleKwicDictionary(Dictionary<int, int[]> kwics)
     {
-      var tmp = new Dictionary<string, HashSet<string>>();
-      foreach (var p in patterns)
+      var res = new Dictionary<int, Dictionary<int, HashSet<int>>>();
+      foreach (var x in kwics)
       {
-        foreach (var name in p.Value.ArticleIds.Select(id => (from x in articles where x.Id == id select x.Name).First()))
+        var patternId = x.Value[6];
+        var articleId = x.Value[7];
+        var kwicId = x.Key;
+
+        if (res.ContainsKey(patternId))
         {
-          if (tmp.ContainsKey(name))
-            tmp[name].Add(p.Key);
+          if (res[patternId].ContainsKey(articleId))
+            res[patternId][articleId].Add(kwicId);
           else
-            tmp.Add(name, new HashSet<string> { p.Key });
+            res[patternId].Add(articleId, new HashSet<int> { kwicId });
         }
+        else
+          res.Add(patternId, new Dictionary<int, HashSet<int>> { { articleId, new HashSet<int> { kwicId } } });
       }
 
-      return tmp.Select(line => $"{FileNameFix(line.Key)}\t{string.Join("\t", line.Value)}");
+      return res;
     }
-    
-    private static string FileNameFix(string pattern)
+
+    private static IEnumerable<string> GetPatternKeyList(List<Article> articles,
+                                                         Dictionary<string, Pattern> patterns,
+                                                         Dictionary<int, Dictionary<int, HashSet<int>>> pak)
     {
-      return pattern.ToLower()
-                    .Replace("ä", "ae")
-                    .Replace("ö", "oe")
-                    .Replace("ü", "ue")
-                    .Replace("ß", "ss");
+      var res = new List<string>();
+
+      var aDic = articles.ToDictionary(x => x.Id, x => x.Name);
+      res.Add($"PATTERN\t{string.Join("\t", aDic.Values)}");
+      var aKeys = aDic.Keys.ToArray();
+      
+      var pDic = patterns.ToDictionary(x => x.Value.Id, x => x.Value.Key);
+      res.AddRange(pDic.Select(p => $"{p.Value}\t{GetPatternKeyListEntry(p.Key, aKeys, ref pak)}"));
+
+      return res;
+    }
+
+    private static string GetPatternKeyListEntry(int p, int[] aKeys, ref Dictionary<int, Dictionary<int, HashSet<int>>> pak)
+    {
+      var res = new string[aKeys.Length];
+      for (var i = 0; i < res.Length; i++)
+        res[i] = "";
+
+      if (!pak.ContainsKey(p))
+        return string.Join("\t", res);
+
+      for (var i = 0; i < aKeys.Length; i++)
+        if (pak[p].ContainsKey(aKeys[i]))
+          res[i] = string.Join(", ", pak[p][aKeys[i]]);
+
+      return string.Join("\t", res);
     }
 
     private static string FixDiathesis(string diathesis)
@@ -358,16 +390,7 @@ namespace IDS.VAS.Excel2Json
 
       return year;
     }
-
-    // ReSharper disable once SuggestBaseTypeForParameter
-    private static void NewMethod(DataRow row, ExcelColumnMapper mapper, HashSet<string> fsi, string name, Func<string, string> mod = null)
-    {
-      var val = row.ItemArray[mapper.Mapping[name]]?.ToString();
-      if (!string.IsNullOrWhiteSpace(val))
-        fsi.Add(mod == null ? val : mod(val));
-    }
-
-
+    
     private static string PatternNameFix(string pattern)
     {
       return pattern.Substring(0, 1).ToUpper() + pattern.Substring(1).ToLower();
