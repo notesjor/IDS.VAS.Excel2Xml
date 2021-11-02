@@ -4,6 +4,7 @@ using System.Data;
 using System.IO;
 using System.Linq;
 using System.Net.Sockets;
+using System.Runtime.ExceptionServices;
 using System.Text;
 using ExcelDataReader;
 using IDS.VAS.Excel2Json.Model;
@@ -101,18 +102,25 @@ namespace IDS.VAS.Excel2Json
         var diathesis = new Dictionary<string, int>();
         var ktypes = new Dictionary<string, int>();
         var mtypes = new Dictionary<string, int>();
-        var prdlex = new Dictionary<string, int>();
         var sources = new Dictionary<string, int>();
 
-        var syn_figure = new Dictionary<string, int>();
-        var syn_ground = new Dictionary<string, int>();
-        var syn_prd = new Dictionary<string, int>();
-        var syn_trigger = new Dictionary<string, int>();
 
-        var elements_figure = new Dictionary<string, int>();
-        var elements_ground = new Dictionary<string, int>();
-        var elements_prd = new Dictionary<string, int>();
-        var elements_trigger = new Dictionary<string, int>();
+        var prd_syn = new Dictionary<string, int>();
+        var prd_ele = new Dictionary<string, int>();
+        var prd_lex = new Dictionary<string, int>();
+        var prd_hir = new List<HItem>();
+
+        var trigger_syn = new Dictionary<string, int>();
+        var trigger_ele = new Dictionary<string, int>();
+        var trigger_hir = new List<HItem>();
+
+        var figure_syn = new Dictionary<string, int>();
+        var figure_ele = new Dictionary<string, int>();
+        var figure_hir = new List<HItem>();
+
+        var ground_syn = new Dictionary<string, int>();
+        var ground_ele = new Dictionary<string, int>();
+        var ground_hir = new List<HItem>();
 
         foreach (var pattern in new HashSet<string>(from DataRow row in sheet.Rows select row.ItemArray[idx].ToString()))
         {
@@ -142,15 +150,15 @@ namespace IDS.VAS.Excel2Json
 
             var pnew = new Pattern
             {
-              Figure = GetRowValueIndexed(row, mapper, ref syn_figure, "FIGUR(SYN)"),
-              Ground = GetRowValueIndexed(row, mapper, ref syn_ground, "GRUND(KOPF)"),
-              Prd = GetRowValueIndexed(row, mapper, ref syn_prd, "PRD(SYN)"),
-              Trigger = GetRowValueIndexed(row, mapper, ref syn_trigger, "AUSLÖSER(SYN)"),
+              Figure = GetRowValueIndexed(row, mapper, ref figure_syn, "FIGUR(SYN)"),
+              Ground = GetRowValueIndexed(row, mapper, ref ground_syn, "GRUND(KOPF)"),
+              Prd = GetRowValueIndexed(row, mapper, ref prd_syn, "PRD(SYN)"),
+              Trigger = GetRowValueIndexed(row, mapper, ref trigger_syn, "AUSLÖSER(SYN)"),
 
-              ElementsFigure = GetDictonaryTokenizedIndex(row, mapper, ref elements_figure, "FIGUR:ELEMENTE"),
-              ElementsGround = GetDictonaryTokenizedIndex(row, mapper, ref elements_ground, "GRUND(KASUS)"),
-              ElementsPrd = GetDictonaryTokenizedIndex(row, mapper, ref elements_prd, "PG:ELEMENTE"),
-              ElementsTrigger = GetDictonaryTokenizedIndex(row, mapper, ref elements_trigger, "AUSLÖSER:ELEMENTE"),
+              ElementsFigure = GetDictonaryTokenizedIndex(row, mapper, ref figure_ele, "FIGUR:ELEMENTE"),
+              ElementsGround = GetDictonaryTokenizedIndex(row, mapper, ref ground_ele, "GRUND(KASUS)"),
+              ElementsPrd = GetDictonaryTokenizedIndex(row, mapper, ref prd_ele, "PG:ELEMENTE"),
+              ElementsTrigger = GetDictonaryTokenizedIndex(row, mapper, ref trigger_ele, "AUSLÖSER:ELEMENTE"),
 
               DisplayFigure = GetRowValue(row, mapper, "FIGUR(SYN)"),
               DisplayGround = GetRowValue(row, mapper, "GRUND(KASUS)"),//GetRowValue(row, mapper, "GRUND(KOPF)") + "+" + GetRowValue(row, mapper, "GRUND(KASUS)"),
@@ -174,7 +182,7 @@ namespace IDS.VAS.Excel2Json
             {
               GetDictonaryIndex(row, mapper, ref sources, "QUELLE"), // 0
               GetYear(row, mapper), // 1
-              GetDictonaryIndex(row, mapper, ref prdlex, "LEXIKALISCHERPRÄDIKATSKERN", x => x.Replace("_", " ").Trim()), // 2
+              GetDictonaryIndex(row, mapper, ref prd_lex, "LEXIKALISCHERPRÄDIKATSKERN", x => x.Replace("_", " ").Trim()), // 2
               GetDictonaryIndex(row, mapper, ref diathesis, "DIATHESE", FixDiathesis), // 3
               GetDictonaryIndex(row, mapper, ref ktypes, "KONSTRUKTIONSTYP"), // 4
               GetDictonaryIndex(row, mapper, ref mtypes, "MUSTERTYP"), // 5
@@ -185,8 +193,29 @@ namespace IDS.VAS.Excel2Json
             pnew.KwicIds.Add(id);
             pnew.ArticleIds.Add(article.Id);
             article.PatternIds.Add(pnew.Id);
+
+            // Hierachie aufbauen
+            AddHierarchy(ref prd_hir,
+                         GetRowValue(row, mapper, "PRD(SYN)"),
+                         GetRowValue(row, mapper, "PG:ELEMENTE"),
+                         GetRowValue(row, mapper, "LEXIKALISCHERPRÄDIKATSKERN"));
+            AddHierarchy(ref trigger_hir,
+                         GetRowValue(row, mapper, "AUSLÖSER(SYN)"),
+                         GetRowValue(row, mapper, "AUSLÖSER:ELEMENTE"));
+            AddHierarchy(ref figure_hir,
+                         GetRowValue(row, mapper, "FIGUR(SYN)"),
+                         GetRowValue(row, mapper, "FIGUR:ELEMENTE"));
+            AddHierarchy(ref ground_hir,
+                         GetRowValue(row, mapper, "GRUND(KOPF)"),
+                         GetRowValue(row, mapper, "GRUND(KASUS)"));
           }
         }
+
+        // Bereinigen
+        CleanHierarchy(ref prd_hir);
+        CleanHierarchy(ref trigger_hir);
+        CleanHierarchy(ref figure_hir);
+        CleanHierarchy(ref ground_hir);
 
         // Speichern
         if (!Directory.Exists("output"))
@@ -200,25 +229,130 @@ namespace IDS.VAS.Excel2Json
         File.WriteAllText("output/meta_diathesis.json", JsonConvert.SerializeObject(diathesis, GlobalJsonConfig.Get()), Encoding.UTF8);
         File.WriteAllText("output/meta_ktype.json", JsonConvert.SerializeObject(ktypes, GlobalJsonConfig.Get()), Encoding.UTF8);
         File.WriteAllText("output/meta_mtype.json", JsonConvert.SerializeObject(mtypes, GlobalJsonConfig.Get()), Encoding.UTF8);
-        File.WriteAllText("output/meta_prdlex.json", JsonConvert.SerializeObject(prdlex, GlobalJsonConfig.Get()), Encoding.UTF8);
+        File.WriteAllText("output/meta_prdlex.json", JsonConvert.SerializeObject(prd_lex, GlobalJsonConfig.Get()), Encoding.UTF8);
         File.WriteAllText("output/meta_sources.json", JsonConvert.SerializeObject(sources, GlobalJsonConfig.Get()), Encoding.UTF8);
         File.WriteAllText("output/meta_years.json", JsonConvert.SerializeObject(new HashSet<int>(kwics.Select(x => x.Value[1])), GlobalJsonConfig.Get()), Encoding.UTF8);
 
-        File.WriteAllText("output/syn_figure.json", JsonConvert.SerializeObject(syn_figure, GlobalJsonConfig.Get()), Encoding.UTF8);
-        File.WriteAllText("output/syn_ground.json", JsonConvert.SerializeObject(syn_ground, GlobalJsonConfig.Get()), Encoding.UTF8);
-        File.WriteAllText("output/syn_prd.json", JsonConvert.SerializeObject(syn_prd, GlobalJsonConfig.Get()), Encoding.UTF8);
-        File.WriteAllText("output/syn_trigger.json", JsonConvert.SerializeObject(syn_trigger, GlobalJsonConfig.Get()), Encoding.UTF8);
+        File.WriteAllText("output/syn_figure.json", JsonConvert.SerializeObject(figure_syn, GlobalJsonConfig.Get()), Encoding.UTF8);
+        File.WriteAllText("output/syn_ground.json", JsonConvert.SerializeObject(ground_syn, GlobalJsonConfig.Get()), Encoding.UTF8);
+        File.WriteAllText("output/syn_prd.json", JsonConvert.SerializeObject(prd_syn, GlobalJsonConfig.Get()), Encoding.UTF8);
+        File.WriteAllText("output/syn_trigger.json", JsonConvert.SerializeObject(trigger_syn, GlobalJsonConfig.Get()), Encoding.UTF8);
 
-        File.WriteAllText("output/elements_figure.json", JsonConvert.SerializeObject(elements_figure, GlobalJsonConfig.Get()), Encoding.UTF8);
-        File.WriteAllText("output/elements_ground.json", JsonConvert.SerializeObject(elements_ground, GlobalJsonConfig.Get()), Encoding.UTF8);
-        File.WriteAllText("output/elements_prd.json", JsonConvert.SerializeObject(elements_prd, GlobalJsonConfig.Get()), Encoding.UTF8);
-        File.WriteAllText("output/elements_trigger.json", JsonConvert.SerializeObject(elements_trigger, GlobalJsonConfig.Get()), Encoding.UTF8);
+        File.WriteAllText("output/elements_figure.json", JsonConvert.SerializeObject(figure_ele, GlobalJsonConfig.Get()), Encoding.UTF8);
+        File.WriteAllText("output/elements_ground.json", JsonConvert.SerializeObject(ground_ele, GlobalJsonConfig.Get()), Encoding.UTF8);
+        File.WriteAllText("output/elements_prd.json", JsonConvert.SerializeObject(prd_ele, GlobalJsonConfig.Get()), Encoding.UTF8);
+        File.WriteAllText("output/elements_trigger.json", JsonConvert.SerializeObject(trigger_ele, GlobalJsonConfig.Get()), Encoding.UTF8);
+
+        File.WriteAllText("output/hierarchy_figure.json", JsonConvert.SerializeObject(figure_hir, GlobalJsonConfig.Get()), Encoding.UTF8);
+        File.WriteAllText("output/hierarchy_ground.json", JsonConvert.SerializeObject(ground_hir, GlobalJsonConfig.Get()), Encoding.UTF8);
+        File.WriteAllText("output/hierarchy_prd.json", JsonConvert.SerializeObject(prd_hir, GlobalJsonConfig.Get()), Encoding.UTF8);
+        File.WriteAllText("output/hierarchy_trigger.json", JsonConvert.SerializeObject(trigger_hir, GlobalJsonConfig.Get()), Encoding.UTF8);
 
         // Key-Liste
         var pak = GeneratePatternArticleKwicDictionary(kwics);
         File.WriteAllLines("output/patterns.txt", GetPatternKeyList(articles, patterns, pak));
       }
     }
+
+    private static void CleanHierarchy(ref List<HItem> output)
+    {
+      foreach (var h in output)
+      {
+        if (h.Children.Count == 0)
+          h.Children = null;
+        else
+        {
+          var children = h.Children;
+          CleanHierarchy(ref children);
+          h.Children = children;
+        }
+      }
+    }
+
+    private static void AddHierarchy(ref List<HItem> output, string v1, string v2, string v3)
+    {
+      var l1 = HierarchySearch(ref output, v1);
+      if (l1 == null)
+      {
+        output.Add(new HItem
+        {
+          Name = v1,
+          Children = new List<HItem>
+          {
+            new HItem
+            {
+              Name = v2,
+              Children = new List<HItem>
+              {
+                new HItem
+                {
+                  Name = v3
+                }
+              }
+            }
+          }
+        });
+      }
+      else
+      {
+        var l2 = HierarchySearch(ref l1.Children, v2);
+        if (l2 == null)
+        {
+          l1.Children.Add(new HItem
+          {
+            Name = v2,
+            Children = new List<HItem>
+            {
+              new HItem
+              {
+                Name = v3
+              }
+            }
+          });
+        }
+        else
+        {
+          var l3 = HierarchySearch(ref l2.Children, v3);
+          if (l3 == null)
+          {
+            l2.Children.Add(new HItem { Name = v3 });
+          }
+        }
+      }
+    }
+
+    private static void AddHierarchy(ref List<HItem> output, string v1, string v2)
+    {
+      var l1 = HierarchySearch(ref output, v1);
+      if (l1 == null)
+      {
+        output.Add(new HItem
+        {
+          Name = v1,
+          Children = new List<HItem>
+          {
+            new HItem
+            {
+              Name = v2
+            }
+          }
+        });
+      }
+      else
+      {
+        var l2 = HierarchySearch(ref l1.Children, v2);
+        if (l2 == null)
+        {
+          l1.Children.Add(new HItem
+          {
+            Name = v2
+          });
+        }
+      }
+    }
+
+    private static HItem HierarchySearch(ref List<HItem> list, string v) 
+      => (from x in list where x.Name == v select x).FirstOrDefault();
 
     private static Dictionary<int, Dictionary<int, HashSet<int>>> GeneratePatternArticleKwicDictionary(Dictionary<int, int[]> kwics)
     {
@@ -252,7 +386,7 @@ namespace IDS.VAS.Excel2Json
       var aDic = articles.ToDictionary(x => x.Id, x => x.Name);
       res.Add($"PATTERN\t{string.Join("\t", aDic.Values)}");
       var aKeys = aDic.Keys.ToArray();
-      
+
       var pDic = patterns.ToDictionary(x => x.Value.Id, x => x.Value.Key);
       res.AddRange(pDic.Select(p => $"{p.Value}\t{GetPatternKeyListEntry(p.Key, aKeys, ref pak)}"));
 
@@ -390,7 +524,7 @@ namespace IDS.VAS.Excel2Json
 
       return year;
     }
-    
+
     private static string PatternNameFix(string pattern)
     {
       return pattern.Substring(0, 1).ToUpper() + pattern.Substring(1).ToLower();
