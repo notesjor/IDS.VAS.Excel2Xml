@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.Design.Serialization;
 using System.Data;
 using System.IO;
 using System.Linq;
@@ -196,17 +197,26 @@ namespace IDS.VAS.Excel2Json
 
             // Hierachie aufbauen
             AddHierarchy(ref prd_hir,
+                         GetDictonaryIndex(row, mapper, ref prd_syn, "PRD(SYN)"),
                          GetRowValue(row, mapper, "PRD(SYN)"),
+                         GetDictonaryIndex(row, mapper, ref prd_ele, "PG:ELEMENTE"),
                          GetRowValue(row, mapper, "PG:ELEMENTE"),
+                         GetDictonaryIndex(row, mapper, ref prd_lex, "LEXIKALISCHERPRÄDIKATSKERN"),
                          GetRowValue(row, mapper, "LEXIKALISCHERPRÄDIKATSKERN"));
             AddHierarchy(ref trigger_hir,
+                         GetDictonaryIndex(row, mapper, ref trigger_syn, "AUSLÖSER(SYN)"),
                          GetRowValue(row, mapper, "AUSLÖSER(SYN)"),
+                         GetDictonaryIndex(row, mapper, ref trigger_ele, "AUSLÖSER:ELEMENTE"),
                          GetRowValue(row, mapper, "AUSLÖSER:ELEMENTE"));
             AddHierarchy(ref figure_hir,
+                         GetDictonaryIndex(row, mapper, ref figure_syn, "FIGUR(SYN)"),
                          GetRowValue(row, mapper, "FIGUR(SYN)"),
+                         GetDictonaryIndex(row, mapper, ref figure_ele, "FIGUR:ELEMENTE"),
                          GetRowValue(row, mapper, "FIGUR:ELEMENTE"));
             AddHierarchy(ref ground_hir,
+                         GetDictonaryIndex(row, mapper, ref ground_syn, "GRUND(KOPF)"),
                          GetRowValue(row, mapper, "GRUND(KOPF)"),
+                         GetDictonaryIndex(row, mapper, ref ground_ele, "GRUND(KASUS)"),
                          GetRowValue(row, mapper, "GRUND(KASUS)"));
           }
         }
@@ -269,23 +279,26 @@ namespace IDS.VAS.Excel2Json
       }
     }
 
-    private static void AddHierarchy(ref List<HItem> output, string v1, string v2, string v3)
+    private static void AddHierarchy(ref List<HItem> output, int i1, string v1, int i2, string v2, int i3, string v3)
     {
       var l1 = HierarchySearch(ref output, v1);
       if (l1 == null)
       {
         output.Add(new HItem
         {
+          Id = i1,
           Name = v1,
           Children = new List<HItem>
           {
-            new HItem
+            new()
             {
+              Id = i2,
               Name = v2,
               Children = new List<HItem>
               {
-                new HItem
+                new()
                 {
+                  Id = i3,
                   Name = v3
                 }
               }
@@ -300,11 +313,13 @@ namespace IDS.VAS.Excel2Json
         {
           l1.Children.Add(new HItem
           {
+            Id = i2,
             Name = v2,
             Children = new List<HItem>
             {
-              new HItem
+              new()
               {
+                Id = i3,
                 Name = v3
               }
             }
@@ -315,24 +330,26 @@ namespace IDS.VAS.Excel2Json
           var l3 = HierarchySearch(ref l2.Children, v3);
           if (l3 == null)
           {
-            l2.Children.Add(new HItem { Name = v3 });
+            l2.Children.Add(new HItem { Id = i3, Name = v3 });
           }
         }
       }
     }
 
-    private static void AddHierarchy(ref List<HItem> output, string v1, string v2)
+    private static void AddHierarchy(ref List<HItem> output, int i1, string v1, int i2, string v2)
     {
       var l1 = HierarchySearch(ref output, v1);
       if (l1 == null)
       {
         output.Add(new HItem
         {
+          Id = i1,
           Name = v1,
           Children = new List<HItem>
           {
-            new HItem
+            new()
             {
+              Id = i2,
               Name = v2
             }
           }
@@ -345,13 +362,14 @@ namespace IDS.VAS.Excel2Json
         {
           l1.Children.Add(new HItem
           {
+            Id = i2,
             Name = v2
           });
         }
       }
     }
 
-    private static HItem HierarchySearch(ref List<HItem> list, string v) 
+    private static HItem HierarchySearch(ref List<HItem> list, string v)
       => (from x in list where x.Name == v select x).FirstOrDefault();
 
     private static Dictionary<int, Dictionary<int, HashSet<int>>> GeneratePatternArticleKwicDictionary(Dictionary<int, int[]> kwics)

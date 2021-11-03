@@ -8,6 +8,7 @@ namespace IDS.VAS.Excel2Json.Model
 {
   public class HItem
   {
+    public int Id;
     public string Name;
     public List<HItem> Children = new List<HItem>();
   }
