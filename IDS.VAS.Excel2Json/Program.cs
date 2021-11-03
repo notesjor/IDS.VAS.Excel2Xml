@@ -110,18 +110,22 @@ namespace IDS.VAS.Excel2Json
         var prd_ele = new Dictionary<string, int>();
         var prd_lex = new Dictionary<string, int>();
         var prd_hir = new List<HItem>();
+        var prd_hid = new Dictionary<string, int>();
 
         var trigger_syn = new Dictionary<string, int>();
         var trigger_ele = new Dictionary<string, int>();
         var trigger_hir = new List<HItem>();
+        var trigger_hid = new Dictionary<string, int>();
 
         var figure_syn = new Dictionary<string, int>();
         var figure_ele = new Dictionary<string, int>();
         var figure_hir = new List<HItem>();
+        var figure_hid = new Dictionary<string, int>();
 
         var ground_syn = new Dictionary<string, int>();
         var ground_ele = new Dictionary<string, int>();
         var ground_hir = new List<HItem>();
+        var ground_hid = new Dictionary<string, int>();
 
         foreach (var pattern in new HashSet<string>(from DataRow row in sheet.Rows select row.ItemArray[idx].ToString()))
         {
@@ -196,28 +200,37 @@ namespace IDS.VAS.Excel2Json
             article.PatternIds.Add(pnew.Id);
 
             // Hierachie aufbauen
+            var syn = GetRowValue(row, mapper, "PRD(SYN)");
+            var ele = GetRowValue(row, mapper, "PG:ELEMENTE");
+            var lex = GetRowValue(row, mapper, "LEXIKALISCHERPRÄDIKATSKERN").Replace("_", " ").Trim();
             AddHierarchy(ref prd_hir,
-                         GetDictonaryIndex(row, mapper, ref prd_syn, "PRD(SYN)"),
-                         GetRowValue(row, mapper, "PRD(SYN)"),
-                         GetDictonaryIndex(row, mapper, ref prd_ele, "PG:ELEMENTE"),
-                         GetRowValue(row, mapper, "PG:ELEMENTE"),
-                         GetDictonaryIndex(row, mapper, ref prd_lex, "LEXIKALISCHERPRÄDIKATSKERN"),
-                         GetRowValue(row, mapper, "LEXIKALISCHERPRÄDIKATSKERN"));
+                         GetDictonaryIndex($"{syn}", ref prd_hid),
+                         syn,
+                         GetDictonaryIndex($"{syn}_{ele}", ref prd_hid),
+                         ele,
+                         GetDictonaryIndex($"{syn}_{ele}_{lex}", ref prd_hid),
+                         lex);
+            syn = GetRowValue(row, mapper, "AUSLÖSER(SYN)");
+            ele = GetRowValue(row, mapper, "AUSLÖSER:ELEMENTE");
             AddHierarchy(ref trigger_hir,
-                         GetDictonaryIndex(row, mapper, ref trigger_syn, "AUSLÖSER(SYN)"),
-                         GetRowValue(row, mapper, "AUSLÖSER(SYN)"),
-                         GetDictonaryIndex(row, mapper, ref trigger_ele, "AUSLÖSER:ELEMENTE"),
-                         GetRowValue(row, mapper, "AUSLÖSER:ELEMENTE"));
+                         GetDictonaryIndex($"{syn}", ref trigger_hid),
+                         syn,
+                         GetDictonaryIndex($"{syn}_{ele}", ref trigger_hid),
+                         ele);
+            syn = GetRowValue(row, mapper, "FIGUR(SYN)");
+            ele = GetRowValue(row, mapper, "FIGUR:ELEMENTE");
             AddHierarchy(ref figure_hir,
-                         GetDictonaryIndex(row, mapper, ref figure_syn, "FIGUR(SYN)"),
-                         GetRowValue(row, mapper, "FIGUR(SYN)"),
-                         GetDictonaryIndex(row, mapper, ref figure_ele, "FIGUR:ELEMENTE"),
-                         GetRowValue(row, mapper, "FIGUR:ELEMENTE"));
+                         GetDictonaryIndex($"{syn}", ref figure_hid),
+                         syn,
+                         GetDictonaryIndex($"{syn}_{ele}", ref figure_hid),
+                         ele);
+            syn = GetRowValue(row, mapper, "GRUND(KOPF)");
+            ele = GetRowValue(row, mapper, "GRUND(KASUS)");
             AddHierarchy(ref ground_hir,
-                         GetDictonaryIndex(row, mapper, ref ground_syn, "GRUND(KOPF)"),
-                         GetRowValue(row, mapper, "GRUND(KOPF)"),
-                         GetDictonaryIndex(row, mapper, ref ground_ele, "GRUND(KASUS)"),
-                         GetRowValue(row, mapper, "GRUND(KASUS)"));
+                         GetDictonaryIndex($"{syn}", ref ground_hid),
+                         syn,
+                         GetDictonaryIndex($"{syn}_{ele}", ref ground_hid),
+                         ele);
           }
         }
 
@@ -266,6 +279,10 @@ namespace IDS.VAS.Excel2Json
 
     private static void CleanHierarchy(ref List<HItem> output)
     {
+      // FIX sortiere alphabetisch
+      output = output.OrderBy(x => x.Name).ToList();
+
+      // FIX Lösche leere Kinder
       foreach (var h in output)
       {
         if (h.Children.Count == 0)
@@ -277,11 +294,31 @@ namespace IDS.VAS.Excel2Json
           h.Children = children;
         }
       }
+
+      // FIX - Überprüfen ob 1 Kind und Kind = Parent
+      foreach (var h in output)
+      {
+        if (h.Children is {Count: 1} && h.Children[0].Name == h.Name) h.Children = h.Children[0].Children;
+      }
     }
 
     private static void AddHierarchy(ref List<HItem> output, int i1, string v1, int i2, string v2, int i3, string v3)
     {
       var l1 = HierarchySearch(ref output, v1);
+
+      // FIX für leere Werte
+      if (string.IsNullOrWhiteSpace(v2))
+      {
+        i2 = i1;
+        v2 = v1;
+      }
+      if (string.IsNullOrWhiteSpace(v3))
+      {
+        i3 = i2;
+        v3 = v2;
+      }
+      // FIX ENDE
+
       if (l1 == null)
       {
         output.Add(new HItem
@@ -296,7 +333,7 @@ namespace IDS.VAS.Excel2Json
               Name = v2,
               Children = new List<HItem>
               {
-                new()
+                new HItem
                 {
                   Id = i3,
                   Name = v3
@@ -317,7 +354,7 @@ namespace IDS.VAS.Excel2Json
             Name = v2,
             Children = new List<HItem>
             {
-              new()
+              new HItem
               {
                 Id = i3,
                 Name = v3
@@ -330,7 +367,11 @@ namespace IDS.VAS.Excel2Json
           var l3 = HierarchySearch(ref l2.Children, v3);
           if (l3 == null)
           {
-            l2.Children.Add(new HItem { Id = i3, Name = v3 });
+            l2.Children.Add(new HItem
+            {
+              Id = i3,
+              Name = v3
+            });
           }
         }
       }
@@ -339,6 +380,15 @@ namespace IDS.VAS.Excel2Json
     private static void AddHierarchy(ref List<HItem> output, int i1, string v1, int i2, string v2)
     {
       var l1 = HierarchySearch(ref output, v1);
+
+      // FIX für leere Werte
+      if (string.IsNullOrWhiteSpace(v2))
+      {
+        i2 = i1;
+        v2 = v1;
+      }
+      // FIX ENDE
+
       if (l1 == null)
       {
         output.Add(new HItem
@@ -509,6 +559,21 @@ namespace IDS.VAS.Excel2Json
       try
       {
         var str = row.ItemArray[mapper.Mapping[name]]?.ToString();
+        res = GetDictonaryIndex(str, ref dict, mod);
+      }
+      catch
+      {
+        // ignore
+      }
+
+      return res;
+    }
+
+    private static int GetDictonaryIndex(string str, ref Dictionary<string, int> dict, Func<string, string> mod = null)
+    {
+      var res = -1;
+      try
+      {
         if (mod != null)
           str = mod(str);
 
