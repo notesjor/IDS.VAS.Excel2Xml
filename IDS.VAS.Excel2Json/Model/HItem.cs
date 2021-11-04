@@ -11,5 +11,6 @@ namespace IDS.VAS.Excel2Json.Model
     public int Id;
     public string Name;
     public List<HItem> Children = new List<HItem>();
+    public HashSet<int> Docs;
   }
 }

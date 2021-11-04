@@ -212,28 +212,32 @@ namespace IDS.VAS.Excel2Json
                          GetDictonaryIndex($"{syn}_{ele}", ref prd_hid),
                          ele,
                          GetDictonaryIndex($"{syn}_{ele}_{lex}", ref prd_hid),
-                         lex);
+                         lex,
+                         id);
             syn = GetRowValue(row, mapper, "AUSLÖSER(SYN)");
             ele = GetRowValue(row, mapper, "AUSLÖSER:ELEMENTE");
             AddHierarchy(ref trigger_hir,
                          GetDictonaryIndex($"{syn}", ref trigger_hid),
                          syn,
                          GetDictonaryIndex($"{syn}_{ele}", ref trigger_hid),
-                         ele);
+                         ele,
+                         id);
             syn = GetRowValue(row, mapper, "FIGUR(SYN)");
             ele = GetRowValue(row, mapper, "FIGUR:ELEMENTE");
             AddHierarchy(ref figure_hir,
                          GetDictonaryIndex($"{syn}", ref figure_hid),
                          syn,
                          GetDictonaryIndex($"{syn}_{ele}", ref figure_hid),
-                         ele);
+                         ele,
+                         id);
             syn = GetRowValue(row, mapper, "GRUND(KOPF)");
             ele = GetRowValue(row, mapper, "GRUND(KASUS)");
             AddHierarchy(ref ground_hir,
                          GetDictonaryIndex($"{syn}", ref ground_hid),
                          syn,
                          GetDictonaryIndex($"{syn}_{ele}", ref ground_hid),
-                         ele);
+                         ele,
+                         id);
           }
         }
 
@@ -301,11 +305,11 @@ namespace IDS.VAS.Excel2Json
       // FIX - Überprüfen ob 1 Kind und Kind = Parent
       foreach (var h in output)
       {
-        if (h.Children is {Count: 1} && h.Children[0].Name == h.Name) h.Children = h.Children[0].Children;
+        if (h.Children is { Count: 1 } && h.Children[0].Name == h.Name) h.Children = h.Children[0].Children;
       }
     }
 
-    private static void AddHierarchy(ref List<HItem> output, int i1, string v1, int i2, string v2, int i3, string v3)
+    private static void AddHierarchy(ref List<HItem> output, int i1, string v1, int i2, string v2, int i3, string v3, int id)
     {
       var l1 = HierarchySearch(ref output, v1);
 
@@ -339,7 +343,8 @@ namespace IDS.VAS.Excel2Json
                 new HItem
                 {
                   Id = i3,
-                  Name = v3
+                  Name = v3,
+                  Docs = new HashSet<int>{id}
                 }
               }
             }
@@ -360,7 +365,8 @@ namespace IDS.VAS.Excel2Json
               new HItem
               {
                 Id = i3,
-                Name = v3
+                Name = v3,
+                Docs = new HashSet<int>{id}
               }
             }
           });
@@ -373,14 +379,17 @@ namespace IDS.VAS.Excel2Json
             l2.Children.Add(new HItem
             {
               Id = i3,
-              Name = v3
+              Name = v3,
+              Docs = new HashSet<int> { id }
             });
           }
+          else
+            l3.Docs.Add(id);
         }
       }
     }
 
-    private static void AddHierarchy(ref List<HItem> output, int i1, string v1, int i2, string v2)
+    private static void AddHierarchy(ref List<HItem> output, int i1, string v1, int i2, string v2, int id)
     {
       var l1 = HierarchySearch(ref output, v1);
 
@@ -403,7 +412,8 @@ namespace IDS.VAS.Excel2Json
             new()
             {
               Id = i2,
-              Name = v2
+              Name = v2,
+              Docs = new HashSet<int>{id}
             }
           }
         });
@@ -416,9 +426,12 @@ namespace IDS.VAS.Excel2Json
           l1.Children.Add(new HItem
           {
             Id = i2,
-            Name = v2
+            Name = v2,
+            Docs = new HashSet<int> { id }
           });
         }
+        else
+          l2.Docs.Add(id);
       }
     }
 
