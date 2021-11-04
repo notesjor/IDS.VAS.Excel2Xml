@@ -202,6 +202,9 @@ namespace IDS.VAS.Excel2Json
             // Hierachie aufbauen
             var syn = GetRowValue(row, mapper, "PRD(SYN)");
             var ele = GetRowValue(row, mapper, "PG:ELEMENTE");
+            // FIX leere ele
+            if (string.IsNullOrWhiteSpace(ele))
+              ele = syn;
             var lex = GetRowValue(row, mapper, "LEXIKALISCHERPRÄDIKATSKERN").Replace("_", " ").Trim();
             AddHierarchy(ref prd_hir,
                          GetDictonaryIndex($"{syn}", ref prd_hid),
