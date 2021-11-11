@@ -145,7 +145,11 @@ namespace IDS.VAS.Excel2Xml.Convert
           Priority = row.ItemArray[mapper.Mapping["BSP"]].ToString(),
         }));
 
-        samples.Add($"\t\t\t<sample id=\"s_{kwic.Id}\" cosmas=\"{kwic.Sigle}\">{kwic.Text}</sample>");
+
+        var lex_prd = row.ItemArray[mapper.Mapping["LEXIKALISCHERPRÄDIKATSKERN"]].ToString();
+        var arg_str = row.ItemArray[mapper.Mapping["AGR-STRFEIN"]].ToString();
+
+        samples.Add($"\t\t\t<sample id=\"s_{kwic.Id}\" cosmas=\"{kwic.Sigle}\">{kwic.Text}<meta lex_prd=\"{lex_prd}\" arg_str=\"{arg_str}\"/></sample>");
       }
 
       return $"<samples>\r\n{string.Join("\r\n", samples)}\r\n\t\t</samples>\r\n\t\t<!--\r\n\t\tTODO: \r\n\t\tFür Beispiele im Texte <xref>-Elemente kopieren\r\n\t\t\t<examples>\r\n\t\t\t\t<xref href=\"s_1072\"/>\r\n\t\t\t</examples>\r\n\r\n\t\tAufeinander folgende Beispiele in EINEM <examples>-Element bündeln\r\n\t\t  \t<examples>\r\n\t\t\t\t<xref href=\"s_1072\"/>\r\n\t\t\t\t<xref href=\"s_4075\"/>\r\n\t\t\t</examples>\r\n\r\n\t\tAuf diese Weise referenzierte Beispiele MÜSSEN oben im <samples>-Block ausgezeichnet werden! -->\r\n";
@@ -242,28 +246,56 @@ namespace IDS.VAS.Excel2Xml.Convert
       return stb.ToString();
     }
 
+    private static Dictionary<string, string> _getPredicateNames = new Dictionary<string, string>
+    {
+      { "V", "Verbalprädikate" },
+      { "V-m", "mediale Verbalprädikate" },
+      { "PG", "Prädikatsgefüge" },
+      { "PG-m", "mediale Prädikatsgefüge" },
+    };
+
     private static string GetPredicates(DataRow[] items, ExcelColumnMapper mapper)
     {
-      var complex = new Dictionary<string, List<string>>();
+      var stb = new StringBuilder();
+      var first = true;
 
-      foreach (var row in items)
+      var gpns = new HashSet<string>(items.Select(row => row.ItemArray[mapper.Mapping["PRÄDIKATSTYP"]].ToString()));
+
+      foreach (var gpn in gpns)
       {
-        var kwic = KwicFix(new Kwic
-        {
-          Id = row.ItemArray[mapper.Mapping["#"]].ToString(),
-          Text = row.ItemArray[mapper.Mapping["BELEG"]].ToString(),
-          Sigle = row.ItemArray[mapper.Mapping["COSMAS-SIGLE"]].ToString(),
-          Priority = row.ItemArray[mapper.Mapping["BSP"]].ToString(),
-        });
-        var co = row.ItemArray[mapper.Mapping["LEXIKALISCHERPRÄDIKATSKERN"]].ToString().Trim().Replace("_", " ");
+        var pn = _getPredicateNames.ContainsKey(gpn) ? _getPredicateNames[gpn] : "UNBEKANNT";
 
-        if (complex.ContainsKey(co))
-          complex[co].Add($"\t\t\t\t\t\t\t<!-- <xref href=\"s_{kwic.Id}\"/> --> <!-- {kwic.Text} -->");
+        if (first)
+          first = false;
         else
-          complex.Add(co, new List<string> { $"\t\t\t\t\t\t\t<xref href=\"s_{kwic.Id}\"/> <!-- {kwic.Text} -->" });
+          stb.Append("\r\n\t\t\t\t");
+
+        var complex = new Dictionary<string, List<string>>();
+
+        foreach (var row in items)
+        {
+          if (row.ItemArray[mapper.Mapping["PRÄDIKATSTYP"]].ToString() != gpn)
+            continue;
+
+          var kwic = KwicFix(new Kwic
+          {
+            Id = row.ItemArray[mapper.Mapping["#"]].ToString(),
+            Text = row.ItemArray[mapper.Mapping["BELEG"]].ToString(),
+            Sigle = row.ItemArray[mapper.Mapping["COSMAS-SIGLE"]].ToString(),
+            Priority = row.ItemArray[mapper.Mapping["BSP"]].ToString(),
+          });
+          var co = row.ItemArray[mapper.Mapping["LEXIKALISCHERPRÄDIKATSKERN"]].ToString().Trim().Replace("_", " ");
+
+          if (complex.ContainsKey(co))
+            complex[co].Add($"\t\t\t\t\t\t\t<!-- <xref href=\"s_{kwic.Id}\"/> --> <!-- {kwic.Text} -->");
+          else
+            complex.Add(co, new List<string> { $"\t\t\t\t\t\t\t<xref href=\"s_{kwic.Id}\"/> <!-- {kwic.Text} -->" });
+        }
+
+        stb.Append($"<predicate-list label=\"{pn}\">\r\n{GetPredicateItems(complex)}\r\n\t\t\t\t</predicate-list>");
       }
 
-      return $"<predicate-list label=\"Komplexe Prädikate\">\r\n{GetPredicateItems(complex)}\r\n\t\t\t\t</predicate-list>";
+      return stb.ToString();
     }
 
     private static string GetPredicateItems(Dictionary<string, List<string>> items)

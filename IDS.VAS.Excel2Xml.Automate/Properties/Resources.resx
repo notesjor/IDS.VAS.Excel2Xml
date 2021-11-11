@@ -166,7 +166,7 @@
 		&lt;/overview&gt;
 		&lt;!--
 			Für alle im Artikel referenzierten Belege:
-			TODO: refenrenzierte Belege MÜSSEN ausgezeichnet werden - &lt;prd&gt;, &lt;figure&gt;, usw.
+			TODO: refenrenzierte Belege MÜSSEN ausgezeichnet werden - &lt;rel&gt;, &lt;figure&gt;, usw.
 			TODO: Text Korrektur lesen! Besonders Anführungszeichen und Interpunktion
 			
 			Für Beispiele im Texte &lt;xref&gt;-Elemente kopieren
@@ -187,7 +187,7 @@
 		&lt;meaning&gt;
 			&lt;p&gt;
 				&lt;!-- TODO: Hier sollte eine erweiterte Muster(-Familien)-Erklärung stehen. --&gt;
-				&lt;!-- Wird ein Textbereich mit &lt;prd&gt;, &lt;figure&gt;, usw. ausgezeichnet, wird dieser entsprechend hervorgehoben. --&gt;
+				&lt;!-- Wird ein Textbereich mit &lt;rel&gt;, &lt;figure&gt;, usw. ausgezeichnet, wird dieser entsprechend hervorgehoben. --&gt;
 			&lt;/p&gt;
 
 			&lt;!-- Abschnitte werden als &lt;section&gt; eingefügt - das label-Attribut bestimmt die Überschrift.

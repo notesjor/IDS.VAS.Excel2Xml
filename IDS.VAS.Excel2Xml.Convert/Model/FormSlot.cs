@@ -72,7 +72,7 @@ namespace IDS.VAS.Excel2Xml.Model
       }
       if (Test(Prd))
       {
-        res.Append($"\t\t\t\t\t<pitem slot=\"prd\" syn=\"{Prd}\" sem=\"TODO_PRD_SEM\"/>\r\n");
+        res.Append($"\t\t\t\t\t<pitem slot=\"rel\" syn=\"{Prd}\" sem=\"TODO_PRD_SEM\"/>\r\n");
         //res.Append($"\t\t\t\t\t<pitem slot=\"ktype\" syn=\"{Kwics.First().Value.KType}\"/>\r\n");
       }
       if (Test(Effector))
