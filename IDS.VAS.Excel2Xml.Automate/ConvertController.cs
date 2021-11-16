@@ -88,7 +88,7 @@ namespace IDS.VAS.Excel2Xml.Automate
 
           var items = sheet.Rows.Cast<DataRow>()
                            .Where(row => row.ItemArray[mapper.Mapping["MUSTER"]].ToString() == pattern)
-                           .Where(row => row.ItemArray[mapper.Mapping["EINGANG"]].ToString().Trim() == "1")
+                           .Where(row => row.ItemArray[mapper.Mapping["EINGANG"]].ToString().Trim() == "1" || row.ItemArray[mapper.Mapping["EINGANG"]].ToString().Trim() == "2")
                            .ToArray();
 
           if (items.Length == 0)
@@ -101,7 +101,8 @@ namespace IDS.VAS.Excel2Xml.Automate
           templateJ = templateJ.Replace("$$$SAMPLES$$$", GetSamples(items, mapper));
           templateJ = templateJ.Replace("$$$FORMS$$$", GetForms(items, mapper));
           templateJ = templateJ.Replace("$$$MAIN_PATTERN$$$", _mainPattern); // Muss nach FORMS ausgeführt werden, da dort _mainPattern ermittelt wird
-          templateJ = templateJ.Replace("$$$PREDICATES$$$", GetPredicates(items, mapper));
+          templateJ = templateJ.Replace("$$$PREDICATES$$$", GetPredicates(items, mapper, "1"));
+          templateJ = templateJ.Replace("$$$ADDENDUM$$$", GetPredicates(items, mapper, "2"));
           File.WriteAllText(Path.Combine(outputDir, $"{FileNameFix(pattern)}.xml"), templateJ, Encoding.UTF8);
         }
       }
@@ -255,12 +256,14 @@ namespace IDS.VAS.Excel2Xml.Automate
 
     private string _mainPattern;
 
-    private string GetPredicates(DataRow[] items, ExcelColumnMapper mapper)
+    private string GetPredicates(DataRow[] items, ExcelColumnMapper mapper, string filter)
     {
       var stb = new StringBuilder();
       var first = true;
 
-      var gpns = new HashSet<string>(items.Select(row => row.ItemArray[mapper.Mapping["PRÄDIKATSTYP"]].ToString()));
+      var fitems = items.Where(x => x.ItemArray[mapper.Mapping["EINGANG"]].ToString().Trim() == filter).ToArray();
+
+      var gpns = new HashSet<string>(fitems.Select(row => row.ItemArray[mapper.Mapping["PRÄDIKATSTYP"]].ToString()));
 
       foreach (var gpn in gpns)
       {
@@ -273,7 +276,7 @@ namespace IDS.VAS.Excel2Xml.Automate
 
         var complex = new Dictionary<string, List<string>>();
 
-        foreach (var row in items)
+        foreach (var row in fitems)
         {
           if (row.ItemArray[mapper.Mapping["PRÄDIKATSTYP"]].ToString() != gpn)
             continue;
