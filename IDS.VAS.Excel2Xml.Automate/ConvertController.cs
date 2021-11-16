@@ -190,45 +190,59 @@ namespace IDS.VAS.Excel2Xml.Automate
       var stb = new StringBuilder();
       stb.Append("<forms>\r\n");
 
-      var akts = dict.Where(x => x.Value.Type == "akt").ToArray();
-      if (akts.Length > 0)
+      var types = new HashSet<string>(dict.Select(x => x.Value.Ground));
+      foreach (var type in types)
       {
-        stb.Append("\t\t\t<akt>\r\n");
-        foreach (var pair in akts)
-          stb.Append("\t\t\t" + pair.Value.GetXml(1, true));
-        stb.Append("\t\t\t</akt>\r\n");
-      }
-
-      var meds = dict.Where(x => x.Value.Type == "kon").ToArray();
-      if (meds.Length > 0)
-      {
-        stb.Append("\t\t\t<kon>\r\n");
-        foreach (var pair in meds)
-          stb.Append("\t\t\t" + pair.Value.GetXml(1, true));
-        stb.Append("\t\t\t</kon>\r\n");
-      }
-
-      var passs = dict.Where(x => x.Value.Type == "pass").ToArray();
-      if (passs.Length > 0)
-      {
-        stb.Append("\t\t\t<pass>\r\n");
-        foreach (var pair in passs)
-          stb.Append("\t\t\t" + pair.Value.GetXml(1, true));
-        stb.Append("\t\t\t</pass>\r\n");
-      }
-
-      var ambigs = dict.Where(x => x.Value.Type == "ambig").ToArray();
-      if (ambigs.Length > 0)
-      {
-        stb.Append("\t\t\t<ambig>\r\n");
-        foreach (var pair in ambigs)
-          stb.Append("\t\t\t" + pair.Value.GetXml(1, true));
-        stb.Append("\t\t\t</ambig>\r\n");
+        var ndict = dict.Where(x => x.Value.Ground == type).ToDictionary(x => x.Key, x => x.Value);
+        BuildFormGroup(stb, ndict, type);
       }
 
       stb.Append("\t\t<!-- TODO: ggf. löschen -->\r\n\t\t\t<section label=\"Besonderheiten\">\r\n\t\t\t\t<!-- \r\n\t\t\t\t\tText und Beispiele hierher \r\n\t\t\t\t\t<p></p>\r\n\t\t\t\t\t<examples></examples>\r\n\t\t\t\t-->\r\n\t\t\t\t<p/>\r\n\t\t\t</section>\r\n");
       stb.Append("\t\t</forms>\r\n");
       return stb.ToString();
+    }
+
+    private static void BuildFormGroup(StringBuilder stb, Dictionary<string, FormSlot> dict, string formGroupType)
+    {
+      stb.Append($"\t\t\t<form-grp label=\"{formGroupType}\">\r\n");
+
+      var akts = dict.Where(x => x.Value.Type == "akt").ToArray();
+      if (akts.Length > 0)
+      {
+        stb.Append("\t\t\t\t<akt>\r\n");
+        foreach (var pair in akts)
+          stb.Append("\t\t\t\t" + pair.Value.GetXml(1, true));
+        stb.Append("\t\t\t\t</akt>\r\n");
+      }
+
+      var meds = dict.Where(x => x.Value.Type == "kon").ToArray();
+      if (meds.Length > 0)
+      {
+        stb.Append("\t\t\t\t<kon>\r\n");
+        foreach (var pair in meds)
+          stb.Append("\t\t\t\t" + pair.Value.GetXml(1, true));
+        stb.Append("\t\t\t\t</kon>\r\n");
+      }
+
+      var passs = dict.Where(x => x.Value.Type == "pass").ToArray();
+      if (passs.Length > 0)
+      {
+        stb.Append("\t\t\t\t<pass>\r\n");
+        foreach (var pair in passs)
+          stb.Append("\t\t\t\t" + pair.Value.GetXml(1, true));
+        stb.Append("\t\t\t\t</pass>\r\n");
+      }
+
+      var ambigs = dict.Where(x => x.Value.Type == "ambig").ToArray();
+      if (ambigs.Length > 0)
+      {
+        stb.Append("\t\t\t\t<ambig>\r\n");
+        foreach (var pair in ambigs)
+          stb.Append("\t\t\t\t" + pair.Value.GetXml(1, true));
+        stb.Append("\t\t\t\t</ambig>\r\n");
+      }
+
+      stb.Append("\t\t\t</form-grp>\r\n");
     }
 
     private Dictionary<string, string> _getPredicateNames = new Dictionary<string, string>

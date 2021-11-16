@@ -16,7 +16,7 @@ namespace IDS.VAS.Excel2Xml.Model
             <pattern >
                 <pitem slot="prd"     syn="V" sem="bewirkte Folge" />
                 <pitem slot="figure"  syn="SUB" />
-                <pitem slot="reason"  syn="VOR+DAT" />
+                <pitem slot="reason"  syn="DAT" />
             </pattern>
   */
   public class FormSlot
