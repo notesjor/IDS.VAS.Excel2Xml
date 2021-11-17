@@ -15,7 +15,7 @@ namespace IDS.VAS.Excel2Xml.Automate
 {
   public class ConvertController
   {
-    public void Convert(string input, string output) 
+    public void Convert(string input, string output)
       => Convert(ReadExcel(input), output);
 
     private DataSet ReadExcel(string path)
@@ -192,7 +192,7 @@ namespace IDS.VAS.Excel2Xml.Automate
       stb.Append("<forms>\r\n");
 
       var types = new HashSet<string>(dict.Select(x => x.Value.Ground));
-      foreach (var type in types)
+      foreach (var type in types.OrderBy(x => x))
       {
         var ndict = dict.Where(x => x.Value.Ground == type).ToDictionary(x => x.Key, x => x.Value);
         BuildFormGroup(stb, ndict, type);
@@ -207,7 +207,7 @@ namespace IDS.VAS.Excel2Xml.Automate
     {
       stb.Append($"\t\t\t<form-grp label=\"{formGroupType}\">\r\n");
 
-      var akts = dict.Where(x => x.Value.Type == "akt").ToArray();
+      var akts = dict.Where(x => x.Value.Type == "akt").OrderByDescending(x => x.Value.Kwics.Count).ToArray();
       if (akts.Length > 0)
       {
         stb.Append("\t\t\t\t<akt>\r\n");
@@ -216,7 +216,7 @@ namespace IDS.VAS.Excel2Xml.Automate
         stb.Append("\t\t\t\t</akt>\r\n");
       }
 
-      var meds = dict.Where(x => x.Value.Type == "kon").ToArray();
+      var meds = dict.Where(x => x.Value.Type == "kon").OrderByDescending(x => x.Value.Kwics.Count).ToArray();
       if (meds.Length > 0)
       {
         stb.Append("\t\t\t\t<kon>\r\n");
@@ -225,7 +225,7 @@ namespace IDS.VAS.Excel2Xml.Automate
         stb.Append("\t\t\t\t</kon>\r\n");
       }
 
-      var passs = dict.Where(x => x.Value.Type == "pass").ToArray();
+      var passs = dict.Where(x => x.Value.Type == "pass").OrderByDescending(x => x.Value.Kwics.Count).ToArray();
       if (passs.Length > 0)
       {
         stb.Append("\t\t\t\t<pass>\r\n");
@@ -234,7 +234,7 @@ namespace IDS.VAS.Excel2Xml.Automate
         stb.Append("\t\t\t\t</pass>\r\n");
       }
 
-      var ambigs = dict.Where(x => x.Value.Type == "ambig").ToArray();
+      var ambigs = dict.Where(x => x.Value.Type == "ambig").OrderByDescending(x => x.Value.Kwics.Count).ToArray();
       if (ambigs.Length > 0)
       {
         stb.Append("\t\t\t\t<ambig>\r\n");
@@ -249,9 +249,9 @@ namespace IDS.VAS.Excel2Xml.Automate
     private Dictionary<string, string> _getPredicateNames = new Dictionary<string, string>
     {
       { "V", "Verbalprädikate" },
-      { "V-m", "mediale Verbalprädikate" },
+      { "V-m", "Mediale Verbalprädikate" },
       { "PG", "Prädikatsgefüge" },
-      { "PG-m", "mediale Prädikatsgefüge" },
+      { "PG-m", "Mediale Prädikatsgefüge" },
     };
 
     private string _mainPattern;

@@ -157,7 +157,7 @@ namespace IDS.VAS.Excel2Json
             {
               Figure = GetRowValueIndexed(row, mapper, ref figure_syn, "FIGUR(SYN)"),
               Ground = GetRowValueIndexed(row, mapper, ref ground_syn, "GRUND(KOPF)"),
-              Prd = GetRowValueIndexed(row, mapper, ref prd_syn, "PRD(SYN)"),
+              Prd = GetRowValueIndexed(row, mapper, ref prd_syn, "PRÄDIKATSTYP"),
               Trigger = GetRowValueIndexed(row, mapper, ref trigger_syn, "AUSLÖSER(SYN)"),
 
               ElementsFigure = GetDictonaryTokenizedIndex(row, mapper, ref figure_ele, "FIGUR:ELEMENTE"),
@@ -167,7 +167,7 @@ namespace IDS.VAS.Excel2Json
 
               DisplayFigure = GetRowValue(row, mapper, "FIGUR(SYN)"),
               DisplayGround = GetRowValue(row, mapper, "GRUND(KASUS)"),//GetRowValue(row, mapper, "GRUND(KOPF)") + "+" + GetRowValue(row, mapper, "GRUND(KASUS)"),
-              DisplayPrd = GetRowValue(row, mapper, "PRD(SYN)"),
+              DisplayPrd = GetRowValue(row, mapper, "PRÄDIKATSTYP"),
               DisplayTrigger = GetRowValue(row, mapper, "AUSLÖSER(SYN)"),
             };
 
@@ -200,7 +200,7 @@ namespace IDS.VAS.Excel2Json
             article.PatternIds.Add(pnew.Id);
 
             // Hierachie aufbauen
-            var syn = GetRowValue(row, mapper, "PRD(SYN)");
+            var syn = GetRowValue(row, mapper, "PRÄDIKATSTYP");
             var ele = GetRowValue(row, mapper, "PG:ELEMENTE");
             // FIX leere ele
             if (string.IsNullOrWhiteSpace(ele))
