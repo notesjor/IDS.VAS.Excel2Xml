@@ -32,7 +32,7 @@ namespace IDS.VAS.Excel2Xml.Model
         { "QUELLE", -1 }, // Frankfurter Rundschau,...
         { "JAHR", -1 }, // 2007... 2012 ...
         { "TAGS", -1 }, //
-        { "AGR-STRFEIN", -1}
+        {"PRD(GENERALISIERT)", -1}
       };
 
     public bool Map(DataTable table)

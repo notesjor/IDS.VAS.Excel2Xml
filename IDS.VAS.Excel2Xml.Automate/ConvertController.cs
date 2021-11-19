@@ -79,8 +79,7 @@ namespace IDS.VAS.Excel2Xml.Automate
         if (!Directory.Exists(outputDir))
           Directory.CreateDirectory(outputDir);
 
-        var idx = mapper.Mapping["MUSTER"];
-        var patterns = new HashSet<string>(from DataRow row in sheet.Rows select row.ItemArray[idx].ToString());
+        var patterns = new HashSet<string>(from DataRow row in sheet.Rows select row.ItemArray[mapper.Mapping["MUSTER"]].ToString());
         foreach (var pattern in patterns)
         {
           if (string.IsNullOrWhiteSpace(pattern))
@@ -173,6 +172,9 @@ namespace IDS.VAS.Excel2Xml.Automate
       var dict = new Dictionary<string, FormSlot>();
       foreach (var item in items)
       {
+        if (item.ItemArray[mapper.Mapping["EINGANG"]].ToString().Trim() != "1")
+          continue;
+
         var slot = new FormSlot(mapper, item);
         var key = slot.GetXml(0, false);
         if (dict.ContainsKey(key)) // MERGE Multi-KWICs
@@ -185,8 +187,10 @@ namespace IDS.VAS.Excel2Xml.Automate
       }
 
       // Detect _mainPattern
-      _mainPattern = dict.OrderByDescending(x => x.Value.Kwics.Count).First().Value.GetXml(3, false);
+      var mp = dict.OrderByDescending(x => x.Value.Kwics.Count).First().Value;
+      _mainPattern = mp.GetXml(3, false);
       _mainPattern = _mainPattern.Replace("<prototype>", "").Replace("</prototype>", "");
+      _mainPattern = $"<!-- Muster-Häufigkeit (Eingang = 1): {mp.Kwics.Count} -->{_mainPattern}";
 
       var stb = new StringBuilder();
       stb.Append("<forms>\r\n");

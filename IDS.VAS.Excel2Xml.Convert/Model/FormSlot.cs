@@ -49,7 +49,7 @@ namespace IDS.VAS.Excel2Xml.Model
         MType = row.ItemArray[mapper.Mapping["MUSTERTYP"]].ToString(),
         KType = row.ItemArray[mapper.Mapping["KONSTRUKTIONSTYP"]].ToString(),
       });
-      Prd = row.ItemArray[mapper.Mapping["PRD(SYN)"]].ToString();
+      Prd = row.ItemArray[mapper.Mapping["PRD(GENERALISIERT)"]].ToString();
       Figure = row.ItemArray[mapper.Mapping["FIGUR(SYN)"]].ToString();
       Ground = row.ItemArray[mapper.Mapping["GRUND(KASUS)"]].ToString();
       Effector = row.ItemArray[mapper.Mapping["AUSLÖSER(SYN)"]].ToString();
@@ -65,16 +65,13 @@ namespace IDS.VAS.Excel2Xml.Model
     public string GetXml(int addSamples, bool useGenerator)
     {
       var res = new StringBuilder();
-      res.Append($"<prototype>\r\n\t\t\t\t<pattern id=\"{(useGenerator ? IdGenerator.GetId("p") : IdGenerator.GetNullId("p"))}\">\r\n");
+      if (useGenerator)
+        res.Append($"<!-- Muster-Häufigkeit (Eingang = 1): {Kwics.Count} -->\r\n");
+      res.Append($"\t\t\t\t<prototype>\r\n\t\t\t\t<pattern id=\"{(useGenerator ? IdGenerator.GetId("p") : IdGenerator.GetNullId("p"))}\">\r\n");
       if (!useGenerator)
-      {
         res.Append($"\t\t\t\t\t<pitem slot=\"diathese\" syn=\"{Type}\"/>\r\n");
-      }
       if (Test(Prd))
-      {
         res.Append($"\t\t\t\t\t<pitem slot=\"rel\" syn=\"{Prd}\" sem=\"TODO_PRD_SEM\"/>\r\n");
-        //res.Append($"\t\t\t\t\t<pitem slot=\"ktype\" syn=\"{Kwics.First().Value.KType}\"/>\r\n");
-      }
       if (Test(Effector))
         res.Append($"\t\t\t\t\t<pitem slot=\"effector\" syn=\"{Effector}\"/>\r\n");
       if (Test(Figure))
