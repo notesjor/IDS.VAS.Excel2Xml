@@ -103,7 +103,8 @@ namespace IDS.VAS.Excel2Json
         var diathesis = new Dictionary<string, int>();
         var mtypes = new Dictionary<string, int>();
         var sources = new Dictionary<string, int>();
-
+        var diathesis_subtype = new Dictionary<string, int>();
+        var special_forms = new Dictionary<string, int>();
 
         var prd_syn = new Dictionary<string, int>();
         var prd_ele = new Dictionary<string, int>();
@@ -187,10 +188,12 @@ namespace IDS.VAS.Excel2Json
               GetDictonaryIndex(row, mapper, ref sources, "QUELLE"), // 0
               GetYear(row, mapper), // 1
               GetDictonaryIndex(row, mapper, ref prd_lex, "PRÄDIKATSKERN", x => x.Replace("_", " ").Trim()), // 2
-              GetDictonaryIndex(row, mapper, ref diathesis, "DIATHESE", FixDiathesis), // 3
-              GetDictonaryIndex(row, mapper, ref mtypes, "MUSTERTYP"), // 5
-              pnew.Id, // 6
-              article.Id // 7
+              GetDictonaryIndex(row, mapper, ref diathesis, "DIATHESE", NameDiscoveryHelper.GetDiatheseNames), // 3
+              GetDictonaryIndex(row, mapper, ref mtypes, "MUSTERTYP"), // 4
+              pnew.Id, // 5
+              article.Id, // 6
+              GetDictonaryIndex(row, mapper, ref diathesis_subtype, "DIATHESE:SUBTYP", NameDiscoveryHelper.GetDiatheseSubtypeNames),
+              GetDictonaryIndex(row, mapper, ref special_forms, "SONDERFORMEN", NameDiscoveryHelper.GetSpecialFormNames)
             });
 
             pnew.KwicIds.Add(id);
@@ -198,7 +201,7 @@ namespace IDS.VAS.Excel2Json
             article.PatternIds.Add(pnew.Id);
 
             // Hierachie aufbauen
-            var syn = GetRowValue(row, mapper, "PRÄDIKATSTYP");
+            var syn = NameDiscoveryHelper.GetPredicateName(GetRowValue(row, mapper, "PRÄDIKATSTYP"));
             var ele = GetRowValue(row, mapper, "PG:ELEMENTE");
             AddHierarchy(ref prd_hir,
                          GetDictonaryIndex($"{syn}", ref prd_hid),
@@ -250,6 +253,8 @@ namespace IDS.VAS.Excel2Json
 
         File.WriteAllText("output/meta_diathesis.json", JsonConvert.SerializeObject(diathesis, GlobalJsonConfig.Get()), Encoding.UTF8);
         File.WriteAllText("output/meta_mtype.json", JsonConvert.SerializeObject(mtypes, GlobalJsonConfig.Get()), Encoding.UTF8);
+        File.WriteAllText("output/meta_diathesis_subtypes.json", JsonConvert.SerializeObject(diathesis_subtype, GlobalJsonConfig.Get()), Encoding.UTF8);
+        File.WriteAllText("output/meta_special_forms.json", JsonConvert.SerializeObject(special_forms, GlobalJsonConfig.Get()), Encoding.UTF8);
         File.WriteAllText("output/meta_prdlex.json", JsonConvert.SerializeObject(prd_lex, GlobalJsonConfig.Get()), Encoding.UTF8);
         File.WriteAllText("output/meta_sources.json", JsonConvert.SerializeObject(sources, GlobalJsonConfig.Get()), Encoding.UTF8);
         File.WriteAllText("output/meta_years.json", JsonConvert.SerializeObject(new HashSet<int>(kwics.Select(x => x.Value[1])), GlobalJsonConfig.Get()), Encoding.UTF8);
@@ -477,23 +482,6 @@ namespace IDS.VAS.Excel2Json
           res[i] = string.Join(", ", pak[p][aKeys[i]]);
 
       return string.Join("\t", res);
-    }
-
-    private static string FixDiathesis(string diathesis)
-    {
-      switch (diathesis)
-      {
-        case "a":
-          return "Aktiv";
-        case "p":
-          return "Passiv";
-        case "k":
-          return "Konvers";
-        case "ambig":
-          return "Ambig";
-        default:
-          return diathesis;
-      }
     }
 
     private static string GetRowValue(DataRow row, ExcelColumnMapper mapper, string name, Func<string, string> mod = null)

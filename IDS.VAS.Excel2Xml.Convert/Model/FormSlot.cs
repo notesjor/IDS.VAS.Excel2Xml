@@ -23,23 +23,7 @@ namespace IDS.VAS.Excel2Xml.Model
   {
     public FormSlot(ExcelColumnMapper mapper, DataRow row)
     {
-      Type = row.ItemArray[mapper.Mapping["DIATHESE"]].ToString();
-      switch (Type.ToLower())
-      {
-        case "a":
-          Type = "akt";
-          break;
-        case "k":
-          Type = "kon";
-          break;
-        case "p":
-          Type = "pass";
-          break;
-        case "ambig":
-          Type = "ambig";
-          break;
-      }
-
+      Type = NameDiscoveryHelper.GetDiatheseXmlValues(row.ItemArray[mapper.Mapping["DIATHESE"]].ToString());
       Kwics.Add(row.ItemArray[mapper.Mapping["#"]].ToString(), new Kwic
       {
         Id = row.ItemArray[mapper.Mapping["#"]].ToString(),

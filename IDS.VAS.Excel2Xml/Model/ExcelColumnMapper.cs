@@ -31,7 +31,8 @@ namespace IDS.VAS.Excel2Xml.Model
         { "QUELLE", -1 }, // Frankfurter Rundschau,...
         { "JAHR", -1 }, // 2007... 2012 ...
         { "REL(GENERALISIERT)", -1 },
-        { "KEYWORDS", -1}
+        { "KEYWORDS", -1 },
+        { "SONDERFORMEN", -1 }
       };
 
     public bool Map(DataTable table)
@@ -49,11 +50,11 @@ namespace IDS.VAS.Excel2Xml.Model
       {
         if (x.Value > -1)
           continue;
-        
+
         Console.WriteLine(x.Key);
         count++;
       }
-      
+
       return count > 0;
     }
   }
