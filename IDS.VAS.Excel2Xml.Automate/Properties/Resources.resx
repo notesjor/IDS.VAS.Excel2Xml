@@ -224,10 +224,6 @@
 			&lt;section label="Stichprobe"&gt; 
 				$$$PREDICATES$$$  
 			&lt;/section&gt;
-			
-			&lt;section label="Addendum"&gt; 
-				$$$ADDENDUM$$$  
-			&lt;/section&gt;
 
 			&lt;!-- 
 				Prädikate, die nicht aus der Stichprobe stammen hierher.
