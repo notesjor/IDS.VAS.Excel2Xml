@@ -73,12 +73,13 @@ namespace IDS.VAS.Excel2Xml.Automate.Properties {
         ///			--&gt;
         ///		&lt;/meta&gt;
         ///		&lt;meta type=&quot;prep&quot;&gt;
-        ///			&lt;!-- 
-        ///				TODO: Präposition eintragen: z. B. vor 
-        ///				 	 DIESE ANGABE IST ZWINGEND ERFORDERLICH!
-        ///			--&gt;
+        ///			$$$GROUND_HEAD$$$
         ///		&lt;/meta&gt;
-        ///		&lt;meta type=&quot;key [Rest der Zeichenfolge wurde abgeschnitten]&quot;; ähnelt.
+        ///		&lt;meta type=&quot;keyword&quot;&gt;
+        ///			$$$KEYWORDS$$$
+        ///		&lt;/meta&gt;
+        ///		&lt;meta type=&quot;author&quot;&gt;
+        ///			&lt;!-- TODO: Autor*in-Kürz [Rest der Zeichenfolge wurde abgeschnitten]&quot;; ähnelt.
         /// </summary>
         internal static string TEMPLATE {
             get {

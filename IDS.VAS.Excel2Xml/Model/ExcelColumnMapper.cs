@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Data;
-using System.Linq;
 
 namespace IDS.VAS.Excel2Xml.Model
 {
@@ -14,6 +14,7 @@ namespace IDS.VAS.Excel2Xml.Model
         { "EINGANG", -1 }, // 1
         { "MUSTER", -1 }, // VERBERGEN, BEZEUGEN, ...
         { "DIATHESE", -1 }, // a, m, ...
+        { "DIATHESE:SUBTYP", -1 }, // spa, wpa, gko, ...
         { "AUSLÖSER(SYN)", -1 }, // SUB
         { "AUSLÖSER:ELEMENTE", -1 }, // NP
         { "FIGUR(SYN)", -1 }, // AKK, S, SUB
@@ -23,16 +24,14 @@ namespace IDS.VAS.Excel2Xml.Model
         { "GRUND(KOPF)", -1 }, // VOR
         { "GRUND(KASUS)", -1 }, // DAT
         { "BSP", -1 }, // 1
-        { "KONSTRUKTIONSTYP", -1 }, // zu-inf
-        { "PRD(SYN)", -1 }, // V-m akk, ...
         { "PRÄDIKATSTYP", -1 }, // PRD(SYN) für XML-Artikel
         { "COSMAS-SIGLE", -1 }, // R97/MAR.16447...
         { "MUSTERTYP", -1 }, // asm, akm
-        { "LEXIKALISCHERPRÄDIKATSKERN", -1 }, // warnen, sich_drücken...
+        { "PRÄDIKATSKERN", -1 }, // warnen, sich_drücken...
         { "QUELLE", -1 }, // Frankfurter Rundschau,...
         { "JAHR", -1 }, // 2007... 2012 ...
-        { "TAGS", -1 }, //
-        {"PRD(GENERALISIERT)", -1}
+        { "REL(GENERALISIERT)", -1 },
+        { "KEYWORDS", -1}
       };
 
     public bool Map(DataTable table)
@@ -45,7 +44,17 @@ namespace IDS.VAS.Excel2Xml.Model
           Mapping[n] = i;
       }
 
-      return Mapping.Any(x => x.Value == -1);
+      var count = 0;
+      foreach (var x in Mapping)
+      {
+        if (x.Value > -1)
+          continue;
+        
+        Console.WriteLine(x.Key);
+        count++;
+      }
+      
+      return count > 0;
     }
   }
 }

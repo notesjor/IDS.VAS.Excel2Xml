@@ -97,6 +97,9 @@ namespace IDS.VAS.Excel2Xml.Automate
           IdGenerator.Init(patternFixed);
 
           var templateJ = Resources.TEMPLATE.Replace("$$$MUSTER$$$", patternFixed);
+          templateJ = templateJ.Replace("$$$GROUND_HEAD$$$", GetGroundHead(items, mapper));
+          templateJ = templateJ.Replace("$$$KEYWORDS$$$", GetKeywords(items, mapper));
+          templateJ = templateJ.Replace("$$$ARTICLE_TYPE$$$", GetArticleType(items, mapper));
           templateJ = templateJ.Replace("$$$SAMPLES$$$", GetSamples(items, mapper));
           templateJ = templateJ.Replace("$$$FORMS$$$", GetForms(items, mapper));
           templateJ = templateJ.Replace("$$$MAIN_PATTERN$$$", _mainPattern); // Muss nach FORMS ausgeführt werden, da dort _mainPattern ermittelt wird
@@ -106,6 +109,21 @@ namespace IDS.VAS.Excel2Xml.Automate
         }
       }
     }
+
+    private string GetKeywords(DataRow[] items, ExcelColumnMapper mapper)
+      => string.Join(", ", new HashSet<string>(items.SelectMany(row => row.ItemArray[mapper.Mapping["KEYWORDS"]]
+                                                                          .ToString()
+                                                                          .Trim()
+                                                                          .Split(new[] { ", ", "; " },
+                                                                            StringSplitOptions.RemoveEmptyEntries)
+                                                                          .Select(x => x.Trim())))
+                      .OrderBy(x => x));
+
+    private string GetGroundHead(DataRow[] items, ExcelColumnMapper mapper) 
+      => string.Join(", ", new HashSet<string>(items.Select(row => row.ItemArray[mapper.Mapping["GRUND(KOPF)"]].ToString().Trim())));
+
+    private string GetArticleType(DataRow[] items, ExcelColumnMapper mapper)
+      => string.Join(", ", new HashSet<string>(items.Select(row => row.ItemArray[mapper.Mapping["MUSTERTYP"]].ToString().Trim())));
 
     private string PatternNameFix(string pattern)
     {
@@ -292,7 +310,7 @@ namespace IDS.VAS.Excel2Xml.Automate
             Sigle = row.ItemArray[mapper.Mapping["COSMAS-SIGLE"]].ToString(),
             Priority = row.ItemArray[mapper.Mapping["BSP"]].ToString(),
           });
-          var co = row.ItemArray[mapper.Mapping["LEXIKALISCHERPRÄDIKATSKERN"]].ToString().Trim().Replace("_", " ");
+          var co = row.ItemArray[mapper.Mapping["PRÄDIKATSKERN"]].ToString().Trim().Replace("_", " ");
 
           if (complex.ContainsKey(co))
             complex[co].Add($"\t\t\t\t\t\t\t<!-- <xref href=\"s_{kwic.Id}\"/> --> <!-- {kwic.Text} -->");

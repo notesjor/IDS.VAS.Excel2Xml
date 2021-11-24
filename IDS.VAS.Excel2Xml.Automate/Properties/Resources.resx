@@ -130,19 +130,16 @@
 			--&gt;
 		&lt;/meta&gt;
 		&lt;meta type="prep"&gt;
-			&lt;!-- 
-				TODO: Präposition eintragen: z. B. vor 
-				 	 DIESE ANGABE IST ZWINGEND ERFORDERLICH!
-			--&gt;
+			$$$GROUND_HEAD$$$
 		&lt;/meta&gt;
 		&lt;meta type="keyword"&gt;
-			&lt;!-- TODO: Keywords: z.B. autonom, binär, intensivierend, kausal, konsekutiv, ternär --&gt;
+			$$$KEYWORDS$$$
 		&lt;/meta&gt;
 		&lt;meta type="author"&gt;
 			&lt;!-- TODO: Autor*in-Kürzel: z. B. AZ --&gt;
 		&lt;/meta&gt;
 		&lt;meta type="type"&gt;
-			&lt;!-- TODO: Muster-Typ eintragen: z. B. Prädikat-Argumentstrukturmuster mit autonom kodierender PP --&gt;
+			$$$ARTICLE_TYPE$$$
 		&lt;/meta&gt;
 		&lt;meta type="family"&gt;
 			&lt;!-- TODO: Artikel-Familie: z. B. Konfrontation --&gt;

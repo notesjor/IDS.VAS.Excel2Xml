@@ -101,7 +101,6 @@ namespace IDS.VAS.Excel2Json
         var articles = new List<Article>();
 
         var diathesis = new Dictionary<string, int>();
-        var ktypes = new Dictionary<string, int>();
         var mtypes = new Dictionary<string, int>();
         var sources = new Dictionary<string, int>();
 
@@ -134,7 +133,7 @@ namespace IDS.VAS.Excel2Json
 
           var rows = sheet.Rows.Cast<DataRow>()
                            .Where(row => row.ItemArray[mapper.Mapping["MUSTER"]].ToString() == pattern)
-                           .Where(row => row.ItemArray[mapper.Mapping["EINGANG"]].ToString().Trim() == "1")
+                           .Where(row => row.ItemArray[mapper.Mapping["EINGANG"]].ToString().Trim() == "1" || row.ItemArray[mapper.Mapping["EINGANG"]].ToString().Trim() == "2")
                            .ToArray();
 
           var articleId = articles.Count + 1;
@@ -187,9 +186,8 @@ namespace IDS.VAS.Excel2Json
             {
               GetDictonaryIndex(row, mapper, ref sources, "QUELLE"), // 0
               GetYear(row, mapper), // 1
-              GetDictonaryIndex(row, mapper, ref prd_lex, "LEXIKALISCHERPRÄDIKATSKERN", x => x.Replace("_", " ").Trim()), // 2
+              GetDictonaryIndex(row, mapper, ref prd_lex, "PRÄDIKATSKERN", x => x.Replace("_", " ").Trim()), // 2
               GetDictonaryIndex(row, mapper, ref diathesis, "DIATHESE", FixDiathesis), // 3
-              GetDictonaryIndex(row, mapper, ref ktypes, "KONSTRUKTIONSTYP"), // 4
               GetDictonaryIndex(row, mapper, ref mtypes, "MUSTERTYP"), // 5
               pnew.Id, // 6
               article.Id // 7
@@ -202,17 +200,11 @@ namespace IDS.VAS.Excel2Json
             // Hierachie aufbauen
             var syn = GetRowValue(row, mapper, "PRÄDIKATSTYP");
             var ele = GetRowValue(row, mapper, "PG:ELEMENTE");
-            // FIX leere ele
-            if (string.IsNullOrWhiteSpace(ele))
-              ele = syn;
-            var lex = GetRowValue(row, mapper, "LEXIKALISCHERPRÄDIKATSKERN").Replace("_", " ").Trim();
             AddHierarchy(ref prd_hir,
                          GetDictonaryIndex($"{syn}", ref prd_hid),
                          syn,
                          GetDictonaryIndex($"{syn}_{ele}", ref prd_hid),
                          ele,
-                         GetDictonaryIndex($"{syn}_{ele}_{lex}", ref prd_hid),
-                         lex,
                          id);
             syn = GetRowValue(row, mapper, "AUSLÖSER(SYN)");
             ele = GetRowValue(row, mapper, "AUSLÖSER:ELEMENTE");
@@ -257,7 +249,6 @@ namespace IDS.VAS.Excel2Json
         File.WriteAllText("output/articles.json", JsonConvert.SerializeObject(articles, GlobalJsonConfig.Get()), Encoding.UTF8);
 
         File.WriteAllText("output/meta_diathesis.json", JsonConvert.SerializeObject(diathesis, GlobalJsonConfig.Get()), Encoding.UTF8);
-        File.WriteAllText("output/meta_ktype.json", JsonConvert.SerializeObject(ktypes, GlobalJsonConfig.Get()), Encoding.UTF8);
         File.WriteAllText("output/meta_mtype.json", JsonConvert.SerializeObject(mtypes, GlobalJsonConfig.Get()), Encoding.UTF8);
         File.WriteAllText("output/meta_prdlex.json", JsonConvert.SerializeObject(prd_lex, GlobalJsonConfig.Get()), Encoding.UTF8);
         File.WriteAllText("output/meta_sources.json", JsonConvert.SerializeObject(sources, GlobalJsonConfig.Get()), Encoding.UTF8);
@@ -314,16 +305,12 @@ namespace IDS.VAS.Excel2Json
       var l1 = HierarchySearch(ref output, v1);
 
       // FIX für leere Werte
+      if (string.IsNullOrWhiteSpace(v1))
+        v1 = "-KEINER-";
       if (string.IsNullOrWhiteSpace(v2))
-      {
-        i2 = i1;
-        v2 = v1;
-      }
+        v2 = "-KEINER-";
       if (string.IsNullOrWhiteSpace(v3))
-      {
-        i3 = i2;
-        v3 = v2;
-      }
+        v3 = "-KEINER-";
       // FIX ENDE
 
       if (l1 == null)
@@ -394,11 +381,10 @@ namespace IDS.VAS.Excel2Json
       var l1 = HierarchySearch(ref output, v1);
 
       // FIX für leere Werte
+      if (string.IsNullOrWhiteSpace(v1))
+        v1 = "-KEINER-";
       if (string.IsNullOrWhiteSpace(v2))
-      {
-        i2 = i1;
-        v2 = v1;
-      }
+        v2 = "-KEINER-";
       // FIX ENDE
 
       if (l1 == null)
