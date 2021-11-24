@@ -267,14 +267,6 @@ namespace IDS.VAS.Excel2Xml.Automate
       stb.Append("\t\t\t</form-grp>\r\n");
     }
 
-    private Dictionary<string, string> _getPredicateNames = new Dictionary<string, string>
-    {
-      { "V", "Verbalprädikate" },
-      { "V-m", "Mediale Verbalprädikate" },
-      { "PG", "Prädikatsgefüge" },
-      { "PG-m", "Mediale Prädikatsgefüge" },
-    };
-
     private string _mainPattern;
 
     private string GetPredicates(DataRow[] items, ExcelColumnMapper mapper)
@@ -286,7 +278,7 @@ namespace IDS.VAS.Excel2Xml.Automate
 
       foreach (var gpn in gpns)
       {
-        var pn = _getPredicateNames.ContainsKey(gpn) ? _getPredicateNames[gpn] : "UNBEKANNT";
+        var pn = NameDiscoveryHelper.GetPredicateName(gpn);
 
         if (first)
           first = false;

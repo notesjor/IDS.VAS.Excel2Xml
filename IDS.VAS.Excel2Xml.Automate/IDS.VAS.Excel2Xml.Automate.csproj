@@ -78,6 +78,9 @@
     <Compile Include="..\IDS.VAS.Excel2Xml\Model\ExcelColumnMapper.cs">
       <Link>Model\ExcelColumnMapper.cs</Link>
     </Compile>
+    <Compile Include="..\IDS.VAS.Excel2Xml\Model\NameDiscoveryHelper.cs">
+      <Link>Model\NameDiscoveryHelper.cs</Link>
+    </Compile>
     <Compile Include="ConvertController.cs" />
     <Compile Include="Model\IdGenerator.cs" />
     <Compile Include="Program.cs" />

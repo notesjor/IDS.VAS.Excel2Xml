@@ -131,6 +131,7 @@
     <Compile Include="Model\ExcelColumnMapper.cs" />
     <Compile Include="Model\FormSlot.cs" />
     <Compile Include="Model\Kwic.cs" />
+    <Compile Include="Model\NameDiscoveryHelper.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Forms\Abstract\AbstractForm.resx">
