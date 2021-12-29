@@ -188,15 +188,15 @@
 			&lt;/p&gt;
 
 			&lt;!-- Abschnitte werden als &lt;section&gt; eingefügt - das label-Attribut bestimmt die Überschrift.
-            &lt;section label="Konzeptualisierung"&gt;
-                &lt;p&gt;&lt;/p&gt;
-            &lt;/section&gt;                
-            &lt;section label="Verwendungsschwerpunkte"&gt;
+            &lt;section label="Bedeutungsvarianten"&gt;
                 &lt;p&gt;&lt;/p&gt;
             &lt;/section&gt;
 			&lt;section label="Besonderheiten"&gt;
                 &lt;p&gt;&lt;/p&gt;
             &lt;/section&gt; 
+			&lt;section label="Konzeptualisierung"&gt;
+                &lt;p&gt;&lt;/p&gt;
+            &lt;/section&gt;   
             --&gt;
 		&lt;/meaning&gt;
 
@@ -221,7 +221,7 @@
 			Gewünschte Belege einkommentieren. Nicht benötigte Belege auskommentieren oder ggf. löschen
 		--&gt;
 		&lt;predicates&gt;
-			&lt;section label="Stichprobe"&gt; 
+			&lt;section&gt; 
 				$$$PREDICATES$$$  
 			&lt;/section&gt;
 
