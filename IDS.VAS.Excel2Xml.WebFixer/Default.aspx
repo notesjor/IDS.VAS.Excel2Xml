@@ -37,9 +37,9 @@
             <telerik:RadAsyncUpload ID="upload_xml" runat="server" MultipleFileSelection="Disabled" MaxFileInputsCount="1"></telerik:RadAsyncUpload>
           </fieldset>
           <fieldset>
-            <legend>2. Ausführen</legend>
-            <p>Klicken Sie abschließend auf den "Ausführen"-Button und warten Sie die Konvertierung ab.</p>
-            <telerik:RadButton ID="btn_execute" runat="server" Text="Ausführen" OnClick="btn_execute_Click"></telerik:RadButton>
+            <legend>3. Bereinigen</legend>
+            <p>Klicken Sie abschließend auf den "Bereinigen"-Button und warten Sie die Berinigung ab.</p>
+            <telerik:RadButton ID="btn_execute" runat="server" Text="Bereinigen" OnClick="btn_execute_Click"></telerik:RadButton>
             <telerik:RadProgressBar ID="progress_convert" runat="server" Visible="False"></telerik:RadProgressBar>
           </fieldset>
         </div>

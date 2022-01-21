@@ -58,22 +58,22 @@ public partial class Default
   protected global::Telerik.Web.UI.RadFormDecorator FormDecorator1;
 
   /// <summary>
-  /// upload_files-Steuerelement
+  /// upload_excel-Steuerelement
   /// </summary>
   /// <remarks>
   /// Automatisch generiertes Feld
   /// Zum Ändern Felddeklaration aus der Designerdatei in eine Code-Behind-Datei verschieben.
   /// </remarks>
-  protected global::Telerik.Web.UI.RadAsyncUpload upload_files;
+  protected global::Telerik.Web.UI.RadAsyncUpload upload_excel;
 
   /// <summary>
-  /// RadAsyncUpload1-Steuerelement
+  /// upload_xml-Steuerelement
   /// </summary>
   /// <remarks>
   /// Automatisch generiertes Feld
   /// Zum Ändern Felddeklaration aus der Designerdatei in eine Code-Behind-Datei verschieben.
   /// </remarks>
-  protected global::Telerik.Web.UI.RadAsyncUpload RadAsyncUpload1;
+  protected global::Telerik.Web.UI.RadAsyncUpload upload_xml;
 
   /// <summary>
   /// btn_execute-Steuerelement

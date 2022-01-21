@@ -1,6 +1,5 @@
 ﻿using System;
 using System.IO;
-using IDS.VAS.Excel2Xml.Automate;
 using Ionic.Zip;
 using Telerik.Web.UI;
 
@@ -37,8 +36,8 @@ public partial class Default : System.Web.UI.Page
       progress_convert.Value = 50;
       progress_convert.Label = "Convert";
 
-      var controller = new ConvertController();
-      controller.Convert(filInput, dirOutput);
+    //  var controller = new ConvertController();
+    //  controller.Convert(filInput, dirOutput);
 
       progress_convert.Value = 75;
       progress_convert.Label = "Download";
