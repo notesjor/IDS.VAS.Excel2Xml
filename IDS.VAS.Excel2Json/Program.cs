@@ -24,12 +24,23 @@ namespace IDS.VAS.Excel2Json
       if (args.Length == 0)
         return;
 
-      Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
+      try
+      {
+        Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
 
-      _baseDir = Path.Combine(Path.GetDirectoryName(args[0]), Path.GetFileNameWithoutExtension(args[0]));
+        _baseDir = Path.Combine(Path.GetDirectoryName(args[0]), Path.GetFileNameWithoutExtension(args[0]));
 
-      ReadExcel(args[0]);
-      ReadWorkbook();
+        ReadExcel(args[0]);
+        ReadWorkbook();
+      }
+      catch (Exception ex)
+      {
+        Console.WriteLine(ex.Message);
+        Console.WriteLine(ex.StackTrace);
+      }
+
+      Console.WriteLine("!END!");
+      Console.ReadLine();
     }
 
     private static void ReadExcel(string path)

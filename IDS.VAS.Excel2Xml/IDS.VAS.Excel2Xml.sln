@@ -15,6 +15,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IDS.VAS.Xml2Json", "..\IDS.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IDS.VAS.Excel2Xml.Web", "..\IDS.VAS.Excel2Xml.Web\IDS.VAS.Excel2Xml.Web.csproj", "{A87F425A-8879-4DA9-9817-1642DF4AFEB8}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IDS.VAS.Excel2Xml.WebFixer", "..\IDS.VAS.Excel2Xml.WebFixer\IDS.VAS.Excel2Xml.WebFixer.csproj", "{D6F6C1A9-09F5-418F-80DE-ACD65B67B0D4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -45,6 +47,10 @@ Global
 		{A87F425A-8879-4DA9-9817-1642DF4AFEB8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A87F425A-8879-4DA9-9817-1642DF4AFEB8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A87F425A-8879-4DA9-9817-1642DF4AFEB8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D6F6C1A9-09F5-418F-80DE-ACD65B67B0D4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D6F6C1A9-09F5-418F-80DE-ACD65B67B0D4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D6F6C1A9-09F5-418F-80DE-ACD65B67B0D4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D6F6C1A9-09F5-418F-80DE-ACD65B67B0D4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

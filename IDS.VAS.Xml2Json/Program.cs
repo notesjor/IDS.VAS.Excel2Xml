@@ -20,15 +20,16 @@ namespace IDS.VAS.Xml2Json
 
       var kwicsPure = new Dictionary<int, KwicFulltext>();
       var kwicsAnnotated = new Dictionary<int, KwicFulltext>();
+      var kwicsDebug = new Dictionary<int, string>();
       var articleInfos = new Dictionary<string, string>();
       var indices = new List<SimpleItem>();
 
-      foreach (var path in args)
+      foreach (var path in Directory.GetFiles(args[0], "*.xml"))
       {
         if (Path.GetFileName(path) == "_index.xml")
           ConvertIndex(path, ref indices);
         else
-          ConvertArticle(path, ref kwicsPure, ref kwicsAnnotated, ref articleInfos);
+          ConvertArticle(path, ref kwicsPure, ref kwicsAnnotated, ref articleInfos, ref kwicsDebug);
       }
 
       File.WriteAllText("output/kwics.json", JsonConvert.SerializeObject(kwicsPure, GlobalJsonConfig.Get()), Encoding.UTF8);
@@ -69,7 +70,8 @@ namespace IDS.VAS.Xml2Json
     private static void ConvertArticle(string path,
                                        ref Dictionary<int, KwicFulltext> kwicsPure,
                                        ref Dictionary<int, KwicFulltext> kwicsAnnotated,
-                                       ref Dictionary<string, string> articleInfos)
+                                       ref Dictionary<string, string> articleInfos,
+                                       ref Dictionary<int, string> kwicsDebug)
     {
       var doc = new HtmlDocument();
       using (var fs = new FileStream(path, FileMode.Open, FileAccess.Read))
@@ -79,11 +81,25 @@ namespace IDS.VAS.Xml2Json
 
       foreach (var sample in samples)
       {
-        var id = int.Parse(sample.GetAttributeValue("id", "").Replace("s_", ""));
+        var idS = sample.GetAttributeValue("id", "").Replace("s_", "");
+        if (idS.Contains("_") || idS.Contains("s"))
+          continue;
+
+        var id = int.Parse(idS);
         var cosmas = sample.GetAttributeValue("cosmas", null);
 
         var html = sample.InnerHtml;
         var text = sample.InnerText;
+
+        try
+        {
+          kwicsDebug.Add(id, Path.GetFileNameWithoutExtension(path));
+        }
+        catch
+        {
+          Console.WriteLine($"CONFLICT ID: {id} -> {kwicsDebug[id]} vs. {Path.GetFileNameWithoutExtension(path)}");
+          continue;
+        }
 
         if (html.Length == text.Length)
           kwicsPure.Add(id, new KwicFulltext { CosmasId = cosmas, Text = text });

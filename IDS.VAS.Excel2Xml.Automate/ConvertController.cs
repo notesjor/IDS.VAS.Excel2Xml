@@ -4,8 +4,6 @@ using System.Data;
 using System.IO;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
-using ExcelDataReader;
 using IDS.VAS.Excel2Xml.Automate.Model;
 using IDS.VAS.Excel2Xml.Automate.Properties;
 using IDS.VAS.Excel2Xml.Convert.Model;
@@ -13,61 +11,9 @@ using IDS.VAS.Excel2Xml.Model;
 
 namespace IDS.VAS.Excel2Xml.Automate
 {
-  public class ConvertController
+  public class ConvertController : AbstractController
   {
-    public void Convert(string input, string output)
-      => Convert(ReadExcel(input), output);
-
-    private DataSet ReadExcel(string path)
-    {
-      using (var fs = new FileStream(path, FileMode.Open, FileAccess.Read))
-      {
-        var reader = ExcelReaderFactory.CreateReader(fs, new ExcelReaderConfiguration()
-        {
-          // Gets or sets the encoding to use when the input XLS lacks a CodePage
-          // record, or when the input CSV lacks a BOM and does not parse as UTF8. 
-          // Default: cp1252 (XLS BIFF2-5 and CSV only)
-          FallbackEncoding = Encoding.GetEncoding(1252),
-
-          // Gets or sets a value indicating whether to leave the stream open after
-          // the IExcelDataReader object is disposed. Default: false
-          LeaveOpen = false
-        });
-
-        return reader.AsDataSet(new ExcelDataSetConfiguration()
-        {
-          // Gets or sets a value indicating whether to set the DataColumn.DataType 
-          // property in a second pass.
-          UseColumnDataType = true,
-
-          // Gets or sets a callback to determine whether to include the current sheet
-          // in the DataSet. Called once per sheet before ConfigureDataTable.
-          FilterSheet = (tableReader, sheetIndex) => sheetIndex == 0,
-
-          // Gets or sets a callback to obtain configuration options for a DataTable. 
-          ConfigureDataTable = (tableReader) => new ExcelDataTableConfiguration()
-          {
-            // Gets or sets a value indicating the prefix of generated column names.
-            EmptyColumnNamePrefix = "Column",
-
-            // Gets or sets a value indicating whether to use a row from the 
-            // data as column names.
-            UseHeaderRow = true,
-
-            // Gets or sets a callback to determine whether to include the 
-            // current row in the DataTable.
-            FilterRow = (rowReader) => { return true; },
-
-            // Gets or sets a callback to determine whether to include the specific
-            // column in the DataTable. Called once per column after reading the 
-            // headers.
-            FilterColumn = (rowReader, columnIndex) => { return true; }
-          }
-        });
-      }
-    }
-
-    private void Convert(DataSet excel, string output)
+    protected override void Convert(DataSet excel, string output)
     {
       foreach (DataTable sheet in excel.Tables)
       {
@@ -100,13 +46,18 @@ namespace IDS.VAS.Excel2Xml.Automate
           templateJ = templateJ.Replace("$$$GROUND_HEAD$$$", GetGroundHead(items, mapper));
           templateJ = templateJ.Replace("$$$KEYWORDS$$$", GetKeywords(items, mapper));
           templateJ = templateJ.Replace("$$$ARTICLE_TYPE$$$", GetArticleType(items, mapper));
-          templateJ = templateJ.Replace("$$$SAMPLES$$$", GetSamples(items, mapper));
+          templateJ = templateJ.Replace("$$$SAMPLES$$$", GetSampleContainer(items, mapper));
           templateJ = templateJ.Replace("$$$FORMS$$$", GetForms(items, mapper));
           templateJ = templateJ.Replace("$$$MAIN_PATTERN$$$", _mainPattern); // Muss nach FORMS ausgeführt werden, da dort _mainPattern ermittelt wird
           templateJ = templateJ.Replace("$$$PREDICATES$$$", GetPredicates(items, mapper));
           File.WriteAllText(Path.Combine(outputDir, $"{FileNameFix(pattern)}.xml"), templateJ, Encoding.UTF8);
         }
       }
+    }
+
+    private string GetSampleContainer(DataRow[] items, ExcelColumnMapper mapper)
+    {
+      return $"<samples>\r\n{string.Join("\r\n", GetSamples(items, mapper))}\r\n\t\t</samples>\r\n\t\t<!--\r\n\t\tTODO: \r\n\t\tFür Beispiele im Texte <xref>-Elemente kopieren\r\n\t\t\t<examples>\r\n\t\t\t\t<xref href=\"s_1072\"/>\r\n\t\t\t</examples>\r\n\r\n\t\tAufeinander folgende Beispiele in EINEM <examples>-Element bündeln\r\n\t\t  \t<examples>\r\n\t\t\t\t<xref href=\"s_1072\"/>\r\n\t\t\t\t<xref href=\"s_4075\"/>\r\n\t\t\t</examples>\r\n\r\n\t\tAuf diese Weise referenzierte Beispiele MÜSSEN oben im <samples>-Block ausgezeichnet werden! -->\r\n";
     }
 
     private string GetKeywords(DataRow[] items, ExcelColumnMapper mapper)
@@ -136,52 +87,6 @@ namespace IDS.VAS.Excel2Xml.Automate
                     .Replace("ö", "oe")
                     .Replace("ü", "ue")
                     .Replace("ß", "ss");
-    }
-
-    private string GetSamples(DataRow[] items, ExcelColumnMapper mapper)
-    {
-      var samples = new List<string>();
-      foreach (var row in items)
-      {
-        var kwic = KwicFix(KwicHighlight(row, new Kwic
-        {
-          Id = row.ItemArray[mapper.Mapping["#"]].ToString(),
-          Text = row.ItemArray[mapper.Mapping["BELEG"]].ToString(),
-          Sigle = row.ItemArray[mapper.Mapping["COSMAS-SIGLE"]].ToString(),
-          Priority = row.ItemArray[mapper.Mapping["BSP"]].ToString(),
-        }));
-
-        samples.Add($"\t\t\t<sample id=\"s_{kwic.Id}\" cosmas=\"{kwic.Sigle}\">{kwic.Text}</sample>");
-      }
-
-      return $"<samples>\r\n{string.Join("\r\n", samples)}\r\n\t\t</samples>\r\n\t\t<!--\r\n\t\tTODO: \r\n\t\tFür Beispiele im Texte <xref>-Elemente kopieren\r\n\t\t\t<examples>\r\n\t\t\t\t<xref href=\"s_1072\"/>\r\n\t\t\t</examples>\r\n\r\n\t\tAufeinander folgende Beispiele in EINEM <examples>-Element bündeln\r\n\t\t  \t<examples>\r\n\t\t\t\t<xref href=\"s_1072\"/>\r\n\t\t\t\t<xref href=\"s_4075\"/>\r\n\t\t\t</examples>\r\n\r\n\t\tAuf diese Weise referenzierte Beispiele MÜSSEN oben im <samples>-Block ausgezeichnet werden! -->\r\n";
-    }
-
-    private Kwic KwicHighlight(DataRow row, Kwic str)
-    {
-      return str;
-    }
-
-    private Kwic KwicFix(Kwic kwic)
-    {
-      var str = kwic.Text.Replace(" , ", ", ")
-               .Replace(" : ", ": ")
-               .Replace(" ? ", "? ")
-               .Replace(" ! ", "! ")
-               .Replace(" . ", ". ")
-               .Replace(" ; ", "; ")
-               .Replace("  ", " ")
-               .Replace("&", "&amp;");
-      if (str.EndsWith(" ."))
-        str = str.Substring(0, str.Length - 2) + ".";
-      if (str.EndsWith(" ?"))
-        str = str.Substring(0, str.Length - 2) + "!";
-      if (str.EndsWith(" !"))
-        str = str.Substring(0, str.Length - 2) + "?";
-
-      kwic.Text = str;
-
-      return kwic;
     }
 
     private string GetForms(DataRow[] items, ExcelColumnMapper mapper)

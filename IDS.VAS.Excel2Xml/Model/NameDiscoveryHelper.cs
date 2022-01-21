@@ -7,7 +7,7 @@ namespace IDS.VAS.Excel2Xml.Model
     private static Dictionary<string, string> _getPredicateNames = new Dictionary<string, string>
     {
       { "V", "Verbalprädikate" },
-      { "V-m", "Mediales Verbalprädikate" },
+      { "V-m", "Mediale Verbalprädikate" },
       { "PG", "Prädikatsgefüge" },
       { "PG-m", "Mediales Prädikatsgefüge" },
     };

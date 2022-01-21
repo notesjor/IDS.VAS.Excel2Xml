@@ -5,12 +5,12 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.50727</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{A87F425A-8879-4DA9-9817-1642DF4AFEB8}</ProjectGuid>
+    <ProjectGuid>{D6F6C1A9-09F5-418F-80DE-ACD65B67B0D4}</ProjectGuid>
     <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>IDS.VAS.Excel2Xml.Web</RootNamespace>
-    <AssemblyName>IDS.VAS.Excel2Xml.Web</AssemblyName>
+    <RootNamespace>IDS.VAS.Excel2Xml.WebFixer</RootNamespace>
+    <AssemblyName>IDS.VAS.Excel2Xml.WebFixer</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileUpgradeFlags>
     </FileUpgradeFlags>
@@ -57,23 +57,19 @@
     <Reference Include="System.EnterpriseServices" />
     <Reference Include="System.Web.Mobile" />
     <Reference Include="System.Web.Extensions" />
-    <Reference Include="Telerik.Web.Design, Version=2022.1.119.45, Culture=neutral, PublicKeyToken=121fae78165ba3d4, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="Telerik.Web.Design">
       <HintPath>..\IDS.VAS.Excel2Xml\lib\RCAJAX\2022.1.119.45\Telerik.Web.Design.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Telerik.Web.Spreadsheet, Version=2022.1.119.40, Culture=neutral, PublicKeyToken=121fae78165ba3d4, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="Telerik.Web.Spreadsheet">
       <HintPath>..\IDS.VAS.Excel2Xml\lib\RCAJAX\2022.1.119.45\AdditionalLibraries\Bin45\Telerik.Web.Spreadsheet.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Telerik.Web.UI, Version=2022.1.119.45, Culture=neutral, PublicKeyToken=121fae78165ba3d4, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="Telerik.Web.UI">
       <HintPath>..\IDS.VAS.Excel2Xml\lib\RCAJAX\2022.1.119.45\Telerik.Web.UI.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Telerik.Web.UI.Skins, Version=2022.1.119.45, Culture=neutral, PublicKeyToken=121fae78165ba3d4, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="Telerik.Web.UI.Skins">
       <HintPath>..\IDS.VAS.Excel2Xml\lib\RCAJAX\2022.1.119.45\Telerik.Web.UI.Skins.dll</HintPath>
       <Private>True</Private>
     </Reference>
@@ -158,6 +154,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="web.config" />
+  </ItemGroup>
+  <ItemGroup>
     <None Include="packages.config" />
     <None Include="web.Debug.config">
       <DependentUpon>web.config</DependentUpon>
@@ -165,12 +163,6 @@
     <None Include="web.Release.config">
       <DependentUpon>web.config</DependentUpon>
     </None>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\IDS.VAS.Excel2Xml.Automate\IDS.VAS.Excel2Xml.Automate.csproj">
-      <Project>{264d8722-8149-41e0-b166-6b39a91c60c6}</Project>
-      <Name>IDS.VAS.Excel2Xml.Automate</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\licenses.licx" />
@@ -198,7 +190,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>49573</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:49573/</IISUrl>
+          <IISUrl>http://localhost:2003/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>
