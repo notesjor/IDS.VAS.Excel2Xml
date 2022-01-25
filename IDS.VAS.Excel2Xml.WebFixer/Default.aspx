@@ -33,14 +33,25 @@
           </fieldset>
           <fieldset>
             <legend>2. Upload (XML-Artikel)</legend>
-            <p>Bitte laden Sie die XML-Datei(en) hoch.</p>
-            <telerik:RadAsyncUpload ID="upload_xml" runat="server" MultipleFileSelection="Disabled" MaxFileInputsCount="1"></telerik:RadAsyncUpload>
+            <p>Bitte laden Sie die XML-Datei(en) hoch.<br />
+              <strong>Hinweis:</strong>Für ein Backup sind Sie selbst verantwortlich.</p>
+            <telerik:RadAsyncUpload ID="upload_xml" runat="server" MultipleFileSelection="Automatic" MaxFileInputsCount="100"></telerik:RadAsyncUpload>
           </fieldset>
           <fieldset>
             <legend>3. Bereinigen</legend>
             <p>Klicken Sie abschließend auf den "Bereinigen"-Button und warten Sie die Berinigung ab.</p>
             <telerik:RadButton ID="btn_execute" runat="server" Text="Bereinigen" OnClick="btn_execute_Click"></telerik:RadButton>
-            <telerik:RadProgressBar ID="progress_convert" runat="server" Visible="False"></telerik:RadProgressBar>
+            <p>
+              <strong>Bezugspunkt:</strong> Excel-Datei (Beleg-ID: '#').
+              <br />
+              <strong>Neue (unannotierte) Samples (s_):</strong> Werden hinzugefügt.<br />
+              <strong>Gelöschte Samples (s_):</strong> Werden gelöscht.<br />
+              <strong>Geänderte Samples (s_):</strong> Werden zwischen XML-Dokumenten ausgetauscht (inkl. Annotation)<br />
+              <strong>Überschüssige Samples (s_):</strong> Werden in einer separaten XML-Datei (UNKNWON.xml) abgelegt. Diese kann erneut hochgeladen werden.<br />
+              <strong>Manuelle Samples (<i>nicht</i> s_):</strong> Werden immer übertragen.
+            </p>
+            <br />
+            <asp:Label ID="calc_error" runat="server" Text=""></asp:Label>
           </fieldset>
         </div>
       </div>

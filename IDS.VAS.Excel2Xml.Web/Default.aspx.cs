@@ -24,24 +24,14 @@ public partial class Default : System.Web.UI.Page
       var dirOutput = Path.Combine(dirBase, datBase, "output");
       Directory.CreateDirectory(dirOutput);
 
-      progress_convert.Value = 25;
-      progress_convert.Label = "Pre-Processing";
-      progress_convert.Visible = true;
-
       foreach (UploadedFile file in upload_files.UploadedFiles)
       {
         file.SaveAs(filInput);
         break;
       }
 
-      progress_convert.Value = 50;
-      progress_convert.Label = "Convert";
-
       var controller = new ConvertController();
       controller.Convert(filInput, dirOutput);
-
-      progress_convert.Value = 75;
-      progress_convert.Label = "Download";
 
       Response.Clear();
       Response.BufferOutput = false;
@@ -56,13 +46,10 @@ public partial class Default : System.Web.UI.Page
       }
 
       Response.Flush();
-      progress_convert.Value = 100;
-      progress_convert.Label = "Done!";
     }
-    catch
+    catch (Exception ex)
     {
-      progress_convert.Value = 100;
-      progress_convert.Label = "Error!";
+      calc_error.Text = ex.Message;
     }
   }
 }

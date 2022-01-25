@@ -81,9 +81,7 @@
     <Compile Include="..\IDS.VAS.Excel2Xml\Model\NameDiscoveryHelper.cs">
       <Link>Model\NameDiscoveryHelper.cs</Link>
     </Compile>
-    <Compile Include="AbstractController.cs" />
     <Compile Include="ConvertController.cs" />
-    <Compile Include="FixerController.cs" />
     <Compile Include="Model\IdGenerator.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -76,11 +76,11 @@ public partial class Default
   protected global::Telerik.Web.UI.RadButton btn_execute;
 
   /// <summary>
-  /// progress_convert-Steuerelement
+  /// calc_error-Steuerelement
   /// </summary>
   /// <remarks>
   /// Automatisch generiertes Feld
   /// Zum Ändern Felddeklaration aus der Designerdatei in eine Code-Behind-Datei verschieben.
   /// </remarks>
-  protected global::Telerik.Web.UI.RadProgressBar progress_convert;
+  protected global::System.Web.UI.WebControls.Label calc_error;
 }

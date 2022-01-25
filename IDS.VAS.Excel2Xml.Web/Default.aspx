@@ -34,8 +34,8 @@
           <fieldset>
             <legend>2. Ausführen</legend>
             <p>Klicken Sie abschließend auf den "Ausführen"-Button und warten Sie die Konvertierung ab.</p>
-            <telerik:RadButton ID="btn_execute" runat="server" Text="Ausführen" OnClick="btn_execute_Click"></telerik:RadButton>
-            <telerik:RadProgressBar ID="progress_convert" runat="server" Visible="False"></telerik:RadProgressBar>
+            <telerik:RadButton ID="btn_execute" runat="server" Text="Ausführen" OnClick="btn_execute_Click"></telerik:RadButton><br />
+            <asp:Label ID="calc_error" runat="server" Text=""></asp:Label>
           </fieldset>
         </div>
       </div>

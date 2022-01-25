@@ -1,5 +1,7 @@
 ﻿using System;
 using System.IO;
+using IDS.VAS.Excel2Xml.Automate;
+using IDS.VAS.Excel2Xml.WebFixer;
 using Ionic.Zip;
 using Telerik.Web.UI;
 
@@ -18,29 +20,28 @@ public partial class Default : System.Web.UI.Page
 
       var dirInput = Path.Combine(dirBase, datBase, "input");
       Directory.CreateDirectory(dirInput);
-      var filInput = Path.Combine(dirInput, "input.xlsx");
+      var excelInput = Path.Combine(dirInput, "input.xlsx");
 
       var dirOutput = Path.Combine(dirBase, datBase, "output");
       Directory.CreateDirectory(dirOutput);
 
-      progress_convert.Value = 25;
-      progress_convert.Label = "Pre-Processing";
-      progress_convert.Visible = true;
-
-      foreach (UploadedFile file in upload_files.UploadedFiles)
+      foreach (UploadedFile file in upload_excel.UploadedFiles)
       {
-        file.SaveAs(filInput);
+        file.SaveAs(excelInput);
         break;
       }
 
-      progress_convert.Value = 50;
-      progress_convert.Label = "Convert";
+      var controller = new ConvertController();
+      controller.Convert(excelInput, dirOutput);
 
-    //  var controller = new ConvertController();
-    //  controller.Convert(filInput, dirOutput);
+      foreach (UploadedFile file in upload_xml.UploadedFiles)
+      {
+        file.SaveAs(Path.Combine(dirInput, Path.GetFileName(file.FileName)));
+        break;
+      }
 
-      progress_convert.Value = 75;
-      progress_convert.Label = "Download";
+      var cherryPick = new CherryPickController();
+      cherryPick.Process(dirInput, dirOutput);
 
       Response.Clear();
       Response.BufferOutput = false;
@@ -55,13 +56,10 @@ public partial class Default : System.Web.UI.Page
       }
 
       Response.Flush();
-      progress_convert.Value = 100;
-      progress_convert.Label = "Done!";
     }
-    catch
+    catch (Exception ex)
     {
-      progress_convert.Value = 100;
-      progress_convert.Label = "Error!";
+      calc_error.Text = ex.Message;
     }
   }
 }
