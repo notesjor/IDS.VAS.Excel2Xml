@@ -37,6 +37,14 @@ namespace IDS.VAS.Excel2Xml.Model
     public static string GetDiatheseNames(string code)
       => _getDiatheseNames.ContainsKey(code) ? _getDiatheseNames[code] : code;
 
+    public static string FixSourcesName(string code)
+    {
+      code = code.Trim();
+      if (code[1] == ' ')
+        code = code.Substring(2);
+      return code;
+    }
+
     private static Dictionary<string, string> _getDiatheseSubtypeNames = new Dictionary<string, string>
     {
       { "bpa", "bekommen-Passiv" },

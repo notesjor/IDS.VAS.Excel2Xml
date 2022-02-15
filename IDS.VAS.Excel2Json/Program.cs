@@ -121,6 +121,7 @@ namespace IDS.VAS.Excel2Json
         var prd_syn = new Dictionary<string, int>();
         var prd_ele = new Dictionary<string, int>();
         var prd_lex = new Dictionary<string, int>();
+        var prd_rpe = new Dictionary<string, int>();
         var prd_hir = new List<HItem>();
         var prd_hid = new Dictionary<string, int>();
 
@@ -203,15 +204,15 @@ namespace IDS.VAS.Excel2Json
             // WARNUNG: Indices müssen ggf. in GeneratePatternArticleKwicDictionary angepasst werden
             kwics.Add(id, new[]
             {
-              GetDictonaryIndex(row, mapper, ref sources, "QUELLE"), // 0
+              GetDictonaryIndex(row, mapper, ref sources, "QUELLE", NameDiscoveryHelper.FixSourcesName), // 0
               GetYear(row, mapper), // 1
               GetDictonaryIndex(row, mapper, ref prd_lex, "PRÄDIKATSKERN", x => x.Replace("_", " ").Trim()), // 2
               GetDictonaryIndex(row, mapper, ref diathesis, "DIATHESE", NameDiscoveryHelper.GetDiatheseNames), // 3
               GetDictonaryIndex(row, mapper, ref mtypes, "MUSTERTYP"), // 4
               pnew.Id, // 5
               article.Id, // 6
-              GetDictonaryIndex(row, mapper, ref diathesis_subtype, "DIATHESE:SUBTYP", NameDiscoveryHelper.GetDiatheseSubtypeNames),
-              GetDictonaryIndex(row, mapper, ref special_forms, "SONDERFORMEN", NameDiscoveryHelper.GetSpecialFormNames)
+              GetDictonaryIndex(row, mapper, ref special_forms, "SONDERFORMEN", NameDiscoveryHelper.GetSpecialFormNames), // 7
+              GetDictonaryIndex(row, mapper, ref prd_rpe, "REL+:ELEMENTE") // 8
             });
 
             pnew.KwicIds.Add(id);
@@ -273,7 +274,9 @@ namespace IDS.VAS.Excel2Json
         File.WriteAllText("output/meta_mtype.json", JsonConvert.SerializeObject(mtypes, GlobalJsonConfig.Get()), Encoding.UTF8);
         File.WriteAllText("output/meta_diathesis_subtypes.json", JsonConvert.SerializeObject(diathesis_subtype, GlobalJsonConfig.Get()), Encoding.UTF8);
         File.WriteAllText("output/meta_special_forms.json", JsonConvert.SerializeObject(special_forms, GlobalJsonConfig.Get()), Encoding.UTF8);
+        
         File.WriteAllText("output/meta_prdlex.json", JsonConvert.SerializeObject(prd_lex, GlobalJsonConfig.Get()), Encoding.UTF8);
+        File.WriteAllText("output/meta_relpel.json", JsonConvert.SerializeObject(prd_rpe, GlobalJsonConfig.Get()), Encoding.UTF8);
         File.WriteAllText("output/meta_sources.json", JsonConvert.SerializeObject(sources, GlobalJsonConfig.Get()), Encoding.UTF8);
         File.WriteAllText("output/meta_years.json", JsonConvert.SerializeObject(new HashSet<int>(kwics.Select(x => x.Value[1])), GlobalJsonConfig.Get()), Encoding.UTF8);
 
