@@ -18,6 +18,7 @@ namespace IDS.VAS.Excel2Json
   {
     private static DataSet _workbook;
     private static string _baseDir;
+    private static string _none = "-Ohne Zuordnung-";
 
     static void Main(string[] args)
     {
@@ -190,6 +191,12 @@ namespace IDS.VAS.Excel2Json
               patterns.Add(pnew.Key, pnew);
             }
 
+            if (kwicFulltexts.ContainsKey(id))
+            {
+              Console.WriteLine($"Double Key detected: {id}");
+              continue;
+            }
+
             kwicFulltexts.Add(id, new KwicFulltext { Text = row.ItemArray[mapper.Mapping["BELEG"]].ToString() });
 
             // Hinweis: Wird einmal als Index aber auch von GeneratePatternArticleKwicDictionary verwendet
@@ -299,7 +306,7 @@ namespace IDS.VAS.Excel2Json
       // FIX Lösche leere Kinder
       foreach (var h in output)
       {
-        if (h.Children.Count == 0)
+        if (h.Children.Count == 0 || (h.Children.Count == 1 && h.Children[0].Name == _none))
           h.Children = null;
         else
         {
@@ -318,16 +325,16 @@ namespace IDS.VAS.Excel2Json
 
     private static void AddHierarchy(ref List<HItem> output, int i1, string v1, int i2, string v2, int i3, string v3, int id)
     {
-      var l1 = HierarchySearch(ref output, v1);
-
       // FIX für leere Werte
       if (string.IsNullOrWhiteSpace(v1))
-        v1 = "-KEINER-";
+        v1 = _none;
       if (string.IsNullOrWhiteSpace(v2))
-        v2 = "-KEINER-";
+        v2 = _none;
       if (string.IsNullOrWhiteSpace(v3))
-        v3 = "-KEINER-";
+        v3 = _none;
       // FIX ENDE
+
+      var l1 = HierarchySearch(ref output, v1);
 
       if (l1 == null)
       {
@@ -394,14 +401,14 @@ namespace IDS.VAS.Excel2Json
 
     private static void AddHierarchy(ref List<HItem> output, int i1, string v1, int i2, string v2, int id)
     {
-      var l1 = HierarchySearch(ref output, v1);
-
       // FIX für leere Werte
       if (string.IsNullOrWhiteSpace(v1))
-        v1 = "-KEINER-";
+        v1 = _none;
       if (string.IsNullOrWhiteSpace(v2))
-        v2 = "-KEINER-";
+        v2 = _none;
       // FIX ENDE
+
+      var l1 = HierarchySearch(ref output, v1);
 
       if (l1 == null)
       {
