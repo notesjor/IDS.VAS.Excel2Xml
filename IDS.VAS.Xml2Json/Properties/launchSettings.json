@@ -2,7 +2,7 @@
   "profiles": {
     "IDS.VAS.Xml2Json": {
       "commandName": "Project",
-      "commandLineArgs": "C:\\Users\\Jan\\Desktop\\VAS\\2022-01\\vor"
+      "commandLineArgs": "C:\\Projekte\\IDS\\IDS.VAS.Excel2Xml\\IDS.VAS.Excel2Json\\bin\\Debug\\net5.0\\artikel"
     }
   }
 }

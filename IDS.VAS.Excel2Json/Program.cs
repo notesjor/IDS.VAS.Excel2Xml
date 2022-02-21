@@ -246,11 +246,16 @@ namespace IDS.VAS.Excel2Json
                          id);
             syn = GetRowValue(row, mapper, "GRUND(KOPF)");
             ele = GetRowValue(row, mapper, "GRUND(KASUS)");
+            
+            var pat = GetRowValue(row, mapper, "MUSTER");
+            
             AddHierarchy(ref ground_hir,
                          GetDictonaryIndex($"{syn}", ref ground_hid),
                          syn,
                          GetDictonaryIndex($"{syn}_{ele}", ref ground_hid),
                          ele,
+                         GetDictonaryIndex($"{syn}_{ele}_{pat}", ref ground_hid),
+                         pat,
                          id);
           }
         }
