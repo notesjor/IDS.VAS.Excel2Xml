@@ -61,6 +61,7 @@ namespace IDS.VAS.Excel2Xml.Model
 
     private static Dictionary<string, string> _getSpecialFormNames = new Dictionary<string, string>
     {
+      { "aci, zinf", "Akkusativ mit Infinitiv und satzwertigem zu-Infinitiv" },
       { "aci", "Akkusativ mit Infinitiv" },
       { "acp", "Akkusativ mit Partizip" },
       { "imp", "Imperativ" },
