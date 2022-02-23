@@ -162,7 +162,7 @@ namespace IDS.VAS.Excel2Json
               pnew.Id, // 5
               article.Id, // 6
               GetDictonaryIndex(row, mapper, ref special_forms, "SONDERFORMEN", NameDiscoveryHelper.GetSpecialFormNames), // 7
-              GetDictonaryIndex(row, mapper, ref prd_rpe, "REL+:ELEMENTE") // 8
+              GetDictonaryIndex(row, mapper, ref prd_rpe, "REL:ELEMENTE") // 8
             });
 
             pnew.KwicIds.Add(id);
