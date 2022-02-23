@@ -10,13 +10,13 @@ using System.Text;
 using ExcelDataReader;
 using IDS.VAS.Excel2Json.Model;
 using IDS.VAS.Excel2Xml.Model;
+using IDS.Vas.ExcelReader;
 using Newtonsoft.Json;
 
 namespace IDS.VAS.Excel2Json
 {
   class Program
   {
-    private static DataSet _workbook;
     private static string _baseDir;
     private static string _none = "-Ohne Zuordnung-";
 
@@ -31,8 +31,7 @@ namespace IDS.VAS.Excel2Json
 
         _baseDir = Path.Combine(Path.GetDirectoryName(args[0]), Path.GetFileNameWithoutExtension(args[0]));
 
-        ReadExcel(args[0]);
-        ReadWorkbook();
+        ReadWorkbook(VasExcelReader.ReadExcel(args[0]));
       }
       catch (Exception ex)
       {
@@ -44,58 +43,9 @@ namespace IDS.VAS.Excel2Json
       Console.ReadLine();
     }
 
-    private static void ReadExcel(string path)
+    private static void ReadWorkbook(DataSet workbook)
     {
-      using (var fs = new FileStream(path, FileMode.Open, FileAccess.Read))
-      {
-        var reader = ExcelReaderFactory.CreateReader(fs, new ExcelReaderConfiguration()
-        {
-          // Gets or sets the encoding to use when the input XLS lacks a CodePage
-          // record, or when the input CSV lacks a BOM and does not parse as UTF8. 
-          // Default: cp1252 (XLS BIFF2-5 and CSV only)
-          FallbackEncoding = Encoding.GetEncoding(1252),
-
-          // Gets or sets a value indicating whether to leave the stream open after
-          // the IExcelDataReader object is disposed. Default: false
-          LeaveOpen = false
-        });
-
-        _workbook = reader.AsDataSet(new ExcelDataSetConfiguration()
-        {
-          // Gets or sets a value indicating whether to set the DataColumn.DataType 
-          // property in a second pass.
-          UseColumnDataType = true,
-
-          // Gets or sets a callback to determine whether to include the current sheet
-          // in the DataSet. Called once per sheet before ConfigureDataTable.
-          FilterSheet = (tableReader, sheetIndex) => sheetIndex == 0,
-
-          // Gets or sets a callback to obtain configuration options for a DataTable. 
-          ConfigureDataTable = (tableReader) => new ExcelDataTableConfiguration()
-          {
-            // Gets or sets a value indicating the prefix of generated column names.
-            EmptyColumnNamePrefix = "Column",
-
-            // Gets or sets a value indicating whether to use a row from the 
-            // data as column names.
-            UseHeaderRow = true,
-
-            // Gets or sets a callback to determine whether to include the 
-            // current row in the DataTable.
-            FilterRow = (rowReader) => { return true; },
-
-            // Gets or sets a callback to determine whether to include the specific
-            // column in the DataTable. Called once per column after reading the 
-            // headers.
-            FilterColumn = (rowReader, columnIndex) => { return true; }
-          }
-        });
-      }
-    }
-
-    private static void ReadWorkbook()
-    {
-      foreach (DataTable sheet in _workbook.Tables)
+      foreach (DataTable sheet in workbook.Tables)
       {
         var mapper = new ExcelColumnMapper();
         if (mapper.Map(sheet))

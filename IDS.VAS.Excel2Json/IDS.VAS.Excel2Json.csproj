@@ -8,6 +8,7 @@
   <ItemGroup>
     <Compile Include="..\IDS.VAS.Excel2Xml\Model\ExcelColumnMapper.cs" Link="Model\ExcelColumnMapper.cs" />
     <Compile Include="..\IDS.VAS.Excel2Xml\Model\NameDiscoveryHelper.cs" Link="Model\NameDiscoveryHelper.cs" />
+    <Compile Include="..\IDS.Vas.ExcelReader\VasExcelReader.cs" Link="VasExcelReader.cs" />
   </ItemGroup>
 
   <ItemGroup>
