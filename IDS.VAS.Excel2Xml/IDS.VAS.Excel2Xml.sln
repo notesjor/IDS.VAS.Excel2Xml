@@ -21,7 +21,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IDS.VAS.Fixer", "..\IDS.VAS
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IDS.VAS.Excel2DataViz", "..\IDS.VAS.Excel2DataViz\IDS.VAS.Excel2DataViz.csproj", "{8C48A0F2-D42A-4BA1-BE3F-4713C0BBCCCB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IDS.Vas.ExcelReader", "..\IDS.Vas.ExcelReader\IDS.Vas.ExcelReader.csproj", "{F5CE5EB3-ABA7-4F43-8CC7-DE04877772C9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IDS.Vas.ExcelReader", "..\IDS.Vas.ExcelReader\IDS.Vas.ExcelReader.csproj", "{F5CE5EB3-ABA7-4F43-8CC7-DE04877772C9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

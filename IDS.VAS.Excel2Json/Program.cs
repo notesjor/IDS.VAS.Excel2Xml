@@ -96,8 +96,8 @@ namespace IDS.VAS.Excel2Json
             continue;
 
           var rows = sheet.Rows.Cast<DataRow>()
-                           .Where(row => row.ItemArray[mapper.Mapping["MUSTER"]].ToString() == pattern)
-                           .Where(row => row.ItemArray[mapper.Mapping["EINGANG"]].ToString().Trim() == "1" || row.ItemArray[mapper.Mapping["EINGANG"]].ToString().Trim() == "2")
+                           .Where(row => row.ItemArray[mapper.Mapping["MUSTER"]]?.ToString() == pattern)
+                           .Where(row => row.ItemArray[mapper.Mapping["EINGANG"]]?.ToString()?.Trim() == "1" || row.ItemArray[mapper.Mapping["EINGANG"]]?.ToString()?.Trim() == "2")
                            .ToArray();
 
           var articleId = articles.Count + 1;
@@ -196,9 +196,9 @@ namespace IDS.VAS.Excel2Json
                          id);
             syn = GetRowValue(row, mapper, "GRUND(KOPF)");
             ele = GetRowValue(row, mapper, "GRUND(KASUS)");
-            
+
             var pat = GetRowValue(row, mapper, "MUSTER");
-            
+
             AddHierarchy(ref ground_hir,
                          GetDictonaryIndex($"{syn}", ref ground_hid),
                          syn,
@@ -229,7 +229,7 @@ namespace IDS.VAS.Excel2Json
         File.WriteAllText("output/meta_mtype.json", JsonConvert.SerializeObject(mtypes, GlobalJsonConfig.Get()), Encoding.UTF8);
         File.WriteAllText("output/meta_diathesis_subtypes.json", JsonConvert.SerializeObject(diathesis_subtype, GlobalJsonConfig.Get()), Encoding.UTF8);
         File.WriteAllText("output/meta_special_forms.json", JsonConvert.SerializeObject(special_forms, GlobalJsonConfig.Get()), Encoding.UTF8);
-        
+
         File.WriteAllText("output/meta_prdlex.json", JsonConvert.SerializeObject(prd_lex, GlobalJsonConfig.Get()), Encoding.UTF8);
         File.WriteAllText("output/meta_relpel.json", JsonConvert.SerializeObject(prd_rpe, GlobalJsonConfig.Get()), Encoding.UTF8);
         File.WriteAllText("output/meta_sources.json", JsonConvert.SerializeObject(sources, GlobalJsonConfig.Get()), Encoding.UTF8);

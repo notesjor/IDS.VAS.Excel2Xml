@@ -21,7 +21,7 @@ namespace IDS.VAS.Excel2DataViz
           continue;
 
         var rows = sheet.Rows.Cast<DataRow>()
-                        .Where(row => row.ItemArray[mapper.Mapping["EINGANG"]].ToString().Trim() == "1")
+                        .Where(row => row.ItemArray[mapper.Mapping["EINGANG"]]?.ToString()?.Trim() == "1")
                         .ToArray();
 
         MakeSimple(mapper, rows);

@@ -138,7 +138,7 @@ namespace IDS.VAS.Excel2Xml.Automate
       var dict = new Dictionary<string, FormSlot>();
       foreach (var item in items)
       {
-        if (item.ItemArray[mapper.Mapping["EINGANG"]].ToString().Trim() != "1")
+        if (item.ItemArray[mapper.Mapping["EINGANG"]]?.ToString()?.Trim() != "1")
           continue;
 
         var slot = new FormSlot(mapper, item);
