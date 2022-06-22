@@ -31,8 +31,8 @@ namespace IDS.VAS.Excel2Xml.Model
         { "QUELLE", -1 }, // Frankfurter Rundschau,...
         { "JAHR", -1 }, // 2007... 2012 ...
         { "REL(GENERALISIERT)", -1 },
-        { "REL:ELEMENTE", -1 },
-        { "KEYWORDS", -1 },
+        { "REL+:ELEMENTE", -1 },
+        { "KEYWORDS", -1 }, // FORMEL????: adversativ, final, kausativ
         { "SONDERFORMEN", -1 }
       };
 

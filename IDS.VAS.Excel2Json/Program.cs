@@ -68,6 +68,8 @@ namespace IDS.VAS.Excel2Json
         var diathesis_subtype = new Dictionary<string, int>();
         var special_forms = new Dictionary<string, int>();
 
+        var keywords = new Dictionary<string, int>();
+
         var prd_syn = new Dictionary<string, int>();
         var prd_ele = new Dictionary<string, int>();
         var prd_lex = new Dictionary<string, int>();
@@ -127,6 +129,7 @@ namespace IDS.VAS.Excel2Json
               ElementsGround = GetDictonaryTokenizedIndex(row, mapper, ref ground_ele, "GRUND(KASUS)"),
               ElementsPrd = GetDictonaryTokenizedIndex(row, mapper, ref prd_ele, "PG:ELEMENTE"),
               ElementsTrigger = GetDictonaryTokenizedIndex(row, mapper, ref trigger_ele, "AUSLÖSER:ELEMENTE"),
+              Keywords = GetDictonaryTokenizedIndex(row, mapper, ref keywords, "KEYWORDS"),
 
               DisplayFigure = GetRowValue(row, mapper, "FIGUR(SYN)"),
               DisplayGround = GetRowValue(row, mapper, "GRUND(KASUS)"),//GetRowValue(row, mapper, "GRUND(KOPF)") + "+" + GetRowValue(row, mapper, "GRUND(KASUS)"),
@@ -162,7 +165,8 @@ namespace IDS.VAS.Excel2Json
               pnew.Id, // 5
               article.Id, // 6
               GetDictonaryIndex(row, mapper, ref special_forms, "SONDERFORMEN", NameDiscoveryHelper.GetSpecialFormNames), // 7
-              GetDictonaryIndex(row, mapper, ref prd_rpe, "REL:ELEMENTE") // 8
+              GetDictonaryIndex(row, mapper, ref prd_rpe, "REL+:ELEMENTE"), // 8
+              GetDictonaryIndex(row, mapper, ref keywords, "KEYWORDS"), // 9
             });
 
             pnew.KwicIds.Add(id);
@@ -244,6 +248,7 @@ namespace IDS.VAS.Excel2Json
         File.WriteAllText("output/elements_ground.json", JsonConvert.SerializeObject(ground_ele, GlobalJsonConfig.Get()), Encoding.UTF8);
         File.WriteAllText("output/elements_prd.json", JsonConvert.SerializeObject(prd_ele, GlobalJsonConfig.Get()), Encoding.UTF8);
         File.WriteAllText("output/elements_trigger.json", JsonConvert.SerializeObject(trigger_ele, GlobalJsonConfig.Get()), Encoding.UTF8);
+        File.WriteAllText("output/keywords.json", JsonConvert.SerializeObject(keywords, GlobalJsonConfig.Get()), Encoding.UTF8);
 
         File.WriteAllText("output/hierarchy_figure.json", JsonConvert.SerializeObject(figure_hir, GlobalJsonConfig.Get()), Encoding.UTF8);
         File.WriteAllText("output/hierarchy_ground.json", JsonConvert.SerializeObject(ground_hir, GlobalJsonConfig.Get()), Encoding.UTF8);
@@ -484,9 +489,8 @@ namespace IDS.VAS.Excel2Json
 
         var txt = row.ItemArray[mapper.Mapping[name]]?.ToString();
         txt = txt.Replace("(", "").Replace(")", "").Replace("_", " ").ToUpper();
-        var tokens = txt.Split(new[] { " ", "," }, StringSplitOptions.RemoveEmptyEntries);
 
-        foreach (var str in tokens)
+        foreach (var str in txt.Split(new[] { " ", "," }, StringSplitOptions.RemoveEmptyEntries).Select(x => x.Trim()))
         {
           if (!dict.ContainsKey(str))
             dict.Add(str, dict.Count + 1);

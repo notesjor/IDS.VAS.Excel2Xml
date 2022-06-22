@@ -15,6 +15,7 @@ namespace IDS.VAS.Excel2Json.Model
     public IEnumerable<int> ElementsTrigger { get; set; }
     public IEnumerable<int> ElementsFigure { get; set; }
     public IEnumerable<int> ElementsGround { get; set; }
+    public IEnumerable<int> Keywords { get; set; }
 
     public string DisplayPrd { get; set; }
     public string DisplayTrigger { get; set; }
