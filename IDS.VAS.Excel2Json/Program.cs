@@ -92,6 +92,8 @@ namespace IDS.VAS.Excel2Json
         var ground_hir = new List<HItem>();
         var ground_hid = new Dictionary<string, int>();
 
+        var andFilter_Keyword = new Dictionary<int, IEnumerable<int>>();
+
         foreach (var pattern in new HashSet<string>(from DataRow row in sheet.Rows select row.ItemArray[idx].ToString()))
         {
           if (string.IsNullOrWhiteSpace(pattern))
@@ -166,8 +168,10 @@ namespace IDS.VAS.Excel2Json
               article.Id, // 6
               GetDictonaryIndex(row, mapper, ref special_forms, "SONDERFORMEN", NameDiscoveryHelper.GetSpecialFormNames), // 7
               GetDictonaryIndex(row, mapper, ref prd_rpe, "REL+:ELEMENTE"), // 8
-              GetDictonaryIndex(row, mapper, ref keywords, "KEYWORDS"), // 9
             });
+            
+            // Erweiterte UND-Filter
+            andFilter_Keyword.Add(id, pnew.Keywords);
 
             pnew.KwicIds.Add(id);
             pnew.ArticleIds.Add(article.Id);
@@ -258,6 +262,9 @@ namespace IDS.VAS.Excel2Json
         // Key-Liste
         var pak = GeneratePatternArticleKwicDictionary(kwics);
         File.WriteAllLines("output/patterns.txt", GetPatternKeyList(articles, patterns, pak));
+
+        // Erweiterte UND-Filter
+        File.WriteAllText("output/andFilter_keyword.json", JsonConvert.SerializeObject(andFilter_Keyword, GlobalJsonConfig.Get()), Encoding.UTF8);
       }
     }
 
