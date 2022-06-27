@@ -25,6 +25,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IDS.Vas.ExcelReader", "..\I
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IDS.VAS.Xml2Html", "..\IDS.VAS.Xml2Html\IDS.VAS.Xml2Html.csproj", "{4FC01C9F-10AB-4CC3-9948-E6F4371C54C8}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IDS.VAS.IndexXml2JSON", "..\IDS.VAS.IndexXml2JSON\IDS.VAS.IndexXml2JSON.csproj", "{FA5C259E-BB0D-4C11-97B9-1A8B8183DF65}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -75,6 +77,10 @@ Global
 		{4FC01C9F-10AB-4CC3-9948-E6F4371C54C8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4FC01C9F-10AB-4CC3-9948-E6F4371C54C8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4FC01C9F-10AB-4CC3-9948-E6F4371C54C8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FA5C259E-BB0D-4C11-97B9-1A8B8183DF65}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FA5C259E-BB0D-4C11-97B9-1A8B8183DF65}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FA5C259E-BB0D-4C11-97B9-1A8B8183DF65}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FA5C259E-BB0D-4C11-97B9-1A8B8183DF65}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
