@@ -59,6 +59,7 @@
 		<xsl:message>ERROR: Das Feld im Head [meta type="prep"] muss gefüllt werden; z.B. mit 'vor' (ohne Anführungszeichen)</xsl:message>
 	</xsl:if>
 	
+
 <div class="test-wrapper">
 	<xsl:apply-templates select="/vas-artikel/body"/>
 </div>
