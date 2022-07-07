@@ -62,13 +62,16 @@ namespace IDS.VAS.Excel2Json
         var patterns = new Dictionary<string, Pattern>();
         var articles = new List<Article>();
 
-        var diathesis = new Dictionary<string, int>();
         var mtypes = new Dictionary<string, int>();
         var sources = new Dictionary<string, int>();
-        var diathesis_subtype = new Dictionary<string, int>();
+        
         var special_forms = new Dictionary<string, int>();
 
         var keywords = new Dictionary<string, int>();
+
+        var diathesis = new Dictionary<string, int>();
+        var diathesis_hir = new List<HItem>();
+        var diathesis_subtype = new Dictionary<string, int>();
 
         var prd_syn = new Dictionary<string, int>();
         var prd_ele = new Dictionary<string, int>();
@@ -186,6 +189,14 @@ namespace IDS.VAS.Excel2Json
                          GetDictonaryIndex($"{syn}_{ele}", ref prd_hid),
                          ele,
                          id);
+            syn = GetRowValue(row, mapper, "DIATHESE");
+            ele = GetRowValue(row, mapper, "DIATHESE:SUBTYP");
+            AddHierarchy(ref diathesis_hir,
+                         GetDictonaryIndex($"{syn}", ref trigger_hid),
+                         syn,
+                         GetDictonaryIndex($"{syn}_{ele}", ref trigger_hid),
+                         ele,
+                         id);
             syn = GetRowValue(row, mapper, "AUSLÖSER(SYN)");
             ele = GetRowValue(row, mapper, "AUSLÖSER:ELEMENTE");
             AddHierarchy(ref trigger_hir,
@@ -254,6 +265,7 @@ namespace IDS.VAS.Excel2Json
         File.WriteAllText("output/elements_trigger.json", JsonConvert.SerializeObject(trigger_ele, GlobalJsonConfig.Get()), Encoding.UTF8);
         File.WriteAllText("output/keywords.json", JsonConvert.SerializeObject(keywords, GlobalJsonConfig.Get()), Encoding.UTF8);
 
+        File.WriteAllText("output/hierarchy_diathesis.json", JsonConvert.SerializeObject(diathesis_hir, GlobalJsonConfig.Get()), Encoding.UTF8);
         File.WriteAllText("output/hierarchy_figure.json", JsonConvert.SerializeObject(figure_hir, GlobalJsonConfig.Get()), Encoding.UTF8);
         File.WriteAllText("output/hierarchy_ground.json", JsonConvert.SerializeObject(ground_hir, GlobalJsonConfig.Get()), Encoding.UTF8);
         File.WriteAllText("output/hierarchy_prd.json", JsonConvert.SerializeObject(prd_hir, GlobalJsonConfig.Get()), Encoding.UTF8);
