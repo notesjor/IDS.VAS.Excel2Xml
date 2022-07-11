@@ -113,7 +113,7 @@ namespace IDS.VAS.Xml2Json
                                      .Replace("  ", " ").Replace("  ", " ").Trim()));
     }
 
-    private static string[] _slots = new[] { "rel", "effector", "figure", "ground" };
+    private static string[] _slots = new[] { "rel", "val", "vrb", "prp", "effector", "figure", "ground" };
 
     private static string ParseHtml(string html)
     {
