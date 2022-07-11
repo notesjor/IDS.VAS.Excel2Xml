@@ -7,7 +7,7 @@
     <ProjectGuid>{4FC01C9F-10AB-4CC3-9948-E6F4371C54C8}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <RootNamespace>IDS.VAS.Xml2Html</RootNamespace>
-    <AssemblyName>IDS.VAS.Xml2Html</AssemblyName>
+    <AssemblyName>style</AssemblyName>
     <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -50,7 +50,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="vas-nuxt.xsl">
+    <Content Include="style.xsl">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="XDependencies\IKVM.OpenJDK.Charsets.dll">

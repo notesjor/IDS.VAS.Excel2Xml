@@ -13,7 +13,7 @@ namespace IDS.VAS.Xml2Html
         return;
 
       var app = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-      var nuxt = Path.Combine(app, "vas-nuxt.xsl");
+      var nuxt = Path.Combine(app, "style.xsl");
       var transform = Path.Combine(app, "XDependencies\\Transform.exe");
 
       foreach (var file in args)
