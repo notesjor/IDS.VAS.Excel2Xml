@@ -1,0 +1,20 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Home page";
+}
+@addTagHelper *, Kendo.Mvc
+@using Kendo.Mvc.UI
+
+<form method="post" method="post">
+    <fieldset>
+      <legend>1. Upload</legend>
+      <p>Bitte laden Sie die EXCEL-Datei hoch.</p>
+      <kendo-upload name="files" aria-label="files" min-file-size="1"></kendo-upload>
+    </fieldset>
+    <fieldset>
+      <legend>2. Ausführen</legend>
+      <p>Klicken Sie abschließend auf den "Ausführen"-Button und warten Sie die Konvertierung ab.</p>
+      <button type="submit" class="k-button k-button-solid-primary k-button-solid k-button-md k-rounded-md">Submit</button>
+    </fieldset>
+</form>
