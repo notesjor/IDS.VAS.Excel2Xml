@@ -105,7 +105,7 @@ namespace IDS.VAS.Excel2Xml.Automate
     }
 
     private string GetKeywords(DataRow[] items, ExcelColumnMapper mapper)
-      => string.Join(", ", new HashSet<string>(items.SelectMany(row => row.ItemArray[mapper.Mapping["KEYWORDS"]]
+      => string.Join(", ", new HashSet<string>(items.SelectMany(row => row.ItemArray[mapper.Mapping["SCHLAGWORTE"]]
                                                                           .ToString()
                                                                           .Trim()
                                                                           .Split(new[] { ", ", "; " },
@@ -114,7 +114,7 @@ namespace IDS.VAS.Excel2Xml.Automate
                       .OrderBy(x => x));
 
     private string GetGroundHead(DataRow[] items, ExcelColumnMapper mapper) 
-      => string.Join(", ", new HashSet<string>(items.Select(row => row.ItemArray[mapper.Mapping["GRUND(KOPF)"]].ToString().Trim())));
+      => string.Join(", ", new HashSet<string>(items.Select(row => row.ItemArray[mapper.Mapping["PRP"]].ToString().Trim())));
 
     private string GetArticleType(DataRow[] items, ExcelColumnMapper mapper)
       => string.Join(", ", new HashSet<string>(items.Select(row => row.ItemArray[mapper.Mapping["MUSTERTYP"]].ToString().Trim())));

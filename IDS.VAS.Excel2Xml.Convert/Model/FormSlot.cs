@@ -34,7 +34,7 @@ namespace IDS.VAS.Excel2Xml.Model
       });
       Prd = row.ItemArray[mapper.Mapping["REL(GENERALISIERT)"]].ToString();
       Figure = row.ItemArray[mapper.Mapping["FIGUR(SYN)"]].ToString();
-      Ground = row.ItemArray[mapper.Mapping["GRUND(KASUS)"]].ToString();
+      Ground = row.ItemArray[mapper.Mapping["GRUND(SYN)"]].ToString();
       Effector = row.ItemArray[mapper.Mapping["AUSLÖSER(SYN)"]].ToString();
     }
 

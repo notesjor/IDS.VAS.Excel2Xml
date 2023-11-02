@@ -27,7 +27,7 @@ namespace IDS.VAS.Excel2Json
 
       try
       {
-        Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
+        Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
 
         _baseDir = Path.Combine(Path.GetDirectoryName(args[0]), Path.GetFileNameWithoutExtension(args[0]));
 
@@ -64,7 +64,7 @@ namespace IDS.VAS.Excel2Json
 
         var mtypes = new Dictionary<string, int>();
         var sources = new Dictionary<string, int>();
-        
+
         var special_forms = new Dictionary<string, int>();
 
         var keywords = new Dictionary<string, int>();
@@ -126,18 +126,18 @@ namespace IDS.VAS.Excel2Json
             var pnew = new Pattern
             {
               Figure = GetRowValueIndexed(row, mapper, ref figure_syn, "FIGUR(SYN)"),
-              Ground = GetRowValueIndexed(row, mapper, ref ground_syn, "GRUND(KOPF)"),
+              Ground = GetRowValueIndexed(row, mapper, ref ground_syn, "PRP"),
               Prd = GetRowValueIndexed(row, mapper, ref prd_syn, "PRÄDIKATSTYP"),
               Trigger = GetRowValueIndexed(row, mapper, ref trigger_syn, "AUSLÖSER(SYN)"),
 
-              ElementsFigure = GetDictonaryTokenizedIndex(row, mapper, ref figure_ele, "FIGUR:ELEMENTE"),
-              ElementsGround = GetDictonaryTokenizedIndex(row, mapper, ref ground_ele, "GRUND(KASUS)"),
+              ElementsFigure = GetDictonaryTokenizedIndex(row, mapper, ref figure_ele, "FIGUR(LEX)"),
+              ElementsGround = GetDictonaryTokenizedIndex(row, mapper, ref ground_ele, "GRUND(SYN)"),
               ElementsPrd = GetDictonaryTokenizedIndex(row, mapper, ref prd_ele, "PG:ELEMENTE"),
-              ElementsTrigger = GetDictonaryTokenizedIndex(row, mapper, ref trigger_ele, "AUSLÖSER:ELEMENTE"),
-              Keywords = GetDictonaryTokenizedIndex(row, mapper, ref keywords, "KEYWORDS"),
+              ElementsTrigger = GetDictonaryTokenizedIndex(row, mapper, ref trigger_ele, "AUSLÖSER(LEX)"),
+              Keywords = GetDictonaryTokenizedIndex(row, mapper, ref keywords, "SCHLAGWORTE"),
 
               DisplayFigure = GetRowValue(row, mapper, "FIGUR(SYN)"),
-              DisplayGround = GetRowValue(row, mapper, "GRUND(KASUS)"),//GetRowValue(row, mapper, "GRUND(KOPF)") + "+" + GetRowValue(row, mapper, "GRUND(KASUS)"),
+              DisplayGround = GetRowValue(row, mapper, "GRUND(SYN)"),//GetRowValue(row, mapper, "PRP") + "+" + GetRowValue(row, mapper, "GRUND(SYN)"),
               DisplayPrd = GetRowValue(row, mapper, "PRÄDIKATSTYP"),
               DisplayTrigger = GetRowValue(row, mapper, "AUSLÖSER(SYN)"),
             };
@@ -170,9 +170,9 @@ namespace IDS.VAS.Excel2Json
               pnew.Id, // 5
               article.Id, // 6
               GetDictonaryIndex(row, mapper, ref special_forms, "SONDERFORMEN", NameDiscoveryHelper.GetSpecialFormNames), // 7
-              GetDictonaryIndex(row, mapper, ref prd_rpe, "REL+:ELEMENTE"), // 8
+              GetDictonaryIndex(row, mapper, ref prd_rpe, "PRÄDIKATSTYP"), // 8
             });
-            
+
             // Erweiterte UND-Filter
             andFilter_Keyword.Add(id, pnew.Keywords);
 
@@ -198,7 +198,7 @@ namespace IDS.VAS.Excel2Json
                          ele,
                          id);
             syn = GetRowValue(row, mapper, "AUSLÖSER(SYN)");
-            ele = GetRowValue(row, mapper, "AUSLÖSER:ELEMENTE");
+            ele = GetRowValue(row, mapper, "AUSLÖSER(LEX)");
             AddHierarchy(ref trigger_hir,
                          GetDictonaryIndex($"{syn}", ref trigger_hid),
                          syn,
@@ -206,15 +206,15 @@ namespace IDS.VAS.Excel2Json
                          ele,
                          id);
             syn = GetRowValue(row, mapper, "FIGUR(SYN)");
-            ele = GetRowValue(row, mapper, "FIGUR:ELEMENTE");
+            ele = GetRowValue(row, mapper, "FIGUR(LEX)");
             AddHierarchy(ref figure_hir,
                          GetDictonaryIndex($"{syn}", ref figure_hid),
                          syn,
                          GetDictonaryIndex($"{syn}_{ele}", ref figure_hid),
                          ele,
                          id);
-            syn = GetRowValue(row, mapper, "GRUND(KOPF)");
-            ele = GetRowValue(row, mapper, "GRUND(KASUS)");
+            syn = GetRowValue(row, mapper, "PRP");
+            ele = GetRowValue(row, mapper, "GRUND(SYN)");
 
             var pat = GetRowValue(row, mapper, "MUSTER");
 
@@ -301,7 +301,7 @@ namespace IDS.VAS.Excel2Json
       // FIX - Überprüfen ob 1 Kind und Kind = Parent
       foreach (var h in output)
       {
-        if (h.Children is { Count: 1 } && h.Children[0].Name == h.Name) h.Children = h.Children[0].Children;
+        if (h.Children != null && h.Children.Count == 1 && h.Children[0].Name == h.Name) h.Children = h.Children[0].Children;
       }
     }
 
@@ -326,7 +326,7 @@ namespace IDS.VAS.Excel2Json
           Name = v1,
           Children = new List<HItem>
           {
-            new()
+            new HItem()
             {
               Id = i2,
               Name = v2,
@@ -400,7 +400,7 @@ namespace IDS.VAS.Excel2Json
           Name = v1,
           Children = new List<HItem>
           {
-            new()
+            new HItem()
             {
               Id = i2,
               Name = v2,
