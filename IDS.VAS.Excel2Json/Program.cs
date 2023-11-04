@@ -84,6 +84,7 @@ namespace IDS.VAS.Excel2Json
         var trigger_ele = new Dictionary<string, int>();
         var trigger_hir = new List<HItem>();
         var trigger_hid = new Dictionary<string, int>();
+        var stelligkeit = new Dictionary<string, int>();
 
         var figure_syn = new Dictionary<string, int>();
         var figure_ele = new Dictionary<string, int>();
@@ -129,10 +130,11 @@ namespace IDS.VAS.Excel2Json
               Ground = GetRowValueIndexed(row, mapper, ref ground_syn, "PRP"),
               Prd = GetRowValueIndexed(row, mapper, ref prd_syn, "PRÄDIKATSTYP"),
               Trigger = GetRowValueIndexed(row, mapper, ref trigger_syn, "AUSLÖSER(SYN)"),
+              Stelligkeit = GetRowValueIndexed(row, mapper, ref stelligkeit, "STELLIGKEIT(TYP)"),
 
               ElementsFigure = GetDictonaryTokenizedIndex(row, mapper, ref figure_ele, "FIGUR(LEX)"),
               ElementsGround = GetDictonaryTokenizedIndex(row, mapper, ref ground_ele, "GRUND(SYN)"),
-              ElementsPrd = GetDictonaryTokenizedIndex(row, mapper, ref prd_ele, "PG:ELEMENTE"),
+              ElementsPrd = GetDictonaryTokenizedIndex(row, mapper, ref prd_ele, "REL+:SYN"),
               ElementsTrigger = GetDictonaryTokenizedIndex(row, mapper, ref trigger_ele, "AUSLÖSER(LEX)"),
               Keywords = GetDictonaryTokenizedIndex(row, mapper, ref keywords, "SCHLAGWORTE"),
 
@@ -171,6 +173,8 @@ namespace IDS.VAS.Excel2Json
               article.Id, // 6
               GetDictonaryIndex(row, mapper, ref special_forms, "SONDERFORMEN", NameDiscoveryHelper.GetSpecialFormNames), // 7
               GetDictonaryIndex(row, mapper, ref prd_rpe, "PRÄDIKATSTYP"), // 8
+              GetDictonaryIndex(row, mapper, ref keywords, "SCHLAGWORTE"), // 9
+              GetDictonaryIndex(row, mapper, ref stelligkeit, "STELLIGKEIT(TYP)"), // 10
             });
 
             // Erweiterte UND-Filter
@@ -181,50 +185,47 @@ namespace IDS.VAS.Excel2Json
             article.PatternIds.Add(pnew.Id);
 
             // Hierachie aufbauen
-            var syn = NameDiscoveryHelper.GetPredicateName(GetRowValue(row, mapper, "PRÄDIKATSTYP"));
-            var ele = GetRowValue(row, mapper, "PG:ELEMENTE");
+            var l1 = NameDiscoveryHelper.GetPredicateName(GetRowValue(row, mapper, "PRÄDIKATSTYP"));
+            var l2 = GetRowValue(row, mapper, "PG:ELEMENTE");
             AddHierarchy(ref prd_hir,
-                         GetDictonaryIndex($"{syn}", ref prd_hid),
-                         syn,
-                         GetDictonaryIndex($"{syn}_{ele}", ref prd_hid),
-                         ele,
+                         GetDictonaryIndex($"{l1}", ref prd_hid),
+                         l1,
+                         GetDictonaryIndex($"{l1}_{l2}", ref prd_hid),
+                         l2,
                          id);
-            syn = GetRowValue(row, mapper, "DIATHESE");
-            ele = GetRowValue(row, mapper, "DIATHESE:SUBTYP");
+            l1 = GetRowValue(row, mapper, "DIATHESE");
+            l2 = GetRowValue(row, mapper, "DIATHESE:SUBTYP");
             AddHierarchy(ref diathesis_hir,
-                         GetDictonaryIndex($"{syn}", ref trigger_hid),
-                         syn,
-                         GetDictonaryIndex($"{syn}_{ele}", ref trigger_hid),
-                         ele,
+                         GetDictonaryIndex($"{l1}", ref trigger_hid),
+                         l1,
+                         GetDictonaryIndex($"{l1}_{l2}", ref trigger_hid),
+                         l2,
                          id);
-            syn = GetRowValue(row, mapper, "AUSLÖSER(SYN)");
-            ele = GetRowValue(row, mapper, "AUSLÖSER(LEX)");
+            l1 = GetRowValue(row, mapper, "AUSLÖSER(SYN)");
+            l2 = GetRowValue(row, mapper, "AUSLÖSER(LEX)");
             AddHierarchy(ref trigger_hir,
-                         GetDictonaryIndex($"{syn}", ref trigger_hid),
-                         syn,
-                         GetDictonaryIndex($"{syn}_{ele}", ref trigger_hid),
-                         ele,
+                         GetDictonaryIndex($"{l1}", ref trigger_hid),
+                         l1,
+                         GetDictonaryIndex($"{l1}_{l2}", ref trigger_hid),
+                         l2,
                          id);
-            syn = GetRowValue(row, mapper, "FIGUR(SYN)");
-            ele = GetRowValue(row, mapper, "FIGUR(LEX)");
+            l1 = GetRowValue(row, mapper, "FIGUR(SYN)");
+            l2 = GetRowValue(row, mapper, "FIGUR(LEX)");
             AddHierarchy(ref figure_hir,
-                         GetDictonaryIndex($"{syn}", ref figure_hid),
-                         syn,
-                         GetDictonaryIndex($"{syn}_{ele}", ref figure_hid),
-                         ele,
+                         GetDictonaryIndex($"{l1}", ref figure_hid),
+                         l1,
+                         GetDictonaryIndex($"{l1}_{l2}", ref figure_hid),
+                         l2,
                          id);
-            syn = GetRowValue(row, mapper, "PRP");
-            ele = GetRowValue(row, mapper, "GRUND(SYN)");
-
-            var pat = GetRowValue(row, mapper, "MUSTER");
+            
+            l1 = GetRowValue(row, mapper, "GRUND(SYN)");
+            l2 = GetRowValue(row, mapper, "MUSTER");
 
             AddHierarchy(ref ground_hir,
-                         GetDictonaryIndex($"{syn}", ref ground_hid),
-                         syn,
-                         GetDictonaryIndex($"{syn}_{ele}", ref ground_hid),
-                         ele,
-                         GetDictonaryIndex($"{syn}_{ele}_{pat}", ref ground_hid),
-                         pat,
+                         GetDictonaryIndex($"{l1}", ref ground_hid),
+                         l1,
+                         GetDictonaryIndex($"{l1}_{l2}", ref ground_hid),
+                         l2,
                          id);
           }
         }
@@ -258,6 +259,7 @@ namespace IDS.VAS.Excel2Json
         File.WriteAllText("output/syn_ground.json", JsonConvert.SerializeObject(ground_syn, GlobalJsonConfig.Get()), Encoding.UTF8);
         File.WriteAllText("output/syn_prd.json", JsonConvert.SerializeObject(prd_syn, GlobalJsonConfig.Get()), Encoding.UTF8);
         File.WriteAllText("output/syn_trigger.json", JsonConvert.SerializeObject(trigger_syn, GlobalJsonConfig.Get()), Encoding.UTF8);
+        File.WriteAllText("output/syn_stelligkeit.json", JsonConvert.SerializeObject(stelligkeit, GlobalJsonConfig.Get()), Encoding.UTF8);
 
         File.WriteAllText("output/elements_figure.json", JsonConvert.SerializeObject(figure_ele, GlobalJsonConfig.Get()), Encoding.UTF8);
         File.WriteAllText("output/elements_ground.json", JsonConvert.SerializeObject(ground_ele, GlobalJsonConfig.Get()), Encoding.UTF8);

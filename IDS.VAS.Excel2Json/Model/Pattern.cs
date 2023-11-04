@@ -10,6 +10,7 @@ namespace IDS.VAS.Excel2Json.Model
     public int Trigger { get; set; }
     public int Figure { get; set; }
     public int Ground { get; set; }
+    public int Stelligkeit { get; internal set; }
 
     public IEnumerable<int> ElementsPrd { get; set; }
     public IEnumerable<int> ElementsTrigger { get; set; }
@@ -26,6 +27,6 @@ namespace IDS.VAS.Excel2Json.Model
     public HashSet<int> ArticleIds { get; set; } = new HashSet<int>();
 
     [JsonIgnore]
-    public string Key => $"{DisplayPrd}/{DisplayTrigger}/{DisplayFigure}/{DisplayGround}";
+    public string Key => $"{DisplayPrd}/{DisplayTrigger}/{DisplayFigure}/{DisplayGround}";    
   }
 }
