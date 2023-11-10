@@ -14,6 +14,35 @@ namespace IDS.VAS.Excel2Xml.Automate
 {
   public class ConvertController
   {
+    private Dictionary<string, Dictionary<string, string>> _snippets = new Dictionary<string, Dictionary<string, string>>();
+
+    public ConvertController()
+    {
+      LoadSnippets();
+    }
+
+    private void LoadSnippets()
+    {
+      var appDir = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
+      var snippetsDir = Path.Combine(appDir, "Snippets");
+      if (!Directory.Exists(snippetsDir))
+        return;
+
+      var dirs = Directory.GetDirectories(snippetsDir);
+      foreach (var dir in dirs)
+      {
+        var files = Directory.GetFiles(dir, "*.txt", SearchOption.TopDirectoryOnly);
+        if (files.Length == 0)
+          continue;
+
+        var snippets = new Dictionary<string, string>();
+        foreach (var file in files)
+          snippets.Add(Path.GetFileNameWithoutExtension(file), File.ReadAllText(file, Encoding.UTF8));
+
+        _snippets.Add(Path.GetFileName(dir), snippets);
+      }
+    }
+
     public void Convert(string input, string output)
       => Convert(VasExcelReader.ReadExcel(input), output);
 
@@ -50,6 +79,7 @@ namespace IDS.VAS.Excel2Xml.Automate
           templateJ = templateJ.Replace("$$$GROUND_HEAD$$$", GetGroundHead(items, mapper));
           templateJ = templateJ.Replace("$$$KEYWORDS$$$", GetKeywords(items, mapper));
           templateJ = templateJ.Replace("$$$ARTICLE_TYPE$$$", GetArticleType(items, mapper));
+          templateJ = templateJ.Replace("$$$SCENARIO$$$", GetScenario(items, mapper));
           templateJ = templateJ.Replace("$$$SAMPLES$$$", GetSampleContainer(items, mapper));
           templateJ = templateJ.Replace("$$$FORMS$$$", GetForms(items, mapper));
           templateJ = templateJ.Replace("$$$MAIN_PATTERN$$$", _mainPattern); // Muss nach FORMS ausgeführt werden, da dort _mainPattern ermittelt wird
@@ -94,12 +124,36 @@ namespace IDS.VAS.Excel2Xml.Automate
             continue;
 
           res.Add($"\t\t\t<!-- {argStr} -->");
-          foreach(var kwic in kwics)
+          foreach (var kwic in kwics)
             res.Add($"\t\t\t<sample id=\"s_{kwic.Id}\" cosmas=\"{kwic.Sigle}\">{kwic.Text}</sample>");
         }
       }
 
       return res;
+    }
+
+    private string GetScenario(DataRow[] items, ExcelColumnMapper mapper)
+    {
+      foreach (var item in items)
+      {
+        var st = item.ItemArray[mapper.Mapping["STELLIGKEIT(TYP)"]].ToString().Trim().Replace(" ", "");
+        if (string.IsNullOrEmpty(st))
+          continue;
+
+        switch (st)
+        {
+          case "2|3":
+            return _snippets["Stelligkeit"]["2u3"];
+          case "2":
+            return _snippets["Stelligkeit"]["2"];
+          case "3":
+            return _snippets["Stelligkeit"]["3"];
+          default:
+            continue;
+        }
+      }
+
+      return string.Empty;
     }
 
     private Kwic KwicHighlight(DataRow row, Kwic str)
@@ -177,7 +231,7 @@ namespace IDS.VAS.Excel2Xml.Automate
         dict.Add(key, slot);
       }
 
-      if(dict.Count == 0)
+      if (dict.Count == 0)
         return "<forms></forms>";
 
       // Detect _mainPattern

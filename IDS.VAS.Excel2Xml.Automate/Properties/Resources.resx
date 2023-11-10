@@ -161,6 +161,10 @@
 			
 			&lt;/prototype&gt;
 		&lt;/overview&gt;
+		&lt;scenario&gt;
+			$$$SCENARIO$$$
+		&lt;/scenario&gt;
+		
 		&lt;!--
 			Für alle im Artikel referenzierten Belege:
 			TODO: refenrenzierte Belege MÜSSEN ausgezeichnet werden - &lt;rel&gt;, &lt;figure&gt;, usw.
