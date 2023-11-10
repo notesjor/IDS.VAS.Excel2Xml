@@ -8,6 +8,7 @@
     public int PriorityIndex => int.TryParse(Priority, out var res) ? res : 0;
     public string Sigle { get; set; }
     public string MType { get; set; }
+    public string ArgStr { get; internal set; }
 
     public override string ToString() => Text;
   }

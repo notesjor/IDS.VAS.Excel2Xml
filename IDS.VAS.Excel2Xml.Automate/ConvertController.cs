@@ -66,15 +66,40 @@ namespace IDS.VAS.Excel2Xml.Automate
 
     private List<string> GetSamples(DataRow[] items, ExcelColumnMapper mapper)
     {
-      return items.Select(row => KwicFix(KwicHighlight(row, new Kwic
-                   {
-                     Id = row.ItemArray[mapper.Mapping["#"]].ToString(),
-                     Text = row.ItemArray[mapper.Mapping["BELEG"]].ToString(),
-                     Sigle = row.ItemArray[mapper.Mapping["COSMAS-SIGLE"]].ToString(),
-                     Priority = row.ItemArray[mapper.Mapping["BSP"]].ToString()
-                   })))
-                  .Select(kwic => $"\t\t\t<sample id=\"s_{kwic.Id}\" cosmas=\"{kwic.Sigle}\">{kwic.Text}</sample>")
-                  .ToList();
+      var all = items.Select(row => KwicFix(KwicHighlight(row, new Kwic
+      {
+        Id = row.ItemArray[mapper.Mapping["#"]].ToString(),
+        Text = row.ItemArray[mapper.Mapping["BELEG"]].ToString(),
+        Sigle = row.ItemArray[mapper.Mapping["COSMAS-SIGLE"]].ToString(),
+        Priority = row.ItemArray[mapper.Mapping["BSP"]].ToString(),
+        ArgStr = row.ItemArray[mapper.Mapping["ARG-STR-LEX"]].ToString(),
+      }))).ToList();
+
+      var res = new List<string>();
+      var prior = new[] { 1, 2, 0 }; // Priorisierung nach BSP-Spalte (1, 2, 0)
+
+      foreach (var p in prior)
+      {
+        res.Add($"\t\t\t<!-- PRIORITÄT: {p} -->");
+
+        var current = all.Where(x => x.PriorityIndex == p).ToList();
+        if (current.Count == 0)
+          continue;
+
+        var argStrs = new HashSet<string>(current.Select(x => x.ArgStr));
+        foreach (var argStr in argStrs) // ARG-STR-LEX voranstellen
+        {
+          var kwics = current.Where(x => x.ArgStr == argStr).ToList();
+          if (kwics.Count == 0)
+            continue;
+
+          res.Add($"\t\t\t<!-- {argStr} -->");
+          foreach(var kwic in kwics)
+            res.Add($"\t\t\t<sample id=\"s_{kwic.Id}\" cosmas=\"{kwic.Sigle}\">{kwic.Text}</sample>");
+        }
+      }
+
+      return res;
     }
 
     private Kwic KwicHighlight(DataRow row, Kwic str)
@@ -113,7 +138,7 @@ namespace IDS.VAS.Excel2Xml.Automate
                                                                           .Select(x => x.Trim())))
                       .OrderBy(x => x));
 
-    private string GetGroundHead(DataRow[] items, ExcelColumnMapper mapper) 
+    private string GetGroundHead(DataRow[] items, ExcelColumnMapper mapper)
       => string.Join(", ", new HashSet<string>(items.Select(row => row.ItemArray[mapper.Mapping["PRP"]].ToString().Trim())));
 
     private string GetArticleType(DataRow[] items, ExcelColumnMapper mapper)
@@ -151,6 +176,9 @@ namespace IDS.VAS.Excel2Xml.Automate
         }
         dict.Add(key, slot);
       }
+
+      if(dict.Count == 0)
+        return "<forms></forms>";
 
       // Detect _mainPattern
       var mp = dict.OrderByDescending(x => x.Value.Kwics.Count).First().Value;
