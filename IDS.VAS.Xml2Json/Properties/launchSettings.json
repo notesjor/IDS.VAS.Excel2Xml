@@ -2,7 +2,7 @@
   "profiles": {
     "IDS.VAS.Xml2Json": {
       "commandName": "Project",
-      "commandLineArgs": "C:\\Users\\Jan\\Desktop\\vas-oxygen\\artikel\\an+Folge\\"
+      "commandLineArgs": "C:\\Projekte\\IDS\\Dokumente\\VAS\\2023-10\\data\\vor_revidiert\\Daten\\"
     }
   }
 }
