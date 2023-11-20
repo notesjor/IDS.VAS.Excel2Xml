@@ -62,6 +62,8 @@ namespace IDS.VAS.Excel2Json
         var patterns = new Dictionary<string, Pattern>();
         var articles = new List<Article>();
 
+        var pages = new Dictionary<string, int>(); // Artikel -> Seiten (wird z. B. für die Beleg-Suche verwendet, um nach Artikeln zu filtern)
+
         var mtypes = new Dictionary<string, int>();
         var sources = new Dictionary<string, int>();
 
@@ -167,14 +169,15 @@ namespace IDS.VAS.Excel2Json
               GetDictonaryIndex(row, mapper, ref sources, "QUELLE", NameDiscoveryHelper.FixSourcesName), // 0
               GetYear(row, mapper), // 1
               GetDictonaryIndex(row, mapper, ref prd_lex, "PRÄDIKATSKERN", x => x.Replace("_", " ").Trim()), // 2
-              GetDictonaryIndex(row, mapper, ref diathesis, "DIATHESE", NameDiscoveryHelper.GetDiatheseNames), // 3
+              GetDictonaryIndex(row, mapper, ref diathesis, "DIATHESE:SUBTYP"), // 3 - 2023-10: Umstellung auf DIATHESE:SUBTYP - daher ist , NameDiscoveryHelper.GetDiatheseNames nicht mehr nötig
               GetDictonaryIndex(row, mapper, ref mtypes, "MUSTERTYP"), // 4
               pnew.Id, // 5
               article.Id, // 6
-              GetDictonaryIndex(row, mapper, ref special_forms, "SONDERFORMEN", NameDiscoveryHelper.GetSpecialFormNames), // 7
+              GetDictonaryIndex(row, mapper, ref prd_ele, "REL+:SYN"), // 7
               GetDictonaryIndex(row, mapper, ref prd_rpe, "PRÄDIKATSTYP"), // 8
               GetDictonaryIndex(row, mapper, ref keywords, "SCHLAGWORTE"), // 9
               GetDictonaryIndex(row, mapper, ref stelligkeit, "STELLIGKEIT(TYP)"), // 10
+              GetDictonaryIndex(row, mapper, ref pages, "MUSTER") // 11
             });
 
             // Erweiterte UND-Filter
