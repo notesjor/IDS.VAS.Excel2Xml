@@ -161,9 +161,6 @@
 			
 			&lt;/prototype&gt;
 		&lt;/overview&gt;
-		&lt;scenario&gt;
-			$$$SCENARIO$$$
-		&lt;/scenario&gt;
 		
 		&lt;!--
 			Für alle im Artikel referenzierten Belege:
@@ -184,6 +181,10 @@
 			Auf diese Weise referenzierte Beispiele MÜSSEN im &lt;samples&gt;-Block ausgezeichnet werden!
 		--&gt;
 		$$$SAMPLES$$$
+		
+		&lt;scenario&gt;
+			&lt;p&gt;$$$SCENARIO$$$&lt;/p&gt;
+		&lt;/scenario&gt;
 		
 		&lt;meaning&gt;
 			&lt;p&gt;
