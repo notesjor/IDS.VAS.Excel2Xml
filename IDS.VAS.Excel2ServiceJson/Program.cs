@@ -145,13 +145,20 @@ namespace IDS.VAS.Excel2ServiceJson
           if (n.ChildNodes.Count == 1 && n.ChildNodes.First().Name == "#text")
             continue;
 
-          var id = int.Parse(idStr.Substring(2));
-          var html = ParseHtml(n.InnerHtml.Trim());
+          try
+          {
+            var id = int.Parse(idStr.Substring(2));
+            var html = ParseHtml(n.InnerHtml.Trim());
 
-          if (res.ContainsKey(id))
-            res[id] = html;
-          else
-            res.Add(id, html);
+            if (res.ContainsKey(id))
+              res[id] = html;
+            else
+              res.Add(id, html);
+          }
+          catch
+          {
+            Console.WriteLine($"Error in {file} - {idStr}");
+          }
         }
       }
 
