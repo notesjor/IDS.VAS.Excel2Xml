@@ -1,4 +1,5 @@
-﻿using IDS.Vas.ExcelReader;
+﻿using HtmlAgilityPack;
+using IDS.Vas.ExcelReader;
 using Meilisearch;
 using Newtonsoft.Json;
 using System;
@@ -16,8 +17,10 @@ namespace IDS.VAS.Excel2ServiceJson
     static void Main(string[] args)
     {
       var table = VasExcelReader.ReadExcel(args[0]).Tables[0];
+      var annotations = LoadAnnotations(args[0]);
+
       var header = LoadHeader(table);
-      
+
       // Für die folgenden Daten wird je eine Liste in output.json erstellt
       var unique = LoadUniqueList();
       var tokenizer = LoadTokenized();
@@ -90,6 +93,21 @@ namespace IDS.VAS.Excel2ServiceJson
         }
       }
 
+      // setze alle Belege standardmäßig auf "nicht annotiert"
+      foreach (var r in res)
+        r.Add("~", "f");
+
+      // Ersetze annotierte Belege
+      foreach (var r in res)
+      {
+        var id = int.Parse(r["#"].ToString());
+        if (annotations.ContainsKey(id))
+        {
+          r["BELEG"] = annotations[id];
+          r["~"] = "t"; // annotiert
+        }
+      }
+
       File.WriteAllText("output.json", JsonConvert.SerializeObject(res, Formatting.Indented), Encoding.UTF8);
 
       MeilisearchClient client = new MeilisearchClient("http://lexik08.ids-mannheim.de:7700/", "8jRAqq_GbtjdjveIOCxIlnztXjwFbcaMYp-e50HtbrQ");
@@ -105,6 +123,51 @@ namespace IDS.VAS.Excel2ServiceJson
       index.AddDocumentsJsonAsync(JsonConvert.SerializeObject(res), "#").Wait();
       File.WriteAllText("output.json", JsonConvert.SerializeObject(unique), Encoding.UTF8);
       File.WriteAllText("hierarchy.json", JsonConvert.SerializeObject(hierarchy.ToDictionary(x => $"{x.Key.Item1}_{x.Key.Item2}", x => x.Value)), Encoding.UTF8);
+    }
+
+    private static Dictionary<int, string> LoadAnnotations(string path)
+    {
+      var res = new Dictionary<int, string>();
+
+      var files = Directory.GetFiles(Path.GetDirectoryName(path), "*.xml", SearchOption.AllDirectories);
+      foreach (var file in files)
+      {
+        var doc = new HtmlDocument();
+        using (var fs = new FileStream(file, FileMode.Open, FileAccess.Read))
+          doc.Load(fs);
+
+        foreach (var n in doc.DocumentNode.SelectNodes("//sample"))
+        {
+          var idStr = n.GetAttributeValue("id", "");
+          if (string.IsNullOrEmpty(idStr))
+            continue;
+
+          if (n.ChildNodes.Count == 1 && n.ChildNodes.First().Name == "#text")
+            continue;
+
+          var id = int.Parse(idStr.Substring(2));
+          var html = ParseHtml(n.InnerHtml.Trim());
+
+          if (res.ContainsKey(id))
+            res[id] = html;
+          else
+            res.Add(id, html);
+        }
+      }
+
+      return res;
+    }
+
+    private static string[] _slots = new[] { "rel", "val", "vrb", "prp", "effector", "figure", "ground" };
+
+    private static string ParseHtml(string html)
+    {
+      // Start-Tags
+      html = _slots.Aggregate(html, (current, slot) => current.Replace($"<{slot}>", $"<span class=\"{slot}\">"));
+      // End-Tags
+      html = _slots.Aggregate(html, (current, slot) => current.Replace($"</{slot}>", "</span>"));
+
+      return $"<div class=\"sample-txt\">{html}</div>";
     }
 
     private static HashSet<string> LoadTokenized()
@@ -140,6 +203,10 @@ namespace IDS.VAS.Excel2ServiceJson
       var res = new Dictionary<string, HashSet<string>>();
       foreach (var col in cols)
         res.Add(col, new HashSet<string>());
+
+      // Ist der Beleg annotiert?
+      res.Add("~", new HashSet<string> { "t", "f" });
+
       return res;
     }
 

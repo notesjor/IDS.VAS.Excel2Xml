@@ -41,6 +41,9 @@
     <Reference Include="ExcelDataReader.DataSet, Version=3.6.0.0, Culture=neutral, PublicKeyToken=93517dbe6a4012fa, processorArchitecture=MSIL">
       <HintPath>..\IDS.VAS.Excel2Xml\packages\ExcelDataReader.DataSet.3.6.0\lib\net35\ExcelDataReader.DataSet.dll</HintPath>
     </Reference>
+    <Reference Include="HtmlAgilityPack, Version=1.11.54.0, Culture=neutral, PublicKeyToken=bd319b19eaf3b43a, processorArchitecture=MSIL">
+      <HintPath>..\IDS.VAS.Excel2Xml\packages\HtmlAgilityPack.1.11.54\lib\Net45\HtmlAgilityPack.dll</HintPath>
+    </Reference>
     <Reference Include="Meilisearch, Version=0.14.6.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\IDS.VAS.Excel2Xml\packages\MeiliSearch.0.14.6\lib\netstandard2.0\Meilisearch.dll</HintPath>
     </Reference>
