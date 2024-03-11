@@ -34,7 +34,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IDS.VAS.Excel2Xml.Web.Core"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IDS.VAS.Excel2Json", "..\IDS.VAS.Excel2Json\IDS.VAS.Excel2Json.csproj", "{6F416FA3-EBEC-44F1-B037-74E6172E7B9C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IDS.VAS.Excel2ServiceJson", "..\IDS.VAS.Excel2ServiceJson\IDS.VAS.Excel2ServiceJson.csproj", "{54AD1590-8B6E-4E4B-80DD-2776734E93E8}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IDS.VAS.Excel2ServiceJson_MEILISEARCH", "..\IDS.VAS.Excel2ServiceJson\IDS.VAS.Excel2ServiceJson_MEILISEARCH.csproj", "{54AD1590-8B6E-4E4B-80DD-2776734E93E8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
