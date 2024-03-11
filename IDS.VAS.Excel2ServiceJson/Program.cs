@@ -109,7 +109,7 @@ namespace IDS.VAS.Excel2ServiceJson
 
       File.WriteAllText("output.json", JsonConvert.SerializeObject(res, Formatting.Indented), Encoding.UTF8);
 
-      MeilisearchClient client = new MeilisearchClient("http://lexik08.ids-mannheim.de:7700/", "8jRAqq_GbtjdjveIOCxIlnztXjwFbcaMYp-e50HtbrQ");
+      MeilisearchClient client = new MeilisearchClient("http://lexik08.ids-mannheim.de/meilisearch/", "8jRAqq_GbtjdjveIOCxIlnztXjwFbcaMYp-e50HtbrQ");
       try
       {
         client.DeleteIndexAsync("map").Wait();
