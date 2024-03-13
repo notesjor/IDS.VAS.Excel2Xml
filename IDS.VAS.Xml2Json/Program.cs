@@ -78,6 +78,8 @@ namespace IDS.VAS.Xml2Json
         doc.Load(fs);
 
       var samples = doc.DocumentNode.SelectNodes("//sample");
+      if (samples == null)
+        return;
 
       foreach (var sample in samples)
       {
@@ -85,7 +87,9 @@ namespace IDS.VAS.Xml2Json
         if (idS.Contains("_") || idS.Contains("s"))
           continue;
 
-        var id = int.Parse(idS);
+        if (!int.TryParse(idS, out var id))
+          continue;
+
         var cosmas = sample.GetAttributeValue("cosmas", null);
 
         var html = sample.InnerHtml;
@@ -107,7 +111,11 @@ namespace IDS.VAS.Xml2Json
           kwicsAnnotated.Add(id, new KwicFulltext { CosmasId = cosmas, Text = ParseHtml(html) });
       }
 
-      var info = string.Join(" ", doc.DocumentNode.SelectNodes("//prototype/p").Select(x => x.InnerHtml));
+      var nodes = doc.DocumentNode.SelectNodes("//prototype/p");
+      if (nodes == null)
+        return;
+
+      var info = string.Join(" ", nodes.Select(x => x.InnerHtml));
       articleInfos.Add(Path.GetFileNameWithoutExtension(path),
                        ParseHtml(info.Replace("\r", " ").Replace("\n", " ").Replace("\t", "").Replace("  ", " ")
                                      .Replace("  ", " ").Replace("  ", " ").Trim()));

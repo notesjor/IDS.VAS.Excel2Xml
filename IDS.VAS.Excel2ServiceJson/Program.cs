@@ -137,7 +137,11 @@ namespace IDS.VAS.Excel2ServiceJson
 
         try
         {
-          foreach (var n in doc.DocumentNode.SelectNodes("//sample"))
+          var nodes = doc.DocumentNode.SelectNodes("//sample");
+          if(nodes == null)
+            continue;
+
+          foreach (var n in nodes)
           {
             var idStr = n.GetAttributeValue("id", "");
             if (string.IsNullOrEmpty(idStr))
