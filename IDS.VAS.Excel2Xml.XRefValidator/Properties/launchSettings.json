@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "IDS.VAS.Excel2Xml.XRefValidator": {
+      "commandName": "Project",
+      "commandLineArgs": "C:\\Users\\Jan\\Desktop\\MAP_2024_Erlangen\\aehnlichkeit_2024_03_13.xml"
+    }
+  }
+}
