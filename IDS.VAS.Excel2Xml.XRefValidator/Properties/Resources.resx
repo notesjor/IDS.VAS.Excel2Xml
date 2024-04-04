@@ -1,0 +1,1674 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Template_CSS" xml:space="preserve">
+    <value>@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Libertinus - fetten Fonts von der ÖA ...arrgh */
+@font-face {
+  font-family: 'Libertinus';
+  font-style: normal;
+  font-weight: 400;
+  src: local(""), url("/fonts/libertinus/LibertinusSerifRegular.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: 'Libertinus';
+  font-style: italic;
+  font-weight: 400;
+  src: local(""), url("/fonts/libertinus/LibertinusSerifItalic.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: 'Libertinus';
+  font-style: normal;
+  font-weight: bold;
+  src: local(""), url("/fonts/libertinus/LibertinusSerifBold.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: 'Libertinus';
+  font-style: italic;
+  font-weight: bold;
+  src: local(""), url("/fonts/libertinus/LibertinusSerifBoldItalic.woff2") format("woff2");
+}
+
+/* fira-sans-100 - latin */
+@font-face {
+  font-family: 'Fira Sans';
+  font-style: normal;
+  font-weight: 100;
+  src: local(""), url("/fonts/fira-sans/fira-sans-v11-latin-100.woff2") format("woff2"), url("/fonts/fira-sans/fira-sans-v11-latin-100.woff") format("woff");
+  /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
+}
+
+/* fira-sans-100italic - latin */
+@font-face {
+  font-family: 'Fira Sans';
+  font-style: italic;
+  font-weight: 100;
+  src: local(""), url("/fonts/fira-sans/fira-sans-v11-latin-100italic.woff2") format("woff2"), url("/fonts/fira-sans/fira-sans-v11-latin-100italic.woff") format("woff");
+  /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
+}
+
+/* fira-sans-200 - latin */
+@font-face {
+  font-family: 'Fira Sans';
+  font-style: normal;
+  font-weight: 200;
+  src: local(""), url("/fonts/fira-sans/fira-sans-v11-latin-200.woff2") format("woff2"), url("/fonts/fira-sans/fira-sans-v11-latin-200.woff") format("woff");
+  /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
+}
+
+/* fira-sans-200italic - latin */
+@font-face {
+  font-family: 'Fira Sans';
+  font-style: italic;
+  font-weight: 200;
+  src: local(""), url("/fonts/fira-sans/fira-sans-v11-latin-200italic.woff2") format("woff2"), url("/fonts/fira-sans/fira-sans-v11-latin-200italic.woff") format("woff");
+  /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
+}
+
+/* fira-sans-300 - latin */
+@font-face {
+  font-family: 'Fira Sans';
+  font-style: normal;
+  font-weight: 300;
+  src: local(""), url("/fonts/fira-sans/fira-sans-v11-latin-300.woff2") format("woff2"), url("/fonts/fira-sans/fira-sans-v11-latin-300.woff") format("woff");
+  /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
+}
+
+/* fira-sans-300italic - latin */
+@font-face {
+  font-family: 'Fira Sans';
+  font-style: italic;
+  font-weight: 300;
+  src: local(""), url("/fonts/fira-sans/fira-sans-v11-latin-300italic.woff2") format("woff2"), url("/fonts/fira-sans/fira-sans-v11-latin-300italic.woff") format("woff");
+  /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
+}
+
+/* fira-sans-regular - latin */
+@font-face {
+  font-family: 'Fira Sans';
+  font-style: normal;
+  font-weight: 400;
+  src: local(""), url("/fonts/fira-sans/fira-sans-v11-latin-regular.woff2") format("woff2"), url("/fonts/fira-sans/fira-sans-v11-latin-regular.woff") format("woff");
+  /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
+}
+
+/* fira-sans-italic - latin */
+@font-face {
+  font-family: 'Fira Sans';
+  font-style: italic;
+  font-weight: 400;
+  src: local(""), url("/fonts/fira-sans/fira-sans-v11-latin-italic.woff2") format("woff2"), url("/fonts/fira-sans/fira-sans-v11-latin-italic.woff") format("woff");
+  /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
+}
+
+/* fira-sans-500 - latin */
+@font-face {
+  font-family: 'Fira Sans';
+  font-style: normal;
+  font-weight: 500;
+  src: local(""), url("/fonts/fira-sans/fira-sans-v11-latin-500.woff2") format("woff2"), url("/fonts/fira-sans/fira-sans-v11-latin-500.woff") format("woff");
+  /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
+}
+
+/* fira-sans-500italic - latin */
+@font-face {
+  font-family: 'Fira Sans';
+  font-style: italic;
+  font-weight: 500;
+  src: local(""), url("/fonts/fira-sans/fira-sans-v11-latin-500italic.woff2") format("woff2"), url("/fonts/fira-sans/fira-sans-v11-latin-500italic.woff") format("woff");
+  /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
+}
+
+/* fira-sans-600 - latin */
+@font-face {
+  font-family: 'Fira Sans';
+  font-style: normal;
+  font-weight: 600;
+  src: local(""), url("/fonts/fira-sans/fira-sans-v11-latin-600.woff2") format("woff2"), url("/fonts/fira-sans/fira-sans-v11-latin-600.woff") format("woff");
+  /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
+}
+
+/* fira-sans-600italic - latin */
+@font-face {
+  font-family: 'Fira Sans';
+  font-style: italic;
+  font-weight: 600;
+  src: local(""), url("/fonts/fira-sans/fira-sans-v11-latin-600italic.woff2") format("woff2"), url("/fonts/fira-sans/fira-sans-v11-latin-600italic.woff") format("woff");
+  /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
+}
+
+/* fira-sans-700 - latin */
+@font-face {
+  font-family: 'Fira Sans';
+  font-style: normal;
+  font-weight: 700;
+  src: local(""), url("/fonts/fira-sans/fira-sans-v11-latin-700.woff2") format("woff2"), url("/fonts/fira-sans/fira-sans-v11-latin-700.woff") format("woff");
+  /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
+}
+
+/* fira-sans-700italic - latin */
+@font-face {
+  font-family: 'Fira Sans';
+  font-style: italic;
+  font-weight: 700;
+  src: local(""), url("/fonts/fira-sans/fira-sans-v11-latin-700italic.woff2") format("woff2"), url("/fonts/fira-sans/fira-sans-v11-latin-700italic.woff") format("woff");
+  /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
+}
+
+/* fira-sans-800 - latin */
+@font-face {
+  font-family: 'Fira Sans';
+  font-style: normal;
+  font-weight: 800;
+  src: local(""), url("/fonts/fira-sans/fira-sans-v11-latin-800.woff2") format("woff2"), url("/fonts/fira-sans/fira-sans-v11-latin-800.woff") format("woff");
+  /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
+}
+
+/* fira-sans-800italic - latin */
+@font-face {
+  font-family: 'Fira Sans';
+  font-style: italic;
+  font-weight: 800;
+  src: local(""), url("/fonts/fira-sans/fira-sans-v11-latin-800italic.woff2") format("woff2"), url("/fonts/fira-sans/fira-sans-v11-latin-800italic.woff") format("woff");
+  /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
+}
+
+/* fira-sans-900italic - latin */
+@font-face {
+  font-family: 'Fira Sans';
+  font-style: italic;
+  font-weight: 900;
+  src: local(""), url("/fonts/fira-sans/fira-sans-v11-latin-900italic.woff2") format("woff2"), url("/fonts/fira-sans/fira-sans-v11-latin-900italic.woff") format("woff");
+  /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
+}
+
+/* fira-sans-900 - latin */
+@font-face {
+  font-family: 'Fira Sans';
+  font-style: normal;
+  font-weight: 900;
+  src: local(""), url("/fonts/fira-sans/fira-sans-v11-latin-900.woff2") format("woff2"), url("/fonts/fira-sans/fira-sans-v11-latin-900.woff") format("woff");
+  /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
+}
+
+/*
+$REL-COLOR: rgb(255, 0, 0);
+$FIGURE-COLOR: rgb(7, 127, 20);
+$GROUND-COLOR: rgb(0, 15, 221);
+$EFFECTOR-COLOR: rgb(223, 0, 204);
+*/
+/**
+    (farb) Codes für Muster-Terminologie/Bezeichner
+    im Fließtext
+*/
+/**
+    Farbcodes in Beispielsätzen
+*/
+a {
+  color: black;
+}
+
+a:visited {
+  color: black;
+}
+
+:root {
+  margin: 0;
+  padding: 0;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  --FS-BODYTEXT: 20px;
+  --FF-BODYTEXT: "Libertinus";
+  --FF-DISPLAY: "Fira Sans";
+  --FF-TERMS: "Fira Sans";
+}
+
+html {
+  scroll-behavior: smooth;
+  font-size: var(--FS-BODYTEXT);
+}
+
+.wrapper {
+  background-color: white;
+  padding: .5rem;
+  --scroll_margin: 2rem;  
+  position: relative;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: start;
+      -ms-flex-align: start;
+          align-items: flex-start;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+.wrapper.app {
+  margin-top: -50px;
+  margin-left: 56px;
+  /* breite des Nav-Menu */
+  --scroll_margin: calc(3rem + 64px);
+  /* 64px ist Höhe der App-Bar */
+}
+
+@media (max-width: 1220px) {
+  .wrapper {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: start;
+        -ms-flex-align: start;
+            align-items: flex-start;
+    -webkit-box-pack: start;
+        -ms-flex-pack: start;
+            justify-content: flex-start;
+    margin-left: 56px;
+  }
+  .wrapper.app {
+    margin-top: 90px;
+    margin-left: 56px;
+    /* breite des Nav-Menu */
+  }
+}
+
+/* ============================================================================ */
+.vas-doc {
+  background-color: white;
+  color: black;
+  /* todo: fluid? clamp vw */
+  font-size: 1rem;
+  font-family: var(--FF-BODYTEXT);
+  line-height: 1.3;
+  max-width: 700px;
+  min-width: 500px;
+  /* nur dev */
+  margin: 0 1rem;
+  /* in bibl, oder Familienartikeln */
+}
+
+.vas-doc ul {
+  list-style: none;
+  margin: 0;
+  margin-bottom: 1rem;
+  padding: 0rem 0rem 0rem 0rem;
+}
+
+.vas-doc li::marker {
+  content: "\2013";
+}
+
+.vas-doc li {
+  margin: .5rem 0rem .5rem .4rem;
+  padding-left: 0.4rem;
+  line-height: 1.3;
+}
+
+.by {
+  font-style: italic;
+  font-weight: bold;
+  margin: 1rem 0rem;
+}
+
+.by .author {
+  font-style: normal;
+}
+
+.sm-caps {
+  font-variant: small-caps;
+  letter-spacing: 0.07em;
+}
+
+.pagenav {
+  border-right: 1px solid #aaa;
+  margin: 1rem;
+  padding: 1rem;
+  /* nur dev */
+  position: -webkit-sticky;
+  position: sticky;
+  top: 50px;
+  margin-top: 6rem;
+  min-width: 260px;
+  max-height: 100vh;
+  overflow-y: auto;
+}
+
+.pagenav ul {
+  margin: 0;
+  padding: 0;
+}
+
+.pagenav li::marker {
+  content: none;
+}
+
+.pagenav li {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.pagenav li a {
+  display: block;
+  width: 100%;
+}
+
+.pagenav .pagenav__toc &gt; li {
+  font-family: var(--FF-DISPLAY);
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.2rem;
+  padding: .2rem 0rem;
+}
+
+.pagenav .pagenav__toc &gt; li a {
+  position: relative;
+  text-decoration: none;
+}
+
+.pagenav .pagenav__toc &gt; li a::before {
+  content: "\25B6";
+  position: absolute;
+  top: 0rem;
+  left: -1rem;
+  z-index: 2;
+  color: black;
+  opacity: 0;
+  -webkit-transition: opacity 300ms;
+  transition: opacity 300ms;
+}
+
+.pagenav .pagenav__toc &gt; li a:hover {
+  text-decoration: underline;
+}
+
+.pagenav .pagenav__toc &gt; li a:hover::before {
+  opacity: 1;
+}
+
+.pagenav .pagenav__toc .section {
+  margin-left: 1.5rem;
+  line-height: 1.1;
+}
+
+.pagenav .pagenav__toc .section a::before {
+  left: -2.5rem;
+}
+
+.pagenav .pagenav__label {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  margin-top: .3rem;
+  /* übernimmt optisch die Gliederung in Gruppen */
+}
+
+.pagenav .pagenav__label span:first-child {
+  font-family: var(--FF-TERMS);
+  font-size: .8em;
+  font-weight: 500;
+  color: #808080;
+  font-size: .6em;
+  text-align: left;
+  padding-left: 3px;
+  color: #d51717;
+}
+
+.pagenav .pagenav__label span:last-child {
+  display: none;
+  font-family: var(--FF-TERMS);
+  font-size: .8em;
+  font-weight: 500;
+  color: #0d65c2;
+  font-size: .6em;
+  text-align: right;
+  padding-right: 3px;
+}
+
+.pagenav .pagenav__forms {
+  margin: 0.2rem 0rem 0.4rem 0.1rem;
+}
+
+.pagenav .pagenav__forms &gt; li {
+  font-size: 1rem;
+  line-height: 1.2;
+}
+
+.pagenav .pagenav__forms &gt; li a {
+  position: relative;
+}
+
+.pagenav .pagenav__forms &gt; li a::before {
+  content: "\25B6";
+  position: absolute;
+  top: 0.1rem;
+  left: -1rem;
+  z-index: 2;
+  color: black;
+}
+
+.wrapper.app .pagenav {
+  /* 50 + app bar height (64) */
+  top: 130px;
+}
+
+/* STICHWORT KOPF */
+.head-lzga {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-box-align: baseline;
+      -ms-flex-align: baseline;
+          align-items: baseline;
+  font-family: var(--FF-DISPLAY);
+  margin: 1.5rem 0rem 1rem 0rem;
+  border-bottom: 1px solid #aaa;
+}
+
+.lzga {
+  font-size: 2rem;
+  font-weight: 500;
+  letter-spacing: .6;
+}
+
+.typ-ang {
+  color: #999;
+  text-align: right;
+  font-size: .8rem;
+}
+
+/* ===== BLOCK LEVEL ================================== */
+.overview-p {
+  margin: 2rem 1.5rem 2.5rem 1.5rem;
+}
+
+.overview-pattern {
+  margin: 1rem 0rem 2rem 1.5rem;
+}
+
+.pattern-small {
+  display: -webkit-inline-box;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  width: 100%;
+  -webkit-box-pack: start;
+      -ms-flex-pack: start;
+          justify-content: start;
+}
+
+.pattern-small .pitem {
+  font-family: var(--FF-TERMS);
+  color: white;
+  padding: 3px 0.5rem;
+  font-size: .8rem;
+  font-weight: 500;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  border-radius: .3em;
+  white-space: nowrap;
+  height: 1.2rem;
+  margin: 2px;
+}
+
+.pattern-large {
+  scroll-margin-top: var(--scroll_margin);
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  margin: 0rem 0rem 1rem 0rem;
+  position: relative;
+  height: 4rem;
+}
+
+.pattern-large .pitem-column {
+  position: relative;
+  width: 5.5rem;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: end;
+      -ms-flex-pack: end;
+          justify-content: flex-end;
+  margin-right: .3rem;
+}
+
+.pattern-large .pitem-column .pitem {
+  font-family: var(--FF-TERMS);
+  color: white;
+  padding: 3px 0.5rem;
+  font-size: .8rem;
+  font-weight: 500;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  border-radius: .3em;
+  height: 1.9rem;
+}
+
+.pattern-large .pitem-column .pitem .ktype {
+  font-size: .6em;
+  padding-left: .4em;
+  padding-top: 1em;
+}
+
+.pattern-large .pitem-column .head {
+  line-height: 1.2;
+  padding-bottom: 5px;
+}
+
+.pattern-large .pitem-column .head.rel {
+  font-family: var(--FF-TERMS);
+  font-size: .8em;
+  font-weight: 500;
+  color: #d51717;
+  font-size: .9em;
+  position: absolute;
+  top: .3rem;
+  width: 14rem;
+  padding-left: 2px;
+}
+
+.pattern-large .pitem-column .head.figure {
+  font-family: var(--FF-TERMS);
+  font-size: .8em;
+  font-weight: 500;
+  color: #008702;
+  font-size: .6em;
+  text-align: right;
+  padding-right: 2px;
+}
+
+.pattern-large .pitem-column .head.ground {
+  font-family: var(--FF-TERMS);
+  font-size: .8em;
+  font-weight: 500;
+  color: #0d65c2;
+  font-size: .6em;
+  text-align: right;
+  padding-right: 2px;
+}
+
+.pattern-large .pitem-column .head.effector {
+  font-family: var(--FF-TERMS);
+  font-size: .8em;
+  font-weight: 500;
+  color: #be45ab;
+  font-size: .6em;
+  text-align: right;
+  padding-right: 2px;
+}
+
+/* TODO local properties für FARBE verwenden */
+.pattern-large .pitem-column .head.figure .marker {
+  color: white;
+  background-color: #008702;
+  border-radius: 50%;
+  display: -webkit-inline-box;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  width: .8rem;
+  height: .8rem;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  margin-right: 1px;
+}
+
+.pattern-large .pitem-column .head.ground .marker {
+  color: white;
+  background-color: #0d65c2;
+  border-radius: 50%;
+  display: -webkit-inline-box;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  width: .8rem;
+  height: .8rem;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  margin-right: 1px;
+}
+
+.pattern-large .pitem-column .head.effector .marker {
+  color: white;
+  background-color: #be45ab;
+  border-radius: 50%;
+  display: -webkit-inline-box;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  width: .8rem;
+  height: .8rem;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  margin-right: 1px;
+}
+
+.pitem.rel {
+  background-color: #d51717;
+}
+
+.pitem.figure {
+  background-color: #008702;
+}
+
+.pitem.ground {
+  background-color: #0d65c2;
+}
+
+.pitem.effector {
+  background-color: #be45ab;
+}
+
+.pitem.prp {
+  background-color: #000000;
+}
+
+.pitem sub {
+  font-size: 60%;
+}
+
+/* Abschnitte und ÜBerschriften */
+section h1 {
+  scroll-margin-top: var(--scroll_margin);
+  position: relative;
+  font-family: var(--FF-DISPLAY);
+  font-size: 1.5rem;
+  font-weight: 500;
+  line-height: 1.2rem;
+  margin: 2.5rem 0 .5rem 0rem;
+}
+
+/* Abschnitts Überschriften im forms-Teil */
+/*
+section &gt; h2 {
+    scroll-margin-top: 2rem;
+
+    position: relative;
+
+    font-family: var(--FF-DISPLAY);
+    font-size: 1.2rem;
+    font-weight: 500;
+    font-style: italic;
+    line-height: 1.2rem;
+    margin: 0.6rem 0 .5rem 0rem;
+    
+}
+*/
+h1 + .sub-sec h2 {
+  margin-top: 0rem;
+}
+
+.sub-sec h2 {
+  scroll-margin-top: var(--scroll_margin);
+  font-family: var(--FF-DISPLAY);
+  font-size: 1.1rem;
+  font-weight: 500;
+  margin: 1.5rem 0rem 0.1rem 0rem;
+}
+
+/* 
+    wie .overview-p
+    eine Section mit @class=def in XML
+*/
+.sub-sec.def {
+  margin: 2rem 1.5rem 2.5rem 1.5rem;
+}
+
+/* Im Überblick; Prototypisch ... Beispiele*/
+h4 {
+  font-family: var(--FF-DISPLAY);
+  letter-spacing: .1rem;
+  font-weight: 500;
+  font-size: .7rem;
+  margin: 1rem 0rem 0rem 0rem;
+}
+
+p {
+  margin: 0rem 0rem 1rem 0rem;
+}
+
+/**
+ * Block von Samples
+ */
+.examples {
+  font-size: 0.9rem;
+  margin: 1rem 0rem 1rem 0.1rem;
+}
+
+.sample {
+  scroll-margin-top: var(--scroll_margin);
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: start;
+      -ms-flex-align: start;
+          align-items: flex-start;
+  margin-bottom: 0.8rem;
+  line-height: 1.2rem;
+  /* gap: 6px; Safari kann das nicht ... was ein Schrott */
+}
+
+.sample-nr {
+  font-family: var(--FF-DISPLAY);
+  font-size: .8em;
+  font-style: normal;
+  padding-top: 1px;
+  margin-right: 8px;
+}
+
+.sample-pref {
+  font-weight: bold;
+  margin-right: 2px;
+  color: red;
+  font-size: .85em;
+  position: relative;
+  top: -4px;
+}
+
+.sample-txt {
+  font-style: italic;
+}
+
+.sample-txt span.rel {
+  font-family: var(--FF-TERMS);
+  font-size: .8em;
+  font-weight: 400;
+  color: #d51717;
+  border-bottom: 1px solid #d51717;
+}
+
+.sample-txt span.rel::before {
+  content: '';
+  position: relative;
+  border-left: 1px solid #d51717;
+  font-size: 6px;
+  vertical-align: sub;
+  margin-right: 1px;
+}
+
+.sample-txt span.rel::after {
+  content: '';
+  position: relative;
+  border-right: 1px solid #d51717;
+  font-size: 6px;
+  vertical-align: sub;
+  margin-left: 1px;
+}
+
+.sample-txt span.val {
+  /* c&amp;p aus 'terms-sample' TODO */
+  font-family: var(--FF-TERMS);
+  font-size: .8em;
+  font-weight: 400;
+  color: white;
+  background-color: #d51717;
+  padding: 1px 4px 0px 3px;
+  border-radius: 3px;
+}
+
+.sample-txt span.prp {
+  /* c&amp;p aus 'terms-sample' TODO */
+  font-family: var(--FF-TERMS);
+  font-size: .8em;
+  font-weight: 400;
+  color: white;
+  background-color: #000000;
+  padding: 1px 4px 0px 3px;
+  border-radius: 3px;
+}
+
+.sample-txt span.vrb {
+  /* c&amp;p aus 'terms-sample' TODO */
+  font-family: var(--FF-TERMS);
+  font-size: .8em;
+  font-weight: 400;
+  color: #d51717;
+  font-weight: 400;
+}
+
+.sample-txt span.figure {
+  font-family: var(--FF-TERMS);
+  font-size: .8em;
+  font-weight: 400;
+  color: #008702;
+  border-bottom: 1px solid #008702;
+}
+
+.sample-txt span.figure::before {
+  content: '';
+  position: relative;
+  border-left: 1px solid #008702;
+  font-size: 6px;
+  vertical-align: sub;
+  margin-right: 1px;
+}
+
+.sample-txt span.figure::after {
+  content: '';
+  position: relative;
+  border-right: 1px solid #008702;
+  font-size: 6px;
+  vertical-align: sub;
+  margin-left: 1px;
+}
+
+.sample-txt span.ground {
+  font-family: var(--FF-TERMS);
+  font-size: .8em;
+  font-weight: 400;
+  color: #0d65c2;
+  border-bottom: 1px solid #0d65c2;
+}
+
+.sample-txt span.ground::before {
+  content: '';
+  position: relative;
+  border-left: 1px solid #0d65c2;
+  font-size: 6px;
+  vertical-align: sub;
+  margin-right: 1px;
+}
+
+.sample-txt span.ground::after {
+  content: '';
+  position: relative;
+  border-right: 1px solid #0d65c2;
+  font-size: 6px;
+  vertical-align: sub;
+  margin-left: 1px;
+}
+
+.sample-txt span.effector {
+  font-family: var(--FF-TERMS);
+  font-size: .8em;
+  font-weight: 400;
+  color: #be45ab;
+  border-bottom: 1px solid #be45ab;
+}
+
+.sample-txt span.effector::before {
+  content: '';
+  position: relative;
+  border-left: 1px solid #be45ab;
+  font-size: 6px;
+  vertical-align: sub;
+  margin-right: 1px;
+}
+
+.sample-txt span.effector::after {
+  content: '';
+  position: relative;
+  border-right: 1px solid #be45ab;
+  font-size: 6px;
+  vertical-align: sub;
+  margin-left: 1px;
+}
+
+.arg-mark {
+  border-radius: 50%;
+  display: -webkit-inline-box;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  width: 1.1rem;
+  height: 1.1rem;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.arg-mark.ground {
+  color: white;
+  background-color: #0d65c2;
+}
+
+.arg-mark.effector {
+  color: white;
+  background-color: #be45ab;
+}
+
+.arg-mark.figure {
+  color: white;
+  background-color: #008702;
+}
+
+.overview-p .ground::after {
+  content: "G";
+  color: white;
+  background-color: #0d65c2;
+  border-radius: 50%;
+  display: -webkit-inline-box;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  width: 1.1rem;
+  height: 1.1rem;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-transform: translateY(0.4rem) scale(80%);
+          transform: translateY(0.4rem) scale(80%);
+}
+
+.overview-p .figure::after {
+  content: "F";
+  color: white;
+  background-color: #008702;
+  border-radius: 50%;
+  display: -webkit-inline-box;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  width: 1.1rem;
+  height: 1.1rem;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-transform: translateY(0.4rem) scale(80%);
+          transform: translateY(0.4rem) scale(80%);
+}
+
+.overview-p .effector::after {
+  content: "A";
+  color: white;
+  background-color: #be45ab;
+  border-radius: 50%;
+  display: -webkit-inline-box;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  width: 1.1rem;
+  height: 1.1rem;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-transform: translateY(0.4rem) scale(80%);
+          transform: translateY(0.4rem) scale(80%);
+}
+
+.cosmas-id {
+  font-style: normal;
+  color: #aaa;
+  font-size: 0.7rem;
+  font-family: var(--FF-DISPLAY);
+}
+
+.forms-section {
+  position: relative;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.forms-section__label {
+  -webkit-box-flex: 0;
+      -ms-flex-positive: 0;
+          flex-grow: 0;
+  -ms-flex-negative: 0;
+      flex-shrink: 0;
+  width: 1.5rem;
+  color: black;
+  background-color: #ececec;
+  margin: .4rem .3rem 1rem 0rem;
+  padding: 1.5rem 0rem;
+  border-radius: 6px;
+}
+
+.forms-section__label span {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 2rem;
+  -webkit-writing-mode: vertical-lr;
+      -ms-writing-mode: tb-lr;
+          writing-mode: vertical-lr;
+  -webkit-transform: rotate(180deg);
+          transform: rotate(180deg);
+  letter-spacing: 2.5;
+  text-transform: lowercase;
+  font-size: 0.7rem;
+  font-family: var(--FF-DISPLAY);
+  font-weight: 500;
+  line-height: 1;
+  padding-right: 7px;
+}
+
+.forms-abs {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.forms-abs__label {
+  -webkit-box-flex: 0;
+      -ms-flex-positive: 0;
+          flex-grow: 0;
+  -ms-flex-negative: 0;
+      flex-shrink: 0;
+  width: 1.5rem;
+  color: black;
+  background-color: #ececec;
+  margin: .4rem .3rem 1rem 0rem;
+  padding: 1.5rem 0rem;
+  border-radius: 6px;
+}
+
+.forms-abs__label span {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 2rem;
+  -webkit-writing-mode: vertical-lr;
+      -ms-writing-mode: tb-lr;
+          writing-mode: vertical-lr;
+  -webkit-transform: rotate(180deg);
+          transform: rotate(180deg);
+  letter-spacing: 2.5;
+  font-size: 0.7rem;
+  font-family: var(--FF-DISPLAY);
+  font-weight: 500;
+  line-height: 1;
+  padding-right: 7px;
+}
+
+/*
+#forms ~ div::before {
+    content: "";
+    width: 1rem;
+    margin-left: 2px;
+    background-color: pink;
+
+    position: absolute;
+    height: 100%;
+}
+*/
+/**
+ * modifikatoren akt, med, pass möglich
+ */
+.form-grp::after {
+  position: relative;
+  display: block;
+  content: "";
+  width: 460px;
+  margin: 2em 3em;
+  border-top: 1px solid #aaa;
+}
+
+.form-grp:last-child::after {
+  position: relative;
+  display: block;
+  content: "";
+  border: none;
+}
+
+.pred-list {
+  position: relative;
+  overflow: hidden;
+  margin-bottom: 0.6rem;
+  font-size: 0.9rem;
+}
+
+.pred-list input {
+  position: absolute;
+  top: 0;
+  left: 0;
+  opacity: 0;
+}
+
+.pred-list input:checked ~ .pred-list__content {
+  -ms-grid-rows: 1fr;
+      grid-template-rows: 1fr;
+  opacity: 1;
+}
+
+.pred-list input:checked ~ .pred-list__head {
+  border-bottom-right-radius: 0px;
+  border-bottom-left-radius: 0px;
+}
+
+.pred-list input:checked ~ .pred-list__head label .arrow {
+  -webkit-transform: rotate(180deg);
+          transform: rotate(180deg);
+  -webkit-transition: -webkit-transform 0.5s ease 0s;
+  transition: -webkit-transform 0.5s ease 0s;
+  transition: transform 0.5s ease 0s;
+  transition: transform 0.5s ease 0s, -webkit-transform 0.5s ease 0s;
+}
+
+.pred-list__head {
+  position: relative;
+  margin: 0px 1px 1px 1px;
+  /* BUG? in FF, Border-Right sonst manchmal! unsichtbar */
+  padding: 1rem 1rem 0.6rem 1rem;
+  background-color: #ececec;
+  border-radius: 6px;
+  z-index: 2;
+  /* Zeile mit 'Label'-Button */
+}
+
+.pred-list__head .pred-list__lblhead {
+  font-weight: bold;
+}
+
+.pred-list__head .pred-list__lblbody {
+  font-weight: normal;
+  font-style: italic;
+}
+
+.pred-list__head div:nth-child(2) {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: end;
+      -ms-flex-pack: end;
+          justify-content: flex-end;
+}
+
+.pred-list__head label {
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  position: relative;
+  background-color: white;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  width: 130px;
+  height: 32px;
+  font-family: var(--FF-DISPLAY);
+  font-size: .75rem;
+  font-weight: 400;
+  padding: 1px .2rem 0rem .5em;
+  border: 1px solid white;
+  border-radius: 6px;
+  cursor: pointer;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+}
+
+.pred-list__head label:hover {
+  border: 1px solid #c2c2c2;
+}
+
+.pred-list__head label:active {
+  background-color: #fcfcfc;
+  -webkit-transform: scale(0.975);
+          transform: scale(0.975);
+}
+
+.pred-list__head label .arrow {
+  height: 24px;
+  width: 24px;
+  -webkit-transform: rotate(0deg);
+          transform: rotate(0deg);
+  -webkit-transition: -webkit-transform 0.5s ease 0s;
+  transition: -webkit-transform 0.5s ease 0s;
+  transition: transform 0.5s ease 0s;
+  transition: transform 0.5s ease 0s, -webkit-transform 0.5s ease 0s;
+}
+
+.pred-list__head label .arrow svg {
+  height: 24px;
+  width: 24px;
+}
+
+/*
+ der max-height Trick für accordeons ist out. Besser mit GRID:
+
+    * https://www.youtube.com/watch?v=B_n4YONte5A (Kevin Powell)
+    * https://keithjgrant.com/posts/2023/04/transitioning-to-height-auto/
+*/
+.pred-list__content {
+  position: relative;
+  z-index: 1;
+  margin: 0px 1px 1px 1px;
+  /* BUG? in FF, Border-Right sonst manchmal! unsichtbar */
+  font-size: 0.8rem;
+  border: 1px solid #d1d1d1;
+  border-bottom-right-radius: 6px;
+  border-bottom-left-radius: 6px;
+  border-top: none;
+  /* .pred-lis input:checked als trigger */
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-rows: 0fr;
+      grid-template-rows: 0fr;
+  opacity: 0;
+  -webkit-transition: grid-template-rows 0.6s ease-out,
+ opacity 0.6s;
+  transition: grid-template-rows 0.6s ease-out,
+ opacity 0.6s;
+  transition: grid-template-rows 0.6s ease-out,
+ opacity 0.6s,
+ -ms-grid-rows 0.6s ease-out;
+  /* .pred-list__content__inner */
+}
+
+.pred-list__content &gt; div {
+  overflow: hidden;
+}
+
+.pred-list__content__inner &gt; div {
+  padding: 1rem;
+}
+
+.pred-list__content .predicate {
+  font-weight: bold;
+}
+
+.pred-list__content ul {
+  list-style: none;
+  margin: 0rem 0rem 1rem 0rem;
+  padding-left: 1.2rem;
+}
+
+.pred-list__content li::marker {
+  content: "";
+}
+
+.pred-list__content .examples {
+  margin: 0;
+}
+
+/* Liste von Mustern in Familienartikeln */
+/*
+.pattern-list__body {
+} */
+.pattern-list__sample {
+  line-height: 1rem;
+  font-size: 0.85rem;
+  margin: 0.3rem 0rem 0.8rem 2rem;
+}
+
+.allcaps {
+  text-transform: uppercase;
+}
+
+/*
+    val (in REL) und invers (in ground) sind hervorhebungen
+    2ten grades
+*/
+/*
+.invers {
+    background-color: $GROUND-COLOR;
+    color: white !important;
+    padding: 0px 3px;
+
+    border-radius: 3px;
+    border-width: 2px;
+    border-color: $GROUND-COLOR;
+    border-style: solid;
+}
+
+.val {
+    background-color: $REL-COLOR;
+    color: white !important;;
+    padding: 0px 3px;
+
+    border-radius: 3px;
+    border-radius: 3px;
+    border-width: 2px;
+    border-color: $REL-COLOR;
+    border-style: solid;
+}
+*/
+span.rel {
+  font-family: var(--FF-TERMS);
+  font-size: .8em;
+  font-weight: 500;
+  color: #d51717;
+}
+
+span.figure {
+  font-family: var(--FF-TERMS);
+  font-size: .8em;
+  font-weight: 500;
+  color: #008702;
+}
+
+span.ground {
+  font-family: var(--FF-TERMS);
+  font-size: .8em;
+  font-weight: 500;
+  color: #0d65c2;
+}
+
+span.effector {
+  font-family: var(--FF-TERMS);
+  font-size: .8em;
+  font-weight: 500;
+  color: #be45ab;
+}
+
+.hi.rel {
+  font-family: var(--FF-TERMS);
+  font-size: .8em;
+  font-weight: 500;
+  color: #d51717;
+  font-style: italic;
+}
+
+.hi.figure {
+  font-family: var(--FF-TERMS);
+  font-size: .8em;
+  font-weight: 500;
+  color: #008702;
+  font-style: italic;
+}
+
+.hi.ground {
+  font-family: var(--FF-TERMS);
+  font-size: .8em;
+  font-weight: 500;
+  color: #0d65c2;
+  font-style: italic;
+}
+
+.hi.effector {
+  font-family: var(--FF-TERMS);
+  font-size: .8em;
+  font-weight: 500;
+  color: #be45ab;
+  font-style: italic;
+}
+
+/* ====================== LINKS ================= */
+/* das sind einfache Zahlen ... im Text in Klammern gesetzt (*seufz*) */
+.xref-lnk {
+  text-decoration: none;
+  /* wie sample-nr */
+  font-family: var(--FF-DISPLAY);
+  font-size: .8em;
+  font-style: normal;
+  /* wie val und invers */
+  background-color: #e7e7e7;
+  padding: 1px 6px;
+  border-radius: 0.6rem;
+}
+
+.xref-lnk:hover {
+  color: black;
+  background-color: #c9c9c9;
+}
+
+.xref-lnk:active {
+  color: white;
+  background-color: #bebebe;
+}
+
+/* klass. LINKS ... 
+    intern(#)  i-lnk
+    extern (http) ext-lnk
+    docs (/../..) doc-lnk
+    andere entry-lnk
+*/
+a.i-lnk, a.entry-lnk, a.ext-lnk, a.doc-lnk {
+  text-decoration: none;
+  font-size: .9em;
+  color: #303030;
+  background-color: #e7e7e7;
+  border-radius: 3px;
+  padding: 1px 3px;
+}
+
+a.i-lnk:hover, a.entry-lnk:hover, a.ext-lnk:hover, a.doc-lnk:hover {
+  color: black;
+  background-color: #c9c9c9;
+}
+
+a.i-lnk:active, a.entry-lnk:active, a.ext-lnk:active, a.doc-lnk:active {
+  color: white;
+  background-color: #bebebe;
+}
+
+a.entry-lnk {
+  font-variant: small-caps;
+  letter-spacing: 0.07em;
+}
+
+a.entry-lnk::after, a.ext-lnk::after {
+  content: "\2197";
+  color: #303030;
+  font-size: .9em;
+  padding-left: 2px;
+  vertical-align: text-top;
+}
+
+.bibl-ref {
+  text-decoration: none;
+  font-size: .9em;
+  color: #303030;
+  background-color: #e7e7e7;
+  border-radius: 3px;
+  padding: 1px 3px;
+}
+
+.bibl-ref:hover {
+  color: black;
+  background-color: #c9c9c9;
+}
+
+.bibl-ref:active {
+  color: white;
+  background-color: #bebebe;
+}
+
+.illustration {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  margin: 2rem 3rem 2rem 2rem;
+}
+
+.illustration img {
+  -o-object-fit: contain;
+     object-fit: contain;
+}
+
+.illustration div {
+  background-color: black;
+  font-family: var(--FF-TERMS);
+  color: white;
+  font-size: .6rem;
+  padding: .15rem;
+  text-align: center;
+}
+/*# sourceMappingURL=main.css.map */</value>
+  </data>
+  <data name="Template_HTML" xml:space="preserve">
+    <value>&lt;html&gt;
+&lt;head&gt;&lt;style&gt;
+{{CSS}}
+&lt;/style&gt;&lt;/head&gt;
+&lt;body&gt;
+&lt;div class="vas-doc"&gt;
+&lt;div class="examples"&gt;
+&lt;div class="head-lzga"&gt;Belege&lt;/div&gt;
+{{SAMPLES}}
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/body&gt;
+&lt;/html&gt;</value>
+  </data>
+  <data name="Template_SAMPLE" xml:space="preserve">
+    <value>&lt;div class="sample"&gt;
+&lt;div class="sample-nr"&gt;{{ID}}&lt;/div&gt;&lt;br/&gt;
+&lt;div class="sample-txt"&gt;{{CONTENT}}&lt;/div&gt;
+&lt;/div&gt;</value>
+  </data>
+  <data name="Template_SPAN" xml:space="preserve">
+    <value>&lt;span class="{{CLASS}}"&gt;{{TXT}}&lt;/span&gt;</value>
+  </data>
+</root>

@@ -1,14 +1,52 @@
-﻿namespace IDS.VAS.Excel2Xml.XRefValidator
+﻿using HtmlAgilityPack;
+using IDS.VAS.Excel2Xml.XRefValidator.Properties;
+using System.Text;
+
+namespace IDS.VAS.Excel2Xml.XRefValidator
 {
   internal class Program
   {
     static void Main(string[] args)
     {
+      var file = args[0];
+
       var doc = new HtmlAgilityPack.HtmlDocument();
-      Console.WriteLine("START VALIDATION: " + args[0]);
-      doc.Load(args[0]);
+      Console.WriteLine("START VALIDATION: " + file);
+      doc.Load(file);
 
       var samples = doc.DocumentNode.SelectNodes("//sample");
+      SearchUnnannotatedSamples(file, doc, samples);
+      GenerateAnnotatedHtml(file, samples);
+
+      Console.WriteLine("END VALIDATION: " + file);
+      Console.ReadLine();
+    }
+
+    private static void GenerateAnnotatedHtml(string file, HtmlNodeCollection samples)
+    {
+      var output = file + ".html";
+      if (File.Exists(output))
+        File.Delete(output);
+
+      var stb2 = new StringBuilder();
+      foreach(HtmlNode sample in samples)
+      {
+        var stb1 = new StringBuilder();
+        foreach(HtmlNode child in sample.ChildNodes)
+        {
+          if(child.Name == "#text")
+            stb1.AppendLine(child.InnerText);
+          else
+            stb1.AppendLine(Resources.Template_SPAN.Replace("{{CLASS}}", child.Name).Replace("{{TXT}}", child.InnerText));
+        }
+        stb2.AppendLine(Resources.Template_SAMPLE.Replace("{{ID}}", sample.GetAttributeValue("id", "")).Replace("{{CONTENT}}", stb1.ToString()));
+      }
+
+      File.WriteAllText(output, Resources.Template_HTML.Replace("{{CSS}}", Resources.Template_CSS).Replace("{{SAMPLES}}", stb2.ToString()));
+    }
+
+    private static void SearchUnnannotatedSamples(string file, HtmlDocument doc, HtmlNodeCollection samples)
+    {
       var unannotated = new HashSet<string>();
 
       foreach (var x in samples)
@@ -38,7 +76,7 @@
           todo.Add(id);
       }
 
-      var output = args[0] + ".txt";
+      var output = file + ".txt";
       if (File.Exists(output))
         File.Delete(output);
 
