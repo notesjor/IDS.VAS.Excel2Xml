@@ -21,7 +21,7 @@ namespace IDS.VAS.Excel2DataViz
           continue;
 
         var rows = sheet.Rows.Cast<DataRow>()
-                        .Where(row => row.ItemArray[mapper.Mapping["EINGANG"]]?.ToString()?.Trim() != "0")
+                        .Where(row => row.ItemArray[mapper.Mapping["EINGANG"]]?.ToString()?.Trim() == "1")
                         .ToArray();
 
         MakeSimple(mapper, rows);
@@ -53,6 +53,9 @@ namespace IDS.VAS.Excel2DataViz
         var gl = row.ItemArray[mapper.Mapping["GRUND(LEX)"]]?.ToString();
         if (string.IsNullOrWhiteSpace(gl))
           continue;
+
+        pk = pk.Replace("_", " ");
+        gl = gl.Replace("_", " ");
 
         var keys = new[] { pt, pk, gl };
         if (dict.ContainsKey(muster))
