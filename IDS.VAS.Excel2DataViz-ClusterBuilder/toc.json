@@ -1,0 +1,114 @@
+﻿[
+    {
+        "Label": "VOR",
+        "Id": "vor",
+        "Entries": [
+            {
+                "Label": "Bevorstehen",
+                "Id": "bevorstehen"
+            },
+            {
+                "Label": "Respekt",
+                "Id": "respekt"
+            },
+            {
+                "Label": "Übermaß",
+                "Id": "uebermass"
+            },
+            {
+                "Label": "Vorrangigkeit",
+                "Id": "vorrangigkeit"
+            }
+        ],
+        "SubGroups": [
+            {
+                "Label": "Bedrohung",
+                "Id": "bedrohung",
+                "Entries": [
+                    {
+                        "Label": "Furcht",
+                        "Id": "furcht"
+                    },
+                    {
+                        "Label": "Vermeidung",
+                        "Id": "vermeidung"
+                    },
+                    {
+                        "Label": "Bewährung",
+                        "Id": "bewaehrung"
+                    },
+                    {
+                        "Label": "Warnung",
+                        "Id": "warnung"
+                    },
+                    {
+                        "Label": "Schutz",
+                        "Id": "schutz"
+                    }                    
+                ]
+            },
+            {
+                "Label": "Wahrnehmung",
+                "Id": "wahrnehmung",
+                "Entries": [
+                    {
+                        "Label": "Auftritt",
+                        "Id": "auftritt"
+                    },
+                    {
+                        "Label": "Verbergen",
+                        "Id": "verbergen"
+                    },
+                    {
+                        "Label": "Beurteilung",
+                        "Id": "beurteilung"
+                    }                    
+                ]
+            }
+        ]
+    },
+    {
+        "Label": "NACH",
+        "Id": "nach",
+        "Entries": [
+            {
+                "Label": "Nachrangigkeit",
+                "Id": "nachrangigkeit"
+            }
+        ],
+        "SubGroups": [
+            {
+                "Label": "Entsprechung",
+                "Id": "entsprechung",
+                "Entries": [
+                    {
+                        "Label": "Ähnlichkeit",
+                        "Id": "aehnlichkeit"
+                    },
+                    {
+                        "Label": "Vorgabe",
+                        "Id": "vorgabe"
+                    }                    
+                ]
+            },
+            {
+                "Label": "Erstreben",
+                "Id": "erstreben",
+                "Entries": [
+                    {
+                        "Label": "Erreichen",
+                        "Id": "erreichen"
+                    },
+                    {
+                        "Label": "Erlangen",
+                        "Id": "erlangen"
+                    },
+                    {
+                        "Label": "Ersehnen",
+                        "Id": "ersehnen"
+                    }                    
+                ]
+            }
+        ]
+    }
+]
