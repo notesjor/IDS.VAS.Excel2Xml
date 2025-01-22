@@ -1,0 +1,9 @@
+{
+  "profiles": {
+    "IDS.VAS.Excel2Xml.Automate": {
+      "commandName": "Project",
+      "commandLineArgs": "nach.xslx",
+      "workingDirectory": "C:\\Projekte\\IDS\\IDS.VAS.Excel2Xml\\IDS.VAS.Excel2Xml.Automate\\bin\\Debug\\"
+    }
+  }
+}

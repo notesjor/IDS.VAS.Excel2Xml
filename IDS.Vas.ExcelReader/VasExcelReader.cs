@@ -9,6 +9,8 @@ namespace IDS.Vas.ExcelReader
   {
     public static DataSet ReadExcel(string path)
     {
+      System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
+
       using (var fs = new FileStream(path, FileMode.Open, FileAccess.Read))
       {
         var reader = ExcelReaderFactory.CreateReader(fs, new ExcelReaderConfiguration()
