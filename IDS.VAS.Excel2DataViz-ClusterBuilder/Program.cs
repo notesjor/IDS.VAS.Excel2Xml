@@ -30,27 +30,30 @@ namespace IDS.VAS.Excel2DataViz_ClusterBuilder
         var items = new List<string>();
         items.AddRange(prp.Entries.Select(x => x.Id.ToUpper()));
         items.AddRange(prp.SubGroups.SelectMany(x => x.Entries).Select(x => x.Id.ToUpper()));
-        GeneratedJson(dat, prp.Id, items);
+        GeneratedJson(dat, prp.Id, prp.Id, items);
 
         // Cluster für SubGroups
         foreach (var sub in prp.SubGroups)
         {
-          GeneratedJson(dat, sub.Id, sub.Entries.Select(x => x.Id.ToUpper()));
+          GeneratedJson(dat, prp.Id, sub.Id, sub.Entries.Select(x => x.Id.ToUpper()));
           foreach (var entry in sub.Entries)
-            GeneratedJson(dat, entry.Id, new[] { entry.Id.ToUpper() });
+            // Cluster für Entries in SubGroup
+            GeneratedJson(dat, prp.Id, entry.Id, new[] { entry.Id.ToUpper() });
         }
 
-        // Cluster für Entries
+        // Cluster für Entries in PRP
         foreach (var entry in prp.Entries)
-          GeneratedJson(dat, entry.Id, new[] { entry.Id.ToUpper() });
+          GeneratedJson(dat, prp.Id, entry.Id, new[] { entry.Id.ToUpper() });
 
       }
     }
 
-    private static void GeneratedJson(FlareData data, string id, IEnumerable<string> items)
+    private static void GeneratedJson(FlareData data, string prp, string name, IEnumerable<string> items)
     {
-      var res = new FlareData{ Name = "flare", Children = data.Children.Where(x => items.Contains(x.Name.ToUpper())).ToArray() };
-      File.WriteAllText($"output/{id}.json", JsonConvert.SerializeObject(res, Formatting.Indented), Encoding.UTF8);
+      var res = new FlareData { Name = "flare", Children = data.Children.Where(x => items.Contains(x.Name.ToUpper())).ToArray() };
+      if (!Directory.Exists($"output/{prp}"))
+        Directory.CreateDirectory($"output/{prp}");
+      File.WriteAllText($"output/{prp}/{name}.json", JsonConvert.SerializeObject(res, Formatting.Indented), Encoding.UTF8);
     }
   }
 }
