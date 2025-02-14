@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.IO;
 using System.Reflection;
+using System.Text;
 
 namespace IDS.VAS.Xml2Html
 {
@@ -20,11 +21,15 @@ namespace IDS.VAS.Xml2Html
       {
         try
         {
+          var output = file.Replace(".xml", ".html");
+          if (File.Exists(output))
+            File.Delete(output);
+
           var arguments = string.Join(" ", new[]
           {
             $"-s:\"{file}\"",
             $"-xsl:\"{nuxt}\"",
-            $"-o:\"{file.Replace(".xml", ".html")}\""
+            $"-o:\"{output}\""
           });
 
           var process = Process.Start(new ProcessStartInfo
@@ -41,6 +46,15 @@ namespace IDS.VAS.Xml2Html
             File.WriteAllText(file + ".log", error);
 
           process.WaitForExit();
+          if (!File.Exists(output))
+            continue;
+
+          var html = File.ReadAllText(output, Encoding.UTF8);
+          html = html.Replace("<!DOCTYPE HTML>", "");
+          html = html.Replace("<html>", "<template>");
+          html = html.Replace("</html>", "</template>");
+          output = file.Replace(".xml", ".vue");
+          File.WriteAllText(output, html, Encoding.UTF8);
         }
         catch (Exception ex)
         {
