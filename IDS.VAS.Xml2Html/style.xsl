@@ -11,6 +11,7 @@
 
 
 <xsl:param name="PRINT"        select="'nein'" />
+<xsl:param name="APP"          select="'nein'" />
 
 <!-- 
 	WICHTIG: sonst können bei Familienartikeln die zugehörigen Muster
@@ -49,6 +50,8 @@
 	<xsl:value-of select="lower-case(normalize-space(/vas-artikel/head/meta[@type='prep']))"/>
 </xsl:variable>
 	
+<xsl:variable name="AUTHOR" select="lower-case(normalize-space(/vas-artikel/head/meta[@type='author']))" />
+	
 <!--
 	<xsl:variable name="ARTIKEL_INDEX" select="document(concat('../artikel/', $PRAEPOSITION, '/_index.xml'))" />
 	<xsl:variable name="ARTIKEL_INDEX" select="document('../artikel/vor/_index.xml')" />
@@ -67,20 +70,39 @@
 	<xsl:if test="not(string-length($PRAEPOSITION) gt 0)">
 		<xsl:message>ERROR: Das Feld im Head [meta type="prep"] muss gefüllt werden; z.B. mit 'vor' (ohne Anführungszeichen)</xsl:message>
 	</xsl:if>
-
-<div class="test-wrapper">			
-	<xsl:apply-templates select="/vas-artikel/body"/>
-</div>
-
+	
+	<xsl:choose>
+		 <xsl:when test="$APP eq 'ja'">
+			<div class="wrapper app">
+				<xsl:call-template name="SvgIcons" />			
+				<xsl:apply-templates select="/vas-artikel/body"/>
+			</div>
+		</xsl:when>
+		<xsl:otherwise>
+			<html >
+				<head>
+					<meta charset='utf-8' />
+					<meta name='viewport' content='width=device-width,initial-scale=1' />
+					
+					<title>VAS - <xsl:value-of select="/vas-artikel/head/meta[@type='name']"/></title>
+					
+					<!-- relativ zu <project-dir>/trans -->
+					<link rel='stylesheet' href='../etc/css/main.css' ></link>
+				</head>
+				<body>
+					<div class="wrapper">
+						<xsl:call-template name="SvgIcons" />			
+						<xsl:apply-templates select="/vas-artikel/body"/>
+					</div>
+				</body>
+			</html>		
+		</xsl:otherwise>
+	</xsl:choose>
 </xsl:template>
 	
 
 <xsl:template match="body">
-	
-	<xsl:if test="($ARTIKEL_CLASS eq 'Musterartikel') and ($PRINT eq 'nein')">
-		<xsl:call-template name="BuildPageNavigation" />
-	</xsl:if>
-	
+			
 	<div class="vas-doc">
 		
 		<div class="head-lzga">
@@ -89,18 +111,42 @@
 		</div>
 		
 		<xsl:apply-templates select="overview"/>
+		<xsl:apply-templates select="scenario" />
 		<xsl:apply-templates select="meaning"/>
 		<xsl:apply-templates select="section" mode="Level01"/>
 		<xsl:apply-templates select="forms"/>
 		<xsl:apply-templates select="predicates" />
 		<xsl:apply-templates select="references" />
+		
+		<!-- Autoren Kennzeichnung -->
+		<xsl:if test="$AUTHOR">
+			<div class="by">
+				Bearbeitet von
+				<xsl:choose>
+					<xsl:when test="$AUTHOR eq 'az'">
+						<a class="author" href="https://perso.ids-mannheim.de/seiten/zeschel.html"><xsl:value-of select="upper-case($AUTHOR)"/></a>
+					</xsl:when>
+					<xsl:when test="$AUTHOR eq 'kp'">
+						<a class="author" href="https://perso.ids-mannheim.de/seiten/proost.html"><xsl:value-of select="upper-case($AUTHOR)"/></a>
+					</xsl:when>
+					<xsl:otherwise>
+						<span class="author"><xsl:value-of select="upper-case($AUTHOR)"/></span>
+					</xsl:otherwise>
+				</xsl:choose>
+			</div>
+		</xsl:if>
 	</div>
+	
+	<xsl:if test="($ARTIKEL_CLASS eq 'Musterartikel') and ($PRINT eq 'nein')">
+		<xsl:call-template name="BuildPageNavigation" />
+	</xsl:if>
+	
 </xsl:template>
 	
 <xsl:template name="BuildPageNavigation">
 	<nav class="pagenav">
 		<ul class="pagenav__toc">
-			<xsl:apply-templates select="overview | meaning |
+			<xsl:apply-templates select="overview | meaning | scenario |
 				.//section | forms | predicates | references" mode="pagenav"/>
 		</ul>
 	</nav>
@@ -108,6 +154,10 @@
 	
 <xsl:template match="overview" mode="pagenav">
 	<li><a href="#overview">Überblick</a></li>
+</xsl:template>
+	
+<xsl:template match="scenario" mode="pagenav">
+	<li><a href="#scenario">Beteiligte</a></li>
 </xsl:template>
 	
 <xsl:template match="meaning" mode="pagenav">
@@ -198,9 +248,17 @@
 		<xsl:otherwise>
 			<xsl:apply-templates select="prototype"  />
 		</xsl:otherwise>
-	</xsl:choose>	
+	</xsl:choose>
+	<viz data="{concat($PRAEPOSITION, '/', $FILENAME)}" />
 </section>
 </xsl:template>
+	
+<xsl:template match="scenario">
+	<section>
+		<h1 id="scenario">Beteiligte</h1>
+		<xsl:apply-templates />
+	</section>
+</xsl:template>	
 	
 	
 <xsl:template match="meaning">
@@ -335,38 +393,53 @@
 	</div>
 </xsl:template>
 	
-	
+<!-- 
+	Die pitems werden in einer Schleife abgearbeitet.
+	Es gibt kein pitem für die Präposition. Die soll nach REL aber nach
+	REL eingefügt werden. Q&D ... Im REL-Zweit ergänzen
+
+	hier (pagenav) und template "createPitemBlock" (für normale Pattern)
+-->	
 <xsl:template name="createPitemBlock">
 	<xsl:choose>
 		<xsl:when test="@slot = 'rel'">
 			<div class="pitem-column">
-				<div class="head rel"><xsl:value-of select="./@sem"/></div>
+				<div class="head rel">
+					<xsl:value-of select="./@sem"/>
+				</div>
 				<div class="pitem rel">
 					<xsl:value-of select="./@syn"/>
 					<!-- pitem sibling @slot=ktype einbauen -->
 					<xsl:call-template name="getKTYPE" />
 				</div>
 			</div>
+			<!-- Präposition einfügen -->
+			<div class="pitem-column">
+				<div class="head prp"></div>
+				<div class="pitem prp">
+					<div class="pitem prp"><xsl:value-of select="$PRAEPOSITION"/></div>
+				</div>
+			</div>
 		</xsl:when>
 		<xsl:when test="@slot = 'figure'">
 			<div class="pitem-column">
-				<div class="head figure">FIGUR</div>
+				<div class="head figure"><span class="marker">F</span>IGUR</div>
 				<div class="pitem figure"><xsl:value-of select="./@syn"/></div>
 			</div>
 		</xsl:when>
 		<xsl:when test="@slot = 'ground'">
 			<div class="pitem-column">
-				<div class="head ground">GRUND</div>
-				<div class="pitem ground">
-					<xsl:call-template name="formatGround">
+				<div class="head ground"><span class="marker">G</span>RUND</div>
+				<div class="pitem ground"><xsl:value-of select="./@syn"/>
+					<!-- <xsl:call-template name="formatGround">
 						<xsl:with-param name="g-value" select="./@syn" />
-					</xsl:call-template>
+					</xsl:call-template> -->
 				</div>
 			</div>
 		</xsl:when>
 		<xsl:when test="@slot = 'effector'">
 			<div class="pitem-column">
-				<div class="head effector">AUSLÖSER</div>
+				<div class="head effector"><span class="marker">A</span>USLÖSER</div>
 				<div class="pitem effector"><xsl:value-of select="./@syn" /></div>
 			</div>
 		</xsl:when>
@@ -411,9 +484,10 @@
 		</xsl:when>
 		<xsl:when test="@slot = 'ground'">
 			<td class="pitem ground">
-				<xsl:call-template name="formatGround">
+				<xsl:value-of select="./@syn"/>
+				<!-- <xsl:call-template name="formatGround">
 					<xsl:with-param name="g-value" select="./@syn" />
-				</xsl:call-template>
+				</xsl:call-template> -->
 			</td>
 		</xsl:when>
 		<xsl:when test="@slot = 'effector'">
@@ -421,21 +495,30 @@
 		</xsl:when>
 	</xsl:choose>
 </xsl:template>
-	
+
+<!-- 
+	Die pitems werden in einer Schleife abgearbeitet.
+	Es gibt kein pitem für die Präposition. Die soll nach REL aber nach
+	REL eingefügt werden. Q&D ... Im REL-Zweit ergänzen
+
+	hier (pagenav) und template "createPitemBlock" (für normale Pattern)
+-->
 <xsl:template name="getPITEM-VALUE2">
 	<xsl:choose>
 		<xsl:when test="@slot = 'rel'">
 			<div class="pitem rel"><xsl:value-of select="./@syn"/></div>
+			<div class="pitem prp"><xsl:value-of select="$PRAEPOSITION"/></div>
 		</xsl:when>
 		<xsl:when test="@slot = 'figure'">
 			<div class="pitem figure"><xsl:value-of select="./@syn"/></div>
 		</xsl:when>
 		<xsl:when test="@slot = 'ground'">
-			<div class="pitem ground">
+			<div class="pitem ground"><xsl:value-of select="./@syn"/></div>
+			<!-- <div class="pitem ground">
 				<xsl:call-template name="formatGround">
 					<xsl:with-param name="g-value" select="./@syn" />
 				</xsl:call-template>
-			</div>
+			 -->
 		</xsl:when>
 		<xsl:when test="@slot = 'effector'">
 			<div class="pitem effector"><xsl:value-of select="./@syn" /></div>
@@ -444,13 +527,17 @@
 </xsl:template>
 	
 <!-- 
+	stand vor Okt 23-10-11
+	(wird nicht mehr benötigt, weil GROUND jetzt wie alle anderen PITEMs gerendert wird)	
+		
 	PRAEPOSITION ist die Präposition	
 -->	
+<!-- 
 <xsl:template name="formatGround">
 	<xsl:param name="g-value" />
 	<span><xsl:value-of select="upper-case($PRAEPOSITION)"/><sub> + <xsl:value-of select="$g-value"/></sub></span>
 </xsl:template>
-
+-->
 	
 <!-- 
 	Liste von xref	
@@ -704,8 +791,9 @@
 	
 <xsl:template match="predicate-list">
 	
+
 	<xsl:variable name="n_id">
-		<xsl:text>predlist_</xsl:text><xsl:value-of select="position()"/>
+		<xsl:text>predlist_</xsl:text><xsl:value-of select="generate-id()"/>
 	</xsl:variable>
 
 	<div class="pred-list">
@@ -742,22 +830,24 @@
 		</div>
 			
 		<div class="pred-list__content">
-			<xsl:if test="./predicate/@evalbu-ref">
-				<xsl:call-template name="listEVALBU-Refs" />
-			</xsl:if>
-			
-			<div>
-				<xsl:for-each select="./predicate">
-					<div class="predicate"><xsl:value-of select="@value" />:</div>
-					<ul>
-						<!-- 
-							xref 
-							habe von examples, xref, sample je mode:pred-list
-							angelegt: Q&D
-						-->
-						<li><xsl:apply-templates mode="pred-list" /></li> 
-					</ul>
-				</xsl:for-each>
+			<div class="pred-list__content__inner">
+				<xsl:if test="./predicate/@evalbu-ref">
+					<xsl:call-template name="listEVALBU-Refs" />
+				</xsl:if>
+				
+				<div>
+					<xsl:for-each select="./predicate">
+						<div class="predicate"><xsl:value-of select="@value" />:</div>
+						<ul>
+							<!-- 
+								xref 
+								habe von examples, xref, sample je mode:pred-list
+								angelegt: Q&D
+							-->
+							<li><xsl:apply-templates mode="pred-list" /></li> 
+						</ul>
+					</xsl:for-each>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -845,43 +935,48 @@
 </xsl:template>
 	
 	
-<!-- INLINE -->
-	<xsl:template match="rel | val | vrb | prp | effector | figure | ground">
+<!-- SLOTS in p, sample, li -->
+<xsl:template match="rel | val | vrb | prp | effector | figure | ground">
 	<xsl:variable name="class-name" select="local-name()" />
 	
-	<xsl:variable name="TRANSLATE">
-		<xsl:if test="count(text()) eq 1">
-			<xsl:if test="./text() eq 'Grund' or 
-				          ./text() eq 'Figur' or
-				          ./text() eq 'Auslöser'">
-				<xsl:text>allcaps</xsl:text>
-			</xsl:if>
-			
-			<!-- 
-				nope: solche HACKS machen wir seit 18.3. (s. DTD) nicht mehr.
-				      gibt jetzt extra SLOT Elemente dafür
-			-->
-			<!--
-			<xsl:if test="lower-case(./text()) eq $PRAEPOSITION or
-					      @class eq 'hi'">
-				<xsl:text>invers</xsl:text>
-			</xsl:if>
-			-->
-			
-		</xsl:if>
-	</xsl:variable>
+	<xsl:variable name="content" select="lower-case(text())" />
 	
-	<span class="{$class-name} {$TRANSLATE}"><xsl:apply-templates /></span>
+	<xsl:choose>
+		
+		<xsl:when test="$content eq 'grund' or 
+						$content eq 'figur' or
+						$content eq 'auslöser' or
+						$content eq ''">
+			<xsl:call-template name="buildArgumentMarker">
+				<xsl:with-param name="name"><xsl:value-of select="$class-name"/></xsl:with-param>
+			</xsl:call-template>
+			
+		</xsl:when>
+		<xsl:otherwise>
+			<span class="{$class-name}"><xsl:apply-templates /></span>	
+		</xsl:otherwise>
+	</xsl:choose>
 </xsl:template>
 
-<!-- 
-	ist jetzt ein SLOT-ELEMENT	
--->
-<!--
-<xsl:template match="val">
-	<span class="val"><xsl:apply-templates /></span>
+<!-- name: ground, effector, figure -->
+<xsl:template name="buildArgumentMarker">
+	<xsl:param name="name" />
+	
+	<xsl:variable name="content">
+		<xsl:choose>
+			<xsl:when test="$name eq 'effector'">
+				<xsl:text>A</xsl:text>
+			</xsl:when>
+			<xsl:otherwise>
+				<xsl:value-of select="substring(upper-case($name),1, 1)"/>
+			</xsl:otherwise>
+		</xsl:choose>
+		
+	</xsl:variable>
+	
+	<span class="arg-mark {$name}"><xsl:value-of select="$content"/></span>
 </xsl:template>
--->
+
 
 <xsl:template match="b">
 	<b><xsl:apply-templates /></b>
@@ -1033,7 +1128,7 @@
 		<span className="arrow"><svg><use href="#arrow"></use></svg></span>	
 -->	
 <xsl:template name="SvgIcons">
-	<svg style="display: 'none'">
+	<svg style="display: none">
 		<symbol id="arrow" viewBox="0 0 24 24">
 			<path d="M8.12,9.29L12,13.17l3.88-3.88c0.39-0.39,1.02-0.39,1.41,0l0,0c0.39,0.39,0.39,1.02,0,1.41l-4.59,4.59
 				c-0.39,0.39-1.02,0.39-1.41,0l-4.59-4.59c-0.39-0.39-0.39-1.02,0-1.41l0,0C7.09,8.91,7.73,8.9,8.12,9.29z"/>
