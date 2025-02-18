@@ -32,6 +32,10 @@ namespace IDS.VAS.Xml2Html
             $"-o:\"{output}\""
           });
 
+          var workDir = Path.GetDirectoryName(file);
+          Directory.SetCurrentDirectory(workDir);
+          Environment.CurrentDirectory = workDir;
+
           var process = Process.Start(new ProcessStartInfo
           {
             FileName = transform,
@@ -39,7 +43,8 @@ namespace IDS.VAS.Xml2Html
             CreateNoWindow = true,
             WindowStyle = ProcessWindowStyle.Hidden,
             RedirectStandardError = true,
-            UseShellExecute = false
+            UseShellExecute = false,
+            WorkingDirectory = workDir
           });
           var error = process.StandardError.ReadToEnd();
           if (!string.IsNullOrWhiteSpace(error))
