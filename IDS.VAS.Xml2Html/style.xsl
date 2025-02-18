@@ -757,7 +757,7 @@
 	<!-- PFADE sind RELATIV zum XSLT-STYLESHEET !!! -->
 	<!-- <xsl:variable name="PATTERN_ARTIKEL" select="document('../artikel/beispiele jan-22/auftritt.xml')" /> -->
 		
-	<xsl:variable name="PATTERN_ARTIKEL" select="document(concat($DIR, $pattern-name, '.xml'))" />
+	<xsl:variable name="PATTERN_ARTIKEL" select="document(concat($pattern-name, '.xml'))" />
 	
 	
 
