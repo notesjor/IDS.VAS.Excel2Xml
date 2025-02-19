@@ -72,6 +72,9 @@ namespace IDS.VAS.Excel2DataViz
       foreach(var x in dict.Values)
         x.CalculateValue();
 
+      foreach(var x in dict.Values)
+        x.DeleteLeafs();
+
       File.WriteAllText("data.json", JsonConvert.SerializeObject(dict.Values.ToArray()));
     }
   }

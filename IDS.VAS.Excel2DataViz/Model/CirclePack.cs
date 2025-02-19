@@ -55,5 +55,15 @@ namespace IDS.VAS.Excel2DataViz.Model
         Value += child.Value;
       }
     }
+
+    public void DeleteLeafs()
+    {
+      if (Children == null || Children.Length == 0)
+        return;
+
+      Children = Children.Where(x => x.Children != null && x.Children.Length > 0).ToArray();
+      foreach(var child in Children)
+        child.DeleteLeafs();
+    }
   }
 }
