@@ -16,7 +16,7 @@ namespace IDS.VAS.Excel2DataViz_ClusterBuilder
     static void Main(string[] args)
     {
       var toc = JsonConvert.DeserializeObject<TocData[]>(File.ReadAllText("toc.json", Encoding.UTF8));
-      var dat = JsonConvert.DeserializeObject<FlareData>(File.ReadAllText("data.json", Encoding.UTF8));
+      var dat = JsonConvert.DeserializeObject<CirclePackSimple[]>(File.ReadAllText("data.json", Encoding.UTF8));
 
       if (Directory.Exists("output"))
         Directory.Delete("output", true);
@@ -48,12 +48,11 @@ namespace IDS.VAS.Excel2DataViz_ClusterBuilder
       }
     }
 
-    private static void GeneratedJson(FlareData data, string prp, string name, IEnumerable<string> items)
+    private static void GeneratedJson(CirclePackSimple[] data, string prp, string name, IEnumerable<string> items)
     {
-      var res = new FlareData { Name = "flare", Children = data.Children.Where(x => items.Contains(x.Name.ToUpper())).ToArray() };
       if (!Directory.Exists($"output/{prp}"))
         Directory.CreateDirectory($"output/{prp}");
-      File.WriteAllText($"output/{prp}/{name}.json", JsonConvert.SerializeObject(res, Formatting.Indented), Encoding.UTF8);
+      File.WriteAllText($"output/{prp}/{name}.json", JsonConvert.SerializeObject(data.Where(x => items.Contains(x.Name.ToUpper())).ToArray(), Formatting.Indented), Encoding.UTF8);
     }
   }
 }

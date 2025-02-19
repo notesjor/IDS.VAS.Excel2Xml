@@ -13,7 +13,7 @@ namespace IDS.VAS.Excel2DataViz.Model
     {
       var keys = subKeys?.ToList();
       if (keys == null || keys.Count == 0)
-        Size++;
+        Value++;
       else
       {
         var key = keys[0];
@@ -23,7 +23,7 @@ namespace IDS.VAS.Excel2DataViz.Model
           _data[key].Add(keys.ToArray());
         else
         {
-          var cp = new CirclePack{Name = key};
+          var cp = new CirclePack { Name = key, Path = $"{Path}/{key}" };
           cp.Add(keys.ToArray());
           _data.Add(key, cp);
           Children = _data.Values.ToArray();
@@ -33,10 +33,27 @@ namespace IDS.VAS.Excel2DataViz.Model
 
     [JsonProperty("name")]
     public string Name { get; set; }
+    [JsonProperty("path")]
+    public string Path { get; set; }
     [JsonProperty("children")]
     public CirclePack[] Children { get; set; }
 
-    [JsonProperty("size", DefaultValueHandling = DefaultValueHandling.Ignore)]
-    public int Size { get; set; } = 0;
+    [JsonProperty("value", DefaultValueHandling = DefaultValueHandling.Ignore)]
+    public int Value { get; set; } = 0;
+
+    public void CalculateValue()
+    {
+      if (Children == null || Children.Length == 0)
+      {
+        Value = 1;
+        return;
+      }
+
+      foreach (var child in Children)
+      {
+        child.CalculateValue();
+        Value += child.Value;
+      }
+    }
   }
 }

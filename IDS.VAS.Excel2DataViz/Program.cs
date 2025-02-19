@@ -62,18 +62,17 @@ namespace IDS.VAS.Excel2DataViz
           dict[muster].Add(keys);
         else
         {
-          var cp = new CirclePack{ Name = muster };
+          var cp = new CirclePack { Name = muster, Path = muster };
           cp.Add(keys);
           dict.Add(muster, cp);
         }
       }
 
-      File.WriteAllText("data.json",
-                        JsonConvert.SerializeObject(new CirclePack
-                        {
-                          Name = "flare",
-                          Children = dict.Values.ToArray()
-                        }));
+      // Berechne Value
+      foreach(var x in dict.Values)
+        x.CalculateValue();
+
+      File.WriteAllText("data.json", JsonConvert.SerializeObject(dict.Values.ToArray()));
     }
   }
 }
