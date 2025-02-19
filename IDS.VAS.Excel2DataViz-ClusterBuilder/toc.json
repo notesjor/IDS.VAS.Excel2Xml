@@ -4,16 +4,12 @@
         "Id": "vor",
         "Entries": [
             {
-                "Label": "Bevorstehen",
-                "Id": "bevorstehen"
-            },
-            {
                 "Label": "Respekt",
                 "Id": "respekt"
             },
             {
-                "Label": "Übermaß",
-                "Id": "uebermass"
+                "Label": "Bevorstehen",
+                "Id": "bevorstehen"
             },
             {
                 "Label": "Vorrangigkeit",
@@ -22,8 +18,8 @@
         ],
         "SubGroups": [
             {
-                "Label": "Bedrohung",
-                "Id": "bedrohung",
+                "Label": "Bedrohen",
+                "Id": "bedrohen",
                 "Entries": [
                     {
                         "Label": "Furcht",
@@ -34,8 +30,8 @@
                         "Id": "vermeidung"
                     },
                     {
-                        "Label": "Bewährung",
-                        "Id": "bewaehrung"
+                        "Label": "Gewachsensein",
+                        "Id": "gewachsensein"
                     },
                     {
                         "Label": "Warnung",
@@ -48,9 +44,13 @@
                 ]
             },
             {
-                "Label": "Wahrnehmung",
-                "Id": "wahrnehmung",
+                "Label": "Wahrnehmen",
+                "Id": "wahrnehmen",
                 "Entries": [
+                    {
+                        "Label": "Bezeugung",
+                        "Id": "bezeugung"
+                    },
                     {
                         "Label": "Auftritt",
                         "Id": "auftritt"
@@ -63,6 +63,20 @@
                         "Label": "Beurteilung",
                         "Id": "beurteilung"
                     }                    
+                ]
+            },
+            {
+                "Label": "Bewirken",
+                "Id": "bewirken",
+                "Entries": [
+                    {
+                        "Label": "Erfülltsein",
+                        "Id": "erfuelltsein"
+                    },
+                    {
+                        "Label": "Überforderung",
+                        "Id": "ueberforderung"
+                    }                
                 ]
             }
         ]
@@ -78,12 +92,12 @@
         ],
         "SubGroups": [
             {
-                "Label": "Entsprechung",
-                "Id": "entsprechung",
+                "Label": "Entsprechen",
+                "Id": "entsprechen",
                 "Entries": [
                     {
-                        "Label": "Ähnlichkeit",
-                        "Id": "aehnlichkeit"
+                        "Label": "Assoziation",
+                        "Id": "assoziation"
                     },
                     {
                         "Label": "Vorgabe",
@@ -96,17 +110,17 @@
                 "Id": "erstreben",
                 "Entries": [
                     {
-                        "Label": "Erreichen",
-                        "Id": "erreichen"
-                    },
-                    {
                         "Label": "Erlangen",
                         "Id": "erlangen"
                     },
                     {
                         "Label": "Ersehnen",
                         "Id": "ersehnen"
-                    }                    
+                    },
+                    {
+                        "Label": "Erreichen",
+                        "Id": "erreichen"
+                    }
                 ]
             }
         ]
