@@ -16,7 +16,7 @@ namespace IDS.VAS.Excel2ServiceJson
     static void Main(string[] args)
     {
       var table = VasExcelReader.ReadExcel(args[0]).Tables[0];
-      var annotations = LoadAnnotations(args[0]);
+      var annotations = LoadAnnotations(args[1]);
 
       var header = LoadHeader(table);
 
