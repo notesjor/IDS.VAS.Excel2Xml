@@ -28,31 +28,31 @@ namespace IDS.VAS.Excel2DataViz_ClusterBuilder
       {
         // Cluster für PRP
         var items = new List<string>();
-        items.AddRange(prp.Entries.Select(x => x.Id.ToUpper()));
-        items.AddRange(prp.SubGroups.SelectMany(x => x.Entries).Select(x => x.Id.ToUpper()));
-        GeneratedJson(dat, prp.Id, prp.Id, items);
+        items.AddRange(prp.Entries.Select(x => x.Label.ToUpper()));
+        items.AddRange(prp.SubGroups.SelectMany(x => x.Entries).Select(x => x.Label.ToUpper()));
+        GeneratedJson(dat, prp.Id, prp.Id, items.ToArray());
 
         // Cluster für SubGroups
         foreach (var sub in prp.SubGroups)
         {
-          GeneratedJson(dat, prp.Id, sub.Id, sub.Entries.Select(x => x.Id.ToUpper()));
+          GeneratedJson(dat, prp.Id, sub.Id, sub.Entries.Select(x => x.Label.ToUpper()).ToArray());
           foreach (var entry in sub.Entries)
             // Cluster für Entries in SubGroup
-            GeneratedJson(dat, prp.Id, entry.Id, new[] { entry.Id.ToUpper() });
+            GeneratedJson(dat, prp.Id,  entry.Id, new[] { entry.Label.ToUpper() });
         }
 
         // Cluster für Entries in PRP
         foreach (var entry in prp.Entries)
-          GeneratedJson(dat, prp.Id, entry.Id, new[] { entry.Id.ToUpper() });
+          GeneratedJson(dat, prp.Id, entry.Id, new[] { entry.Label.ToUpper() });
 
       }
     }
 
-    private static void GeneratedJson(CirclePackSimple[] data, string prp, string name, IEnumerable<string> items)
+    private static void GeneratedJson(CirclePackSimple[] data, string prp, string id, string[] items)
     {
       if (!Directory.Exists($"output/{prp}"))
         Directory.CreateDirectory($"output/{prp}");
-      File.WriteAllText($"output/{prp}/{name}.json", JsonConvert.SerializeObject(data.Where(x => items.Contains(x.Name.ToUpper())).ToArray(), Formatting.Indented), Encoding.UTF8);
+      File.WriteAllText($"output/{prp}/{id}.json", JsonConvert.SerializeObject(data.Where(x => items.Contains(x.Name.ToUpper())).ToArray(), Formatting.Indented), Encoding.UTF8);
     }
   }
 }
