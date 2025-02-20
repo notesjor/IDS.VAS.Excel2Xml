@@ -25,6 +25,9 @@
     	Deswegen den ARTIKEL_ROOT_PFAD, von dem aus LINKS aufgelöst werden können.
 -->
 <xsl:param name="FILENAME">''</xsl:param>
+<xsl:variable name="ARTIKEL">
+  <xsl:value-of select="lower-case(normalize-space(/vas-artikel/head/meta[@type='name']))"/>
+</xsl:variable>
 <xsl:param name="DIR">''</xsl:param>
 
 <!-- Literaturverzeichnis -->
@@ -73,18 +76,20 @@
 	
 	<xsl:choose>
 		 <xsl:when test="$APP eq 'ja'">
-			<div class="wrapper app">
-				<xsl:call-template name="SvgIcons" />			
-				<xsl:apply-templates select="/vas-artikel/body"/>
-			</div>
+			<template>
+				<div class="wrapper app">
+					<xsl:call-template name="SvgIcons" />			
+					<xsl:apply-templates select="/vas-artikel/body"/>
+				</div>
+			</template>
 		</xsl:when>
 		<xsl:otherwise>
-			<html >
+			<html>
 				<head>
 					<meta charset='utf-8' />
 					<meta name='viewport' content='width=device-width,initial-scale=1' />
 					
-					<title>VAS - <xsl:value-of select="/vas-artikel/head/meta[@type='name']"/></title>
+					<title>MAP - <xsl:value-of select="/vas-artikel/head/meta[@type='name']"/></title>
 					
 					<!-- relativ zu <project-dir>/trans -->
 					<link rel='stylesheet' href='../etc/css/main.css' ></link>
@@ -249,7 +254,7 @@
 			<xsl:apply-templates select="prototype"  />
 		</xsl:otherwise>
 	</xsl:choose>
-	<viz data="{concat($PRAEPOSITION, '/', $FILENAME)}" />
+	<viz data="{concat($PRAEPOSITION, '/', $ARTIKEL)}" />
 </section>
 </xsl:template>
 	
@@ -757,7 +762,7 @@
 	<!-- PFADE sind RELATIV zum XSLT-STYLESHEET !!! -->
 	<!-- <xsl:variable name="PATTERN_ARTIKEL" select="document('../artikel/beispiele jan-22/auftritt.xml')" /> -->
 		
-	<xsl:variable name="PATTERN_ARTIKEL" select="document(concat('./', $pattern-name, '.xml'))" />
+	<xsl:variable name="PATTERN_ARTIKEL" select="document(concat($DIR, $pattern-name, '.xml'))" />
 	
 	
 
