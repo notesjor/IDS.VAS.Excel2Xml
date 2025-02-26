@@ -59,11 +59,11 @@ namespace IDS.VAS.Excel2DataViz
 
         var keys = new[] { pt, pk, gl };
         if (dict.ContainsKey(muster))
-          dict[muster].Add(keys);
+          dict[muster].InsertSubKeys(keys);
         else
         {
           var cp = new CirclePack { Name = muster, Path = muster };
-          cp.Add(keys);
+          cp.InsertSubKeys(keys);
           dict.Add(muster, cp);
         }
       }
