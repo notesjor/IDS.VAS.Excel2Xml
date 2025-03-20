@@ -118,6 +118,15 @@ namespace IDS.VAS.Excel2ServiceJson
 
       var index = client.Index("map");
       index.UpdateFilterableAttributesAsync(unique.Keys.ToArray()).Wait();
+      index.UpdateSettingsAsync(new Settings
+      {
+        Pagination = new Pagination()
+        {
+          MaxTotalHits = 1000000          
+        },
+        RankingRules = new List<string>() { "words", "attribute", "exactness", "proximity", "sort" },
+        StopWords = new List<string>() { }
+      });
 
       index.AddDocumentsJsonAsync(JsonConvert.SerializeObject(res), "#").Wait();
       File.WriteAllText("output.json", JsonConvert.SerializeObject(unique), Encoding.UTF8);
@@ -138,7 +147,7 @@ namespace IDS.VAS.Excel2ServiceJson
         try
         {
           var nodes = doc.DocumentNode.SelectNodes("//sample");
-          if(nodes == null)
+          if (nodes == null)
             continue;
 
           foreach (var n in nodes)

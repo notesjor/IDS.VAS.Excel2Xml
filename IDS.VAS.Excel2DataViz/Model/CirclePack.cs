@@ -9,7 +9,7 @@ namespace IDS.VAS.Excel2DataViz.Model
     [JsonIgnore]
     private Dictionary<string, CirclePack> _data = new Dictionary<string, CirclePack>();
 
-    public void Add(params string[] subKeys)
+    public void InsertSubKeys(params string[] subKeys)
     {
       var keys = subKeys?.ToList();
       if (keys == null || keys.Count == 0)
@@ -20,11 +20,11 @@ namespace IDS.VAS.Excel2DataViz.Model
         keys.RemoveAt(0);
 
         if (_data.ContainsKey(key))
-          _data[key].Add(keys.ToArray());
+          _data[key].InsertSubKeys(keys.ToArray());
         else
         {
           var cp = new CirclePack { Name = key, Path = $"{Path}/{key}" };
-          cp.Add(keys.ToArray());
+          cp.InsertSubKeys(keys.ToArray());
           _data.Add(key, cp);
           Children = _data.Values.ToArray();
         }
@@ -44,10 +44,7 @@ namespace IDS.VAS.Excel2DataViz.Model
     public void CalculateValue()
     {
       if (Children == null || Children.Length == 0)
-      {
-        Value = 1;
         return;
-      }
 
       foreach (var child in Children)
       {
