@@ -49,6 +49,7 @@
     <Compile Include="Model\Input\family.cs" />
     <Compile Include="Model\Input\overview.cs" />
     <Compile Include="Model\Input\pattern.cs" />
+    <Compile Include="Model\Output\BreadcrumbItem.cs" />
     <Compile Include="Model\Output\Entry.cs" />
     <Compile Include="Model\Output\Group.cs" />
     <Compile Include="Program.cs" />

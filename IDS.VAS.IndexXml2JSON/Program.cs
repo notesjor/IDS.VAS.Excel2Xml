@@ -12,12 +12,15 @@ namespace IDS.VAS.IndexXml2JSON
 {
   class Program
   {
+    private static string _baseUrl = "/plus/map/article";
+
     static void Main(string[] args)
     {
-      if(args.Length == 0)
+      if (args.Length == 0)
         return;
 
       var result = new List<Group>();
+      var bread = new List<BreadcrumbItem>();
       foreach (var path in args) // JOIN multi _index.xml
       {
         overview root = null;
@@ -30,12 +33,36 @@ namespace IDS.VAS.IndexXml2JSON
         if (root == null)
           continue;
 
-        var rGroup = new Group{ Label = root.label, Id = root.id };
+        var rGroup = new Group { Label = root.label, Id = root.id };
         RecursivAdd(ref rGroup, root.pattern, root.family);
+        MakeBreadcrumb(ref bread, root);
         result.Add(rGroup);
       }
 
       File.WriteAllText("toc.json", JsonConvert.SerializeObject(result), Encoding.UTF8);
+      File.WriteAllText("breadcrumb.json", JsonConvert.SerializeObject(bread), Encoding.UTF8);
+    }
+
+    private static void MakeBreadcrumb(ref List<BreadcrumbItem> bread, overview root)
+    {
+      var PRP = root.label.ToUpper();
+
+      bread.Add(new BreadcrumbItem { prp = PRP, url = $"{_baseUrl}/{root.id}" });
+      foreach (var x in root.pattern)
+        bread.Add(new BreadcrumbItem { prp = PRP, art = x.label, url = $"{_baseUrl}/{root.id}/{x.id}", par = $"{_baseUrl}/{root.id}" });
+      foreach (var x in root.family)
+      {
+        bread.Add(new BreadcrumbItem { prp = PRP, fam = x.label, url = $"{_baseUrl}/{root.id}/{x.id}", par = $"{_baseUrl}/{root.id}" });
+        foreach (var y in x.Items.OfType<pattern>())
+          bread.Add(new BreadcrumbItem
+          {
+            prp = PRP,
+            fam = x.label,
+            art = y.label,
+            url = $"{_baseUrl}/{root.id}/{x.id}/{y.id}",
+            par = $"{_baseUrl}/{root.id}/{x.id}"
+          });
+      }
     }
 
     private static void RecursivAdd(ref Group res, IEnumerable<pattern> patterns, IEnumerable<family> families)
@@ -43,7 +70,7 @@ namespace IDS.VAS.IndexXml2JSON
       if (patterns != null)
         foreach (var p in patterns)
           res.Entries.Add(new Entry { Label = p.label, Id = p.id });
-      if (families == null) 
+      if (families == null)
         return;
 
       foreach (var f in families)
