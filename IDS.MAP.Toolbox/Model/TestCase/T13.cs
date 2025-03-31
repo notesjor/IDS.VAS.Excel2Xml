@@ -1,0 +1,15 @@
+﻿using System;
+using IDS.MAP.Toolbox.Model.TestCase.Abstract;
+
+namespace IDS.MAP.Toolbox.Model.TestCase
+{
+  public class T13 : AbstractTestCase
+  {
+    public override bool Execute(ref MapConfiguration config)
+    {
+      throw new NotImplementedException();
+    }
+
+    public override bool BreakExecution { get; } = false;
+  }
+}

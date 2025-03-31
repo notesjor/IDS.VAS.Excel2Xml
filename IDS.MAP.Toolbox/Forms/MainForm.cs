@@ -49,5 +49,75 @@ namespace IDS.MAP.Toolbox.Forms
       if (!string.IsNullOrEmpty(_mapDir))
         return;
     }
+
+    private void btn_update_Click(object sender, EventArgs e)
+    {
+      RunTests();
+    }
+
+    private void btn_build_Click(object sender, EventArgs e)
+    {
+
+    }
+
+    private void btn_2_noExcel_Click(object sender, EventArgs e)
+    {
+
+    }
+
+    private void btn_2_excelColumns_Click(object sender, EventArgs e)
+    {
+
+    }
+
+    private void btn_2_searchPreview_Click(object sender, EventArgs e)
+    {
+
+    }
+
+    private void btn_2_createXml_Click(object sender, EventArgs e)
+    {
+
+    }
+
+    private void btn_3_nostructure_Click(object sender, EventArgs e)
+    {
+
+    }
+
+    private void btn_3_missingArticle_Click(object sender, EventArgs e)
+    {
+
+    }
+
+    private void btn_3_noStructureEntry_Click(object sender, EventArgs e)
+    {
+
+    }
+
+    private void btn_4_xmlSyntax_Click(object sender, EventArgs e)
+    {
+
+    }
+
+    private void btn_4_xref_Click(object sender, EventArgs e)
+    {
+
+    }
+
+    private void bnt_4_link_Click(object sender, EventArgs e)
+    {
+
+    }
+
+    private void btn_4_cite_Click(object sender, EventArgs e)
+    {
+
+    }
+
+    private void btn_4_missingXml_Click(object sender, EventArgs e)
+    {
+
+    }
   }
 }

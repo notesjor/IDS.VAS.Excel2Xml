@@ -75,6 +75,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Forms\ErrorReportForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\ErrorReportForm.Designer.cs">
+      <DependentUpon>ErrorReportForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="MapConfiguration.cs" />
     <Compile Include="Forms\MainForm.cs">
       <SubType>Form</SubType>
@@ -82,8 +88,27 @@
     <Compile Include="Forms\MainForm.Designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Model\Action\A00.cs" />
+    <Compile Include="Model\Action\Abstract\AbstractAction.cs" />
+    <Compile Include="Model\TestCase\Abstract\AbstractTestCase.cs" />
+    <Compile Include="Model\TestCase\T01.cs" />
+    <Compile Include="Model\TestCase\T02.cs" />
+    <Compile Include="Model\TestCase\T11.cs" />
+    <Compile Include="Model\TestCase\T12.cs" />
+    <Compile Include="Model\TestCase\T13.cs" />
+    <Compile Include="Model\TestCase\T21.cs" />
+    <Compile Include="Model\TestCase\T22.cs" />
+    <Compile Include="Model\TestCase\T23.cs" />
+    <Compile Include="Model\TestCase\T24.cs" />
+    <Compile Include="Model\TestCase\T25.cs" />
+    <Compile Include="Model\TestController.cs" />
+    <Compile Include="Model\TestStep\Abstract\AbstractTestStep.cs" />
+    <Compile Include="Model\TestStep\S2.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="Forms\ErrorReportForm.resx">
+      <DependentUpon>ErrorReportForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -127,5 +152,6 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
