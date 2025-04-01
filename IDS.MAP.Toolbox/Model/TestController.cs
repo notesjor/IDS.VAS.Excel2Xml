@@ -16,5 +16,10 @@ namespace IDS.MAP.Toolbox.Model
       }
       return Steps.Length;
     }
+
+    public void Build()
+    {
+      throw new System.NotImplementedException();
+    }
   }
 }

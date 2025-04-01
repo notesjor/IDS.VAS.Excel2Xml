@@ -30,27 +30,27 @@
     {
       System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
       this.pictureBox1 = new System.Windows.Forms.PictureBox();
-      this.groupBox1 = new System.Windows.Forms.GroupBox();
+      this.grp_1 = new System.Windows.Forms.GroupBox();
       this.panel2 = new System.Windows.Forms.Panel();
       this.txt_path = new System.Windows.Forms.TextBox();
       this.btn_path = new System.Windows.Forms.Button();
       this.label1 = new System.Windows.Forms.Label();
       this.panel1 = new System.Windows.Forms.Panel();
       this.btn_update = new System.Windows.Forms.Button();
-      this.groupBox2 = new System.Windows.Forms.GroupBox();
+      this.grp_2 = new System.Windows.Forms.GroupBox();
       this.panel3 = new System.Windows.Forms.Panel();
       this.btn_2_searchPreview = new System.Windows.Forms.Button();
       this.btn_2_excelColumns = new System.Windows.Forms.Button();
       this.btn_2_noExcel = new System.Windows.Forms.Button();
       this.btn_2_createXml = new System.Windows.Forms.Button();
       this.label2 = new System.Windows.Forms.Label();
-      this.groupBox3 = new System.Windows.Forms.GroupBox();
+      this.grp_3 = new System.Windows.Forms.GroupBox();
       this.panel4 = new System.Windows.Forms.Panel();
       this.btn_3_noStructureEntry = new System.Windows.Forms.Button();
       this.btn_3_missingArticle = new System.Windows.Forms.Button();
       this.btn_3_nostructure = new System.Windows.Forms.Button();
       this.label3 = new System.Windows.Forms.Label();
-      this.groupBox4 = new System.Windows.Forms.GroupBox();
+      this.grp_4 = new System.Windows.Forms.GroupBox();
       this.panel5 = new System.Windows.Forms.Panel();
       this.btn_4_cite = new System.Windows.Forms.Button();
       this.bnt_4_link = new System.Windows.Forms.Button();
@@ -58,21 +58,21 @@
       this.btn_4_xmlSyntax = new System.Windows.Forms.Button();
       this.btn_4_missingXml = new System.Windows.Forms.Button();
       this.label4 = new System.Windows.Forms.Label();
-      this.groupBox5 = new System.Windows.Forms.GroupBox();
+      this.grp_5 = new System.Windows.Forms.GroupBox();
       this.panel6 = new System.Windows.Forms.Panel();
       this.btn_build = new System.Windows.Forms.Button();
       this.label5 = new System.Windows.Forms.Label();
       ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
-      this.groupBox1.SuspendLayout();
+      this.grp_1.SuspendLayout();
       this.panel2.SuspendLayout();
       this.panel1.SuspendLayout();
-      this.groupBox2.SuspendLayout();
+      this.grp_2.SuspendLayout();
       this.panel3.SuspendLayout();
-      this.groupBox3.SuspendLayout();
+      this.grp_3.SuspendLayout();
       this.panel4.SuspendLayout();
-      this.groupBox4.SuspendLayout();
+      this.grp_4.SuspendLayout();
       this.panel5.SuspendLayout();
-      this.groupBox5.SuspendLayout();
+      this.grp_5.SuspendLayout();
       this.panel6.SuspendLayout();
       this.SuspendLayout();
       // 
@@ -87,17 +87,17 @@
       this.pictureBox1.TabIndex = 0;
       this.pictureBox1.TabStop = false;
       // 
-      // groupBox1
+      // grp_1
       // 
-      this.groupBox1.Controls.Add(this.panel2);
-      this.groupBox1.Controls.Add(this.label1);
-      this.groupBox1.Dock = System.Windows.Forms.DockStyle.Top;
-      this.groupBox1.Location = new System.Drawing.Point(0, 78);
-      this.groupBox1.Name = "groupBox1";
-      this.groupBox1.Size = new System.Drawing.Size(800, 54);
-      this.groupBox1.TabIndex = 1;
-      this.groupBox1.TabStop = false;
-      this.groupBox1.Text = "1. MAP-Datenpfad";
+      this.grp_1.Controls.Add(this.panel2);
+      this.grp_1.Controls.Add(this.label1);
+      this.grp_1.Dock = System.Windows.Forms.DockStyle.Top;
+      this.grp_1.Location = new System.Drawing.Point(0, 78);
+      this.grp_1.Name = "grp_1";
+      this.grp_1.Size = new System.Drawing.Size(800, 54);
+      this.grp_1.TabIndex = 1;
+      this.grp_1.TabStop = false;
+      this.grp_1.Text = "1. MAP-Datenpfad";
       // 
       // panel2
       // 
@@ -160,17 +160,17 @@
       this.btn_update.UseVisualStyleBackColor = true;
       this.btn_update.Click += new System.EventHandler(this.btn_update_Click);
       // 
-      // groupBox2
+      // grp_2
       // 
-      this.groupBox2.Controls.Add(this.panel3);
-      this.groupBox2.Controls.Add(this.label2);
-      this.groupBox2.Dock = System.Windows.Forms.DockStyle.Top;
-      this.groupBox2.Location = new System.Drawing.Point(0, 132);
-      this.groupBox2.Name = "groupBox2";
-      this.groupBox2.Size = new System.Drawing.Size(800, 54);
-      this.groupBox2.TabIndex = 3;
-      this.groupBox2.TabStop = false;
-      this.groupBox2.Text = "2. Excel-Datei";
+      this.grp_2.Controls.Add(this.panel3);
+      this.grp_2.Controls.Add(this.label2);
+      this.grp_2.Dock = System.Windows.Forms.DockStyle.Top;
+      this.grp_2.Location = new System.Drawing.Point(0, 132);
+      this.grp_2.Name = "grp_2";
+      this.grp_2.Size = new System.Drawing.Size(800, 54);
+      this.grp_2.TabIndex = 3;
+      this.grp_2.TabStop = false;
+      this.grp_2.Text = "2. Excel-Datei";
       // 
       // panel3
       // 
@@ -239,17 +239,17 @@
       this.label2.Text = "Wenn die Excel-Datei nicht der Spezifikation entspricht, erscheinen Fehlermeldung" +
     "en - andernfalls können XML-Dateien erstellt werden.";
       // 
-      // groupBox3
+      // grp_3
       // 
-      this.groupBox3.Controls.Add(this.panel4);
-      this.groupBox3.Controls.Add(this.label3);
-      this.groupBox3.Dock = System.Windows.Forms.DockStyle.Top;
-      this.groupBox3.Location = new System.Drawing.Point(0, 186);
-      this.groupBox3.Name = "groupBox3";
-      this.groupBox3.Size = new System.Drawing.Size(800, 54);
-      this.groupBox3.TabIndex = 4;
-      this.groupBox3.TabStop = false;
-      this.groupBox3.Text = "3. Struktur-Informationen";
+      this.grp_3.Controls.Add(this.panel4);
+      this.grp_3.Controls.Add(this.label3);
+      this.grp_3.Dock = System.Windows.Forms.DockStyle.Top;
+      this.grp_3.Location = new System.Drawing.Point(0, 186);
+      this.grp_3.Name = "grp_3";
+      this.grp_3.Size = new System.Drawing.Size(800, 54);
+      this.grp_3.TabIndex = 4;
+      this.grp_3.TabStop = false;
+      this.grp_3.Text = "3. Struktur-Informationen";
       // 
       // panel4
       // 
@@ -305,17 +305,17 @@
       this.label3.TabIndex = 0;
       this.label3.Text = "Wenn keine _struktur.xml vorhanden ist, erscheinen Fehlermeldungen";
       // 
-      // groupBox4
+      // grp_4
       // 
-      this.groupBox4.Controls.Add(this.panel5);
-      this.groupBox4.Controls.Add(this.label4);
-      this.groupBox4.Dock = System.Windows.Forms.DockStyle.Top;
-      this.groupBox4.Location = new System.Drawing.Point(0, 240);
-      this.groupBox4.Name = "groupBox4";
-      this.groupBox4.Size = new System.Drawing.Size(800, 54);
-      this.groupBox4.TabIndex = 5;
-      this.groupBox4.TabStop = false;
-      this.groupBox4.Text = "4. XML-Dokumente";
+      this.grp_4.Controls.Add(this.panel5);
+      this.grp_4.Controls.Add(this.label4);
+      this.grp_4.Dock = System.Windows.Forms.DockStyle.Top;
+      this.grp_4.Location = new System.Drawing.Point(0, 240);
+      this.grp_4.Name = "grp_4";
+      this.grp_4.Size = new System.Drawing.Size(800, 54);
+      this.grp_4.TabIndex = 5;
+      this.grp_4.TabStop = false;
+      this.grp_4.Text = "4. XML-Dokumente";
       // 
       // panel5
       // 
@@ -395,17 +395,17 @@
       this.label4.TabIndex = 0;
       this.label4.Text = "Wenn es in einem XML-Dokument fehler gibt, erscheinen Fehlermeldungen";
       // 
-      // groupBox5
+      // grp_5
       // 
-      this.groupBox5.Controls.Add(this.panel6);
-      this.groupBox5.Controls.Add(this.label5);
-      this.groupBox5.Dock = System.Windows.Forms.DockStyle.Top;
-      this.groupBox5.Location = new System.Drawing.Point(0, 294);
-      this.groupBox5.Name = "groupBox5";
-      this.groupBox5.Size = new System.Drawing.Size(800, 54);
-      this.groupBox5.TabIndex = 6;
-      this.groupBox5.TabStop = false;
-      this.groupBox5.Text = "5. Abgabe";
+      this.grp_5.Controls.Add(this.panel6);
+      this.grp_5.Controls.Add(this.label5);
+      this.grp_5.Dock = System.Windows.Forms.DockStyle.Top;
+      this.grp_5.Location = new System.Drawing.Point(0, 294);
+      this.grp_5.Name = "grp_5";
+      this.grp_5.Size = new System.Drawing.Size(800, 54);
+      this.grp_5.TabIndex = 6;
+      this.grp_5.TabStop = false;
+      this.grp_5.Text = "5. Abgabe";
       // 
       // panel6
       // 
@@ -442,34 +442,35 @@
       this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
       this.BackColor = System.Drawing.Color.White;
       this.ClientSize = new System.Drawing.Size(800, 357);
-      this.Controls.Add(this.groupBox5);
-      this.Controls.Add(this.groupBox4);
-      this.Controls.Add(this.groupBox3);
-      this.Controls.Add(this.groupBox2);
-      this.Controls.Add(this.groupBox1);
+      this.Controls.Add(this.grp_5);
+      this.Controls.Add(this.grp_4);
+      this.Controls.Add(this.grp_3);
+      this.Controls.Add(this.grp_2);
+      this.Controls.Add(this.grp_1);
       this.Controls.Add(this.panel1);
       this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
       this.Name = "MainForm";
       this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
       this.Text = "IDS - MAP-Workflow";
+      this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_FormClosing);
       this.Load += new System.EventHandler(this.MainForm_Load);
       ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
-      this.groupBox1.ResumeLayout(false);
-      this.groupBox1.PerformLayout();
+      this.grp_1.ResumeLayout(false);
+      this.grp_1.PerformLayout();
       this.panel2.ResumeLayout(false);
       this.panel2.PerformLayout();
       this.panel1.ResumeLayout(false);
-      this.groupBox2.ResumeLayout(false);
-      this.groupBox2.PerformLayout();
+      this.grp_2.ResumeLayout(false);
+      this.grp_2.PerformLayout();
       this.panel3.ResumeLayout(false);
-      this.groupBox3.ResumeLayout(false);
-      this.groupBox3.PerformLayout();
+      this.grp_3.ResumeLayout(false);
+      this.grp_3.PerformLayout();
       this.panel4.ResumeLayout(false);
-      this.groupBox4.ResumeLayout(false);
-      this.groupBox4.PerformLayout();
+      this.grp_4.ResumeLayout(false);
+      this.grp_4.PerformLayout();
       this.panel5.ResumeLayout(false);
-      this.groupBox5.ResumeLayout(false);
-      this.groupBox5.PerformLayout();
+      this.grp_5.ResumeLayout(false);
+      this.grp_5.PerformLayout();
       this.panel6.ResumeLayout(false);
       this.ResumeLayout(false);
 
@@ -478,17 +479,17 @@
     #endregion
 
     private System.Windows.Forms.PictureBox pictureBox1;
-    private System.Windows.Forms.GroupBox groupBox1;
+    private System.Windows.Forms.GroupBox grp_1;
     private System.Windows.Forms.Panel panel2;
     private System.Windows.Forms.TextBox txt_path;
     private System.Windows.Forms.Button btn_path;
     private System.Windows.Forms.Label label1;
     private System.Windows.Forms.Panel panel1;
-    private System.Windows.Forms.GroupBox groupBox2;
+    private System.Windows.Forms.GroupBox grp_2;
     private System.Windows.Forms.Panel panel3;
     private System.Windows.Forms.Button btn_2_createXml;
     private System.Windows.Forms.Label label2;
-    private System.Windows.Forms.GroupBox groupBox3;
+    private System.Windows.Forms.GroupBox grp_3;
     private System.Windows.Forms.Panel panel4;
     private System.Windows.Forms.Button btn_3_nostructure;
     private System.Windows.Forms.Label label3;
@@ -498,14 +499,14 @@
     private System.Windows.Forms.Button btn_2_noExcel;
     private System.Windows.Forms.Button btn_3_noStructureEntry;
     private System.Windows.Forms.Button btn_3_missingArticle;
-    private System.Windows.Forms.GroupBox groupBox4;
+    private System.Windows.Forms.GroupBox grp_4;
     private System.Windows.Forms.Panel panel5;
     private System.Windows.Forms.Button btn_4_cite;
     private System.Windows.Forms.Button bnt_4_link;
     private System.Windows.Forms.Button btn_4_xref;
     private System.Windows.Forms.Button btn_4_xmlSyntax;
     private System.Windows.Forms.Label label4;
-    private System.Windows.Forms.GroupBox groupBox5;
+    private System.Windows.Forms.GroupBox grp_5;
     private System.Windows.Forms.Panel panel6;
     private System.Windows.Forms.Button btn_build;
     private System.Windows.Forms.Label label5;

@@ -103,7 +103,11 @@
     <Compile Include="Model\TestCase\T25.cs" />
     <Compile Include="Model\TestController.cs" />
     <Compile Include="Model\TestStep\Abstract\AbstractTestStep.cs" />
+    <Compile Include="Model\TestStep\S1.cs" />
     <Compile Include="Model\TestStep\S2.cs" />
+    <Compile Include="Model\TestStep\S3.cs" />
+    <Compile Include="Model\TestStep\S4.cs" />
+    <Compile Include="Model\TestStep\S5.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Forms\ErrorReportForm.resx">

@@ -7,7 +7,7 @@ namespace IDS.MAP.Toolbox.Model.TestStep.Abstract
 {
   public abstract class AbstractTestStep
   {
-    public abstract AbstractTestCase[] TestCases { get; }
+    public abstract Dictionary<string, AbstractTestCase> TestCases { get; }
     public abstract Dictionary<string, AbstractAction> Actions { get; }
     public bool Valid { get; set; }
 
@@ -16,16 +16,17 @@ namespace IDS.MAP.Toolbox.Model.TestStep.Abstract
       var valid = true;
       foreach (var x in TestCases)
       {
-        if (x.Execute(ref config))
+        if (x.Value.Execute(ref config))
           continue;
 
         valid = false;
-        if (x.BreakExecution)
+        if (x.Value.BreakExecution)
           break;
       }
       Valid = valid;
 
       if (!valid) return;
+      if (Actions == null) return;
 
       foreach (var x in Actions.Where(x => x.Value.AutoRun))
         x.Value.Execute(ref config);

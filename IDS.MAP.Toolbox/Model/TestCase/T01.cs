@@ -11,7 +11,8 @@ namespace IDS.MAP.Toolbox.Model.TestCase
     {
       public override bool Execute(ref MapConfiguration config)
       {
-        throw new NotImplementedException();
+        return false;
+        // TODO
       }
 
       public override bool BreakExecution { get; } = true;

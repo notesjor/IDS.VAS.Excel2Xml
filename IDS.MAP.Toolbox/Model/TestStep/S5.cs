@@ -1,0 +1,13 @@
+﻿using System.Collections.Generic;
+using IDS.MAP.Toolbox.Model.Action.Abstract;
+using IDS.MAP.Toolbox.Model.TestCase.Abstract;
+using IDS.MAP.Toolbox.Model.TestStep.Abstract;
+
+namespace IDS.MAP.Toolbox.Model.TestStep
+{
+  public class S5 : AbstractTestStep
+  {
+    public override Dictionary<string, AbstractTestCase> TestCases { get; } = new Dictionary<string, AbstractTestCase>();
+    public override Dictionary<string, AbstractAction> Actions { get; }
+  }
+}
