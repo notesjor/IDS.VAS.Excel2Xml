@@ -19,11 +19,17 @@ namespace IDS.MAP.Toolbox.Forms
     private void MainForm_Load(object sender, EventArgs e)
     {
       SettingsLoad();
+      txt_path.Text = _config.MapPath;
       RunTests();
     }
 
     private void btn_path_Click(object sender, EventArgs e)
-      => _controller.Steps[0].Actions["EXCEL"].Execute(ref _config);
+    {
+      _controller.Steps[0].Actions["CONNECT"].Execute(ref _config);
+      txt_path.Text = _config.MapPath;
+      SettingsSave();
+      RunTests();
+    }
 
     private void SettingsLoad()
       => _config = MapConfiguration.Load();
@@ -32,21 +38,21 @@ namespace IDS.MAP.Toolbox.Forms
       => _config.SettingsSave();
 
     private void RunTests()
-    {
+    {      
       var level = _controller.Execute(ref _config);
-      grp_1.Visible = level >= 1;
-      grp_2.Visible = level >= 2;
-      btn_2_noExcel.Visible = !_controller.Steps[1].TestCases["MISSED"].Valid;
-      btn_2_excelColumns.Visible = !_controller.Steps[1].TestCases["COLUMNS"].Valid;
+      SettingsSave();
+      grp_1.Visible = level >= 0;
+      grp_2.Visible = level >= 1;
+      btn_2_excelColumns.Visible = !_controller.Steps[1].TestCases["COLUMN"].Valid;
       btn_2_searchPreview.Visible = !_controller.Steps[1].TestCases.Any(x => x.Value.Valid);
       btn_2_createXml.Visible = !_controller.Steps[1].TestCases.Any(x => x.Value.Valid);
 
-      grp_3.Visible = level >= 3;
+      grp_3.Visible = level >= 2;
       btn_3_nostructure.Visible = !_controller.Steps[2].TestCases["STRUCT"].Valid;
       btn_3_missingArticle.Visible = !_controller.Steps[2].TestCases["ARTICLE"].Valid;
       btn_3_noStructureEntry.Visible = !_controller.Steps[2].TestCases["ENTRY"].Valid;
 
-      grp_4.Visible = level >= 4;
+      grp_4.Visible = level >= 3;
       btn_4_missingXml.Visible = !_controller.Steps[3].TestCases["ARTICLE"].Valid;
       btn_4_xmlSyntax.Visible = !_controller.Steps[3].TestCases["SYNTAX"].Valid;
       btn_4_xref.Visible = !_controller.Steps[3].TestCases["XREF"].Valid;
@@ -62,9 +68,6 @@ namespace IDS.MAP.Toolbox.Forms
     private void btn_build_Click(object sender, EventArgs e)
       => _controller.Build();
 
-    private void btn_2_noExcel_Click(object sender, EventArgs e)
-      => DisplayError(_controller.Steps[1].TestCases["EXCEL"].DetailErrorReport);
-
     private void btn_2_excelColumns_Click(object sender, EventArgs e)
       => DisplayError(_controller.Steps[1].TestCases["COLUMNS"].DetailErrorReport);
 
@@ -76,6 +79,9 @@ namespace IDS.MAP.Toolbox.Forms
 
     private void btn_3_nostructure_Click(object sender, EventArgs e)
       => DisplayError(_controller.Steps[2].TestCases["STRUCT"].DetailErrorReport);
+
+    private void btn_3_wrongId_Click(object sender, EventArgs e)
+      => DisplayError(_controller.Steps[2].TestCases["ID"].DetailErrorReport);
 
     private void btn_3_missingArticle_Click(object sender, EventArgs e)
       => DisplayError(_controller.Steps[2].TestCases["ARTICLE"].DetailErrorReport);

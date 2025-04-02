@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 
 namespace IDS.MAP.Toolbox.Model.TestCase
 {
-    public class T01 : AbstractTestCase
+  public class T01 : AbstractTestCase
     {
-      public override bool Execute(ref MapConfiguration config)
+      public override void Execute(ref MapConfiguration config)
       {
-        return false;
+        return;
         // TODO
       }
 

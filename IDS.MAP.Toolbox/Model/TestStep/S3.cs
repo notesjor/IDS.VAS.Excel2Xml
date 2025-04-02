@@ -8,7 +8,7 @@ namespace IDS.MAP.Toolbox.Model.TestStep
 {
   public class S3 : AbstractTestStep
   {
-    public override Dictionary<string, AbstractTestCase> TestCases { get; } = new Dictionary<string, AbstractTestCase> { { "STRUCT", new T11() }, { "ARTICLE", new T12() }, { "ENTRY", new T13() } };
+    public override Dictionary<string, AbstractTestCase> TestCases { get; } = new Dictionary<string, AbstractTestCase> { { "STRUCT", new T11() }, { "ID", new T12() }, { "ARTICLE", new T13() }, { "ENTRY", new T14() } };
     public override Dictionary<string, AbstractAction> Actions { get; }
   }
 }

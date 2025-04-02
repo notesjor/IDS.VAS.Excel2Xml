@@ -5,9 +5,10 @@ namespace IDS.MAP.Toolbox.Model.TestCase
 {
   public class T22 : AbstractTestCase
   {
-    public override bool Execute(ref MapConfiguration config)
+    public override void Execute(ref MapConfiguration config)
     {
-      throw new NotImplementedException();
+      return;
+      // TODO
     }
 
     public override bool BreakExecution { get; } = false;

@@ -91,10 +91,12 @@
     <Compile Include="Model\Action\A00.cs" />
     <Compile Include="Model\Action\Abstract\AbstractAction.cs" />
     <Compile Include="Model\TestCase\Abstract\AbstractTestCase.cs" />
+    <Compile Include="Model\TestCase\T00.cs" />
     <Compile Include="Model\TestCase\T01.cs" />
     <Compile Include="Model\TestCase\T02.cs" />
     <Compile Include="Model\TestCase\T11.cs" />
     <Compile Include="Model\TestCase\T12.cs" />
+    <Compile Include="Model\TestCase\T14.cs" />
     <Compile Include="Model\TestCase\T13.cs" />
     <Compile Include="Model\TestCase\T21.cs" />
     <Compile Include="Model\TestCase\T22.cs" />
