@@ -59,11 +59,34 @@
     <ApplicationIcon>ids.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="ExcelDataReader, Version=3.7.0.0, Culture=neutral, PublicKeyToken=93517dbe6a4012fa, processorArchitecture=MSIL">
+      <HintPath>..\IDS.VAS.Excel2Xml\packages\ExcelDataReader.3.7.0\lib\net462\ExcelDataReader.dll</HintPath>
+    </Reference>
+    <Reference Include="ExcelDataReader.DataSet, Version=3.7.0.0, Culture=neutral, PublicKeyToken=93517dbe6a4012fa, processorArchitecture=MSIL">
+      <HintPath>..\IDS.VAS.Excel2Xml\packages\ExcelDataReader.DataSet.3.7.0\lib\net462\ExcelDataReader.DataSet.dll</HintPath>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\IDS.VAS.Excel2Xml\packages\Newtonsoft.Json.13.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\IDS.VAS.Excel2Xml\packages\System.Buffers.4.5.1\lib\net461\System.Buffers.dll</HintPath>
+    </Reference>
     <Reference Include="System.Core" />
+    <Reference Include="System.IO.Compression" />
+    <Reference Include="System.Memory, Version=4.0.1.2, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\IDS.VAS.Excel2Xml\packages\System.Memory.4.5.5\lib\net461\System.Memory.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Numerics.Vectors, Version=4.1.4.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\IDS.VAS.Excel2Xml\packages\System.Numerics.Vectors.4.5.0\lib\net46\System.Numerics.Vectors.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\IDS.VAS.Excel2Xml\packages\System.Runtime.CompilerServices.Unsafe.6.0.0\lib\net461\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Text.Encoding.CodePages, Version=9.0.0.3, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\IDS.VAS.Excel2Xml\packages\System.Text.Encoding.CodePages.9.0.3\lib\net462\System.Text.Encoding.CodePages.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -75,6 +98,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\IDS.VAS.Excel2Xml\Model\ExcelColumnMapper.cs">
+      <Link>Model\Excel\ExcelColumnMapper.cs</Link>
+    </Compile>
+    <Compile Include="..\IDS.Vas.ExcelReader\VasExcelReader.cs">
+      <Link>Model\Excel\VasExcelReader.cs</Link>
+    </Compile>
     <Compile Include="Forms\ErrorReportForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -89,11 +118,13 @@
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Model\Action\A00.cs" />
+    <Compile Include="Model\Action\A01.cs" />
+    <Compile Include="Model\Action\A20.cs" />
+    <Compile Include="Model\Action\A21.cs" />
     <Compile Include="Model\Action\Abstract\AbstractAction.cs" />
     <Compile Include="Model\TestCase\Abstract\AbstractTestCase.cs" />
     <Compile Include="Model\TestCase\T00.cs" />
     <Compile Include="Model\TestCase\T01.cs" />
-    <Compile Include="Model\TestCase\T02.cs" />
     <Compile Include="Model\TestCase\T11.cs" />
     <Compile Include="Model\TestCase\T12.cs" />
     <Compile Include="Model\TestCase\T14.cs" />

@@ -16,7 +16,8 @@ namespace IDS.MAP.Toolbox.Model.TestStep.Abstract
       var valid = true;
       foreach (var x in TestCases)
       {
-        if (x.Value.Execute(ref config))
+        x.Value.Execute(ref config);
+        if (x.Value.Valid)
           continue;
 
         valid = false;
