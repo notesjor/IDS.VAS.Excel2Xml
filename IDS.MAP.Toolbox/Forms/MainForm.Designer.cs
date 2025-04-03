@@ -45,8 +45,6 @@
       this.label2 = new System.Windows.Forms.Label();
       this.grp_3 = new System.Windows.Forms.GroupBox();
       this.panel4 = new System.Windows.Forms.Panel();
-      this.btn_3_noStructureEntry = new System.Windows.Forms.Button();
-      this.btn_3_missingArticle = new System.Windows.Forms.Button();
       this.btn_3_wrongId = new System.Windows.Forms.Button();
       this.btn_3_nostructure = new System.Windows.Forms.Button();
       this.label3 = new System.Windows.Forms.Label();
@@ -241,8 +239,6 @@
       // 
       // panel4
       // 
-      this.panel4.Controls.Add(this.btn_3_noStructureEntry);
-      this.panel4.Controls.Add(this.btn_3_missingArticle);
       this.panel4.Controls.Add(this.btn_3_wrongId);
       this.panel4.Controls.Add(this.btn_3_nostructure);
       this.panel4.Dock = System.Windows.Forms.DockStyle.Top;
@@ -251,28 +247,6 @@
       this.panel4.Size = new System.Drawing.Size(794, 21);
       this.panel4.TabIndex = 1;
       // 
-      // btn_3_noStructureEntry
-      // 
-      this.btn_3_noStructureEntry.Dock = System.Windows.Forms.DockStyle.Left;
-      this.btn_3_noStructureEntry.Location = new System.Drawing.Point(450, 0);
-      this.btn_3_noStructureEntry.Name = "btn_3_noStructureEntry";
-      this.btn_3_noStructureEntry.Size = new System.Drawing.Size(150, 21);
-      this.btn_3_noStructureEntry.TabIndex = 3;
-      this.btn_3_noStructureEntry.Text = "F14: Fehlender Eintrag";
-      this.btn_3_noStructureEntry.UseVisualStyleBackColor = true;
-      this.btn_3_noStructureEntry.Click += new System.EventHandler(this.btn_3_noStructureEntry_Click);
-      // 
-      // btn_3_missingArticle
-      // 
-      this.btn_3_missingArticle.Dock = System.Windows.Forms.DockStyle.Left;
-      this.btn_3_missingArticle.Location = new System.Drawing.Point(300, 0);
-      this.btn_3_missingArticle.Name = "btn_3_missingArticle";
-      this.btn_3_missingArticle.Size = new System.Drawing.Size(150, 21);
-      this.btn_3_missingArticle.TabIndex = 2;
-      this.btn_3_missingArticle.Text = "F13: Fehlender Artikel";
-      this.btn_3_missingArticle.UseVisualStyleBackColor = true;
-      this.btn_3_missingArticle.Click += new System.EventHandler(this.btn_3_missingArticle_Click);
-      // 
       // btn_3_wrongId
       // 
       this.btn_3_wrongId.Dock = System.Windows.Forms.DockStyle.Left;
@@ -280,7 +254,7 @@
       this.btn_3_wrongId.Name = "btn_3_wrongId";
       this.btn_3_wrongId.Size = new System.Drawing.Size(150, 21);
       this.btn_3_wrongId.TabIndex = 4;
-      this.btn_3_wrongId.Text = "F12: Ungültiger ID";
+      this.btn_3_wrongId.Text = "F12: Struktur-Fehler";
       this.btn_3_wrongId.UseVisualStyleBackColor = true;
       this.btn_3_wrongId.Click += new System.EventHandler(this.btn_3_wrongId_Click);
       // 
@@ -496,8 +470,6 @@
     private System.Windows.Forms.Button btn_update;
     private System.Windows.Forms.Button btn_2_searchPreview;
     private System.Windows.Forms.Button btn_2_excelColumns;
-    private System.Windows.Forms.Button btn_3_noStructureEntry;
-    private System.Windows.Forms.Button btn_3_missingArticle;
     private System.Windows.Forms.GroupBox grp_4;
     private System.Windows.Forms.Panel panel5;
     private System.Windows.Forms.Button btn_4_cite;

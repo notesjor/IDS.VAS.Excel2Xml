@@ -1,12 +1,12 @@
-﻿using IDS.MAP.Toolbox.Model.TestCase.Abstract;
+﻿using IDS.MAP.Toolbox.Helper;
+using IDS.MAP.Toolbox.Model.TestCase.Abstract;
 using IDS.Vas.ExcelReader;
 using IDS.VAS.Excel2Xml.Model;
 using System;
-using System.Collections.Generic;
-using System.IO;
+using System.Data;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using IDS.MAP.Toolbox.Model.Struktur;
+using System.Collections.Generic;
 
 namespace IDS.MAP.Toolbox.Model.TestCase
 {
@@ -16,20 +16,23 @@ namespace IDS.MAP.Toolbox.Model.TestCase
     {
       try
       {
-        var data = VasExcelReader.ReadExcel(Path.Combine(config.TmpPath, "excel", "data.xlsx"));
+        var data = VasExcelReader.ReadExcel(config.WorkExcelPath);
 
         var schema = new ExcelColumnMapper();
         schema.Map(data.Tables[0]);
 
         var missing = schema.Mapping.Where(x => x.Value == -1).Select(x => x.Key).ToArray();
         if (missing.Length == 0)
+        { 
           Valid = true;
+
+          var sheet = data.Tables[0];
+          config.PatternNames = new HashSet<string>(from DataRow row in sheet.Rows select row.ItemArray[schema.Mapping["MUSTER"]].ToString().ToLower().Replace("ä","ae").Replace("ö","oe").Replace("ü","ue").Replace("ß","ss").Replace(" ", "_");
+        }
         else
         {
           Valid = false;
-          var error = new List<string> { "Folgende Spalten (erste Zeile) fehlen in der excel.xlsx" };
-          error.AddRange(missing);
-          DetailErrorReport = string.Join("\r\n", error);
+          DetailErrorReport = missing.BuildErrorMessage("Folgende Spalten (erste Zeile) fehlen in der excel.xlsx");
         }
       }
       catch (Exception ex)

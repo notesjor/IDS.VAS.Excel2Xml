@@ -1,28 +1,42 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
+using System.IO.Compression;
 using System.Windows.Forms;
 using IDS.MAP.Toolbox.Model.Action.Abstract;
+using IDS.VAS.Excel2Xml.Automate;
 
 namespace IDS.MAP.Toolbox.Model.Action
 {
   public class A21 : AbstractAction
   {
-    public override bool AutoRun { get; } = true;
+    public override bool AutoRun { get; } = false;
     public override void Execute(ref MapConfiguration config)
     {
-      var openFileDialog = new OpenFileDialog
+      var saveFileDialog = new SaveFileDialog
       {
-        Filter = "MAP-Excel (data.xlsx)|data.xlsx",
-        Title = "MAP-Excel (data.xlsx) auswählen",
-        InitialDirectory = Path.Combine(config.MapPath, "excel"),
-        CheckFileExists = true,
-        CheckPathExists = true,
-        Multiselect = false
+        Filter = "MAP-XML (*.zip)|*.zip",
+        Title = "XML-Dateien speichern",
+        InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop),
+        FileName = $"{DateTime.Now:yyyy-MM-dd}_MAP.zip",
       };
 
-      if (openFileDialog.ShowDialog() != DialogResult.OK)
+      if (saveFileDialog.ShowDialog() != DialogResult.OK)
         return;
 
-      config.MapPath = Path.GetDirectoryName(Path.GetDirectoryName(openFileDialog.FileName));
+      var tmpDir = Path.Combine(Path.GetTempPath(), "MAP-XML");
+
+      var controller = new ConvertController();
+      controller.Convert(config.WorkExcelPath, tmpDir);
+
+      ZipFile.CreateFromDirectory(tmpDir, saveFileDialog.FileName);
+      try
+      {
+        Directory.Delete(tmpDir, true);
+      }
+      catch
+      {
+        //ignore
+      }
     }
   }
 }

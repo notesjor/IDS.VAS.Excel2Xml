@@ -1,5 +1,6 @@
 ﻿using System.IO;
 using System;
+using System.Collections.Generic;
 using Newtonsoft.Json;
 using System.Text;
 
@@ -10,7 +11,25 @@ namespace IDS.MAP.Toolbox
     private static string _configPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "IDS", "MAP", "config.json");
     public string MapPath { get; set; } = null;
     [JsonIgnore]
-    public string TmpPath;
+    public string TmpPath { get; set; } = null;
+    [JsonIgnore]
+    public string WorkExcelPath => Path.Combine(TmpPath, "excel", "data.xlsx");
+    [JsonIgnore]
+    public string WorkArticlePath => Path.Combine(TmpPath, "artikel");
+    [JsonIgnore]
+    public string MapArticlePath => Path.Combine(MapPath, "artikel");
+    [JsonIgnore]
+    public string WorkExtraFilePath => Path.Combine(TmpPath, "map");
+    [JsonIgnore]
+    public string MapExtraFilePath => Path.Combine(MapPath, "map");
+    [JsonIgnore]
+    public List<string> WorkStructFiles { get; set; }
+    [JsonIgnore]
+    public HashSet<string> Links { get; set; }
+    [JsonIgnore]
+    public HashSet<string> PatternNames { get; set; }
+    [JsonIgnore]
+    public HashSet<string> PatternIds { get; set; }
 
     public void SettingsSave()
       => File.WriteAllText(_configPath, JsonConvert.SerializeObject(this), Encoding.UTF8);
@@ -27,13 +46,13 @@ namespace IDS.MAP.Toolbox
     public MapConfiguration()
     {
       TmpPath = Path.Combine(Path.GetTempPath(), "MAP");
-      if(Directory.Exists(TmpPath))
+      if (Directory.Exists(TmpPath))
         Directory.Delete(TmpPath, true);
       Directory.CreateDirectory(TmpPath);
 
       Directory.CreateDirectory(Path.Combine(TmpPath, "excel"));
       Directory.CreateDirectory(Path.Combine(TmpPath, "artikel"));
-      Directory.CreateDirectory(Path.Combine(TmpPath, "vas"));
+      Directory.CreateDirectory(Path.Combine(TmpPath, "map"));
     }
   }
 }

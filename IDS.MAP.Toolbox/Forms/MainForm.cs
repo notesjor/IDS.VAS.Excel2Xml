@@ -49,8 +49,6 @@ namespace IDS.MAP.Toolbox.Forms
 
       grp_3.Visible = level >= 2;
       btn_3_nostructure.Visible = !_controller.Steps[2].TestCases["STRUCT"].Valid;
-      btn_3_missingArticle.Visible = !_controller.Steps[2].TestCases["ARTICLE"].Valid;
-      btn_3_noStructureEntry.Visible = !_controller.Steps[2].TestCases["ENTRY"].Valid;
 
       grp_4.Visible = level >= 3;
       btn_4_missingXml.Visible = !_controller.Steps[3].TestCases["ARTICLE"].Valid;
@@ -82,12 +80,6 @@ namespace IDS.MAP.Toolbox.Forms
 
     private void btn_3_wrongId_Click(object sender, EventArgs e)
       => DisplayError(_controller.Steps[2].TestCases["ID"].DetailErrorReport);
-
-    private void btn_3_missingArticle_Click(object sender, EventArgs e)
-      => DisplayError(_controller.Steps[2].TestCases["ARTICLE"].DetailErrorReport);
-
-    private void btn_3_noStructureEntry_Click(object sender, EventArgs e)
-      => DisplayError(_controller.Steps[2].TestCases["ENTRY"].DetailErrorReport);
 
     private void btn_4_xmlSyntax_Click(object sender, EventArgs e)
       => DisplayError(_controller.Steps[3].TestCases["SYNTAX"].DetailErrorReport);

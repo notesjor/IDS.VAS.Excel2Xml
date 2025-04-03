@@ -65,27 +65,39 @@
     <Reference Include="ExcelDataReader.DataSet, Version=3.7.0.0, Culture=neutral, PublicKeyToken=93517dbe6a4012fa, processorArchitecture=MSIL">
       <HintPath>..\IDS.VAS.Excel2Xml\packages\ExcelDataReader.DataSet.3.7.0\lib\net462\ExcelDataReader.DataSet.dll</HintPath>
     </Reference>
+    <Reference Include="HtmlAgilityPack, Version=1.12.0.0, Culture=neutral, PublicKeyToken=bd319b19eaf3b43a, processorArchitecture=MSIL">
+      <HintPath>..\IDS.VAS.Excel2Xml\packages\HtmlAgilityPack.1.12.0\lib\Net45\HtmlAgilityPack.dll</HintPath>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\IDS.VAS.Excel2Xml\packages\Newtonsoft.Json.13.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
-    <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\IDS.VAS.Excel2Xml\packages\System.Buffers.4.5.1\lib\net461\System.Buffers.dll</HintPath>
+    <Reference Include="System.Buffers, Version=4.0.5.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\IDS.VAS.Excel2Xml\packages\System.Buffers.4.6.1\lib\net462\System.Buffers.dll</HintPath>
     </Reference>
     <Reference Include="System.Core" />
     <Reference Include="System.IO.Compression" />
-    <Reference Include="System.Memory, Version=4.0.1.2, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\IDS.VAS.Excel2Xml\packages\System.Memory.4.5.5\lib\net461\System.Memory.dll</HintPath>
+    <Reference Include="System.IO.Compression.FileSystem" />
+    <Reference Include="System.IO.Compression.ZipFile, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\IDS.VAS.Excel2Xml\packages\System.IO.Compression.ZipFile.4.3.0\lib\net46\System.IO.Compression.ZipFile.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Memory, Version=4.0.4.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\IDS.VAS.Excel2Xml\packages\System.Memory.4.6.2\lib\net462\System.Memory.dll</HintPath>
     </Reference>
     <Reference Include="System.Numerics" />
-    <Reference Include="System.Numerics.Vectors, Version=4.1.4.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\IDS.VAS.Excel2Xml\packages\System.Numerics.Vectors.4.5.0\lib\net46\System.Numerics.Vectors.dll</HintPath>
+    <Reference Include="System.Numerics.Vectors, Version=4.1.6.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\IDS.VAS.Excel2Xml\packages\System.Numerics.Vectors.4.6.1\lib\net462\System.Numerics.Vectors.dll</HintPath>
     </Reference>
-    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\IDS.VAS.Excel2Xml\packages\System.Runtime.CompilerServices.Unsafe.6.0.0\lib\net461\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=6.0.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\IDS.VAS.Excel2Xml\packages\System.Runtime.CompilerServices.Unsafe.6.1.1\lib\net462\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
     </Reference>
     <Reference Include="System.Text.Encoding.CodePages, Version=9.0.0.3, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\IDS.VAS.Excel2Xml\packages\System.Text.Encoding.CodePages.9.0.3\lib\net462\System.Text.Encoding.CodePages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Threading.Tasks.Extensions, Version=4.2.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\IDS.VAS.Excel2Xml\packages\System.Threading.Tasks.Extensions.4.6.2\lib\net462\System.Threading.Tasks.Extensions.dll</HintPath>
     </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -98,8 +110,23 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\IDS.VAS.Excel2Xml.Automate\ConvertController.cs">
+      <Link>Model\XmlConvert\ConvertController.cs</Link>
+    </Compile>
+    <Compile Include="..\IDS.VAS.Excel2Xml.Automate\Model\IdGenerator.cs">
+      <Link>Model\XmlConvert\IdGenerator.cs</Link>
+    </Compile>
+    <Compile Include="..\IDS.VAS.Excel2Xml.Convert\Model\FormSlot.cs">
+      <Link>Model\XmlConvert\FormSlot.cs</Link>
+    </Compile>
+    <Compile Include="..\IDS.VAS.Excel2Xml.Convert\Model\Kwic.cs">
+      <Link>Model\XmlConvert\Kwic.cs</Link>
+    </Compile>
     <Compile Include="..\IDS.VAS.Excel2Xml\Model\ExcelColumnMapper.cs">
       <Link>Model\Excel\ExcelColumnMapper.cs</Link>
+    </Compile>
+    <Compile Include="..\IDS.VAS.Excel2Xml\Model\NameDiscoveryHelper.cs">
+      <Link>Model\XmlConvert\NameDiscoveryHelper.cs</Link>
     </Compile>
     <Compile Include="..\IDS.Vas.ExcelReader\VasExcelReader.cs">
       <Link>Model\Excel\VasExcelReader.cs</Link>
@@ -110,6 +137,7 @@
     <Compile Include="Forms\ErrorReportForm.Designer.cs">
       <DependentUpon>ErrorReportForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Helper\ErrorMessageHelper.cs" />
     <Compile Include="MapConfiguration.cs" />
     <Compile Include="Forms\MainForm.cs">
       <SubType>Form</SubType>
@@ -122,13 +150,14 @@
     <Compile Include="Model\Action\A20.cs" />
     <Compile Include="Model\Action\A21.cs" />
     <Compile Include="Model\Action\Abstract\AbstractAction.cs" />
+    <Compile Include="Model\Struktur\overview.cs" />
+    <Compile Include="Model\Struktur\family.cs" />
+    <Compile Include="Model\Struktur\pattern.cs" />
     <Compile Include="Model\TestCase\Abstract\AbstractTestCase.cs" />
     <Compile Include="Model\TestCase\T00.cs" />
     <Compile Include="Model\TestCase\T01.cs" />
     <Compile Include="Model\TestCase\T11.cs" />
     <Compile Include="Model\TestCase\T12.cs" />
-    <Compile Include="Model\TestCase\T14.cs" />
-    <Compile Include="Model\TestCase\T13.cs" />
     <Compile Include="Model\TestCase\T21.cs" />
     <Compile Include="Model\TestCase\T22.cs" />
     <Compile Include="Model\TestCase\T23.cs" />
@@ -141,6 +170,11 @@
     <Compile Include="Model\TestStep\S3.cs" />
     <Compile Include="Model\TestStep\S4.cs" />
     <Compile Include="Model\TestStep\S5.cs" />
+    <Compile Include="Model\XmlConvert\Resources.Designer.cs">
+      <DependentUpon>Resources.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Forms\ErrorReportForm.resx">
@@ -148,6 +182,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Model\XmlConvert\Resources.resx">
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <Generator>ResXFileCodeGenerator</Generator>
+      <SubType>Designer</SubType>
+      <CustomToolNamespace>IDS.VAS.Excel2Xml.Automate.Properties</CustomToolNamespace>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -175,6 +215,15 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="ids.ico" />
+    <Content Include="Snippets\Stelligkeit\2.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Snippets\Stelligkeit\2u3.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Snippets\Stelligkeit\3.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <None Include="Resources\ids2019_farbig_auf_hell-300dpi.png" />
   </ItemGroup>
   <ItemGroup>
