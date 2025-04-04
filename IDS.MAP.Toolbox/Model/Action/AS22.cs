@@ -7,7 +7,7 @@ using IDS.VAS.Excel2Xml.Automate;
 
 namespace IDS.MAP.Toolbox.Model.Action
 {
-  public class A21 : AbstractAction
+  public class AS22 : AbstractAction
   {
     public override bool AutoRun { get; } = false;
     public override void Execute(ref MapConfiguration config)

@@ -65,7 +65,7 @@ namespace IDS.MAP.Toolbox.Forms
       => RunTests();
 
     private void btn_build_Click(object sender, EventArgs e)
-      => _controller.Build();
+      => _controller.Steps[4].Actions["BUILD"].Execute(ref _config);
 
     private void btn_2_excelColumns_Click(object sender, EventArgs e)
       => DisplayError(_controller.Steps[1].TestCases["MISSED"].DetailErrorReport);

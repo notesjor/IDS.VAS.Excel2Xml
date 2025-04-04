@@ -8,7 +8,7 @@ namespace IDS.MAP.Toolbox.Model.TestStep
 {
   public class S4 : AbstractTestStep
   {
-    public override Dictionary<string, AbstractTestCase> TestCases { get; } = new Dictionary<string, AbstractTestCase> { { "ARTICLE", new T21() }, { "SYNTAX", new T22() }, { "XREF", new T23() }, { "LINK", new T24() }, { "CITE", new T25() } };
+    public override Dictionary<string, AbstractTestCase> TestCases { get; } = new Dictionary<string, AbstractTestCase> { { "ARTICLE", new TS41() }, { "SYNTAX", new TS42() }, { "XREF", new TS43() }, { "LINK", new TS44() }, { "CITE", new TS45() } };
     public override Dictionary<string, AbstractAction> Actions { get; }
   }
 }

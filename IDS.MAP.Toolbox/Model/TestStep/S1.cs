@@ -9,7 +9,7 @@ namespace IDS.MAP.Toolbox.Model.TestStep
 {
   public class S1 : AbstractTestStep
   {
-    public override Dictionary<string, AbstractTestCase> TestCases { get; } = new Dictionary<string, AbstractTestCase> { { "EXCEL", new T00() } };
-    public override Dictionary<string, AbstractAction> Actions { get; } = new Dictionary<string, AbstractAction> { { "CONNECT", new A00() }, { "COPY", new A01() }  };
+    public override Dictionary<string, AbstractTestCase> TestCases { get; } = new Dictionary<string, AbstractTestCase> { { "EXCEL", new TS11() } };
+    public override Dictionary<string, AbstractAction> Actions { get; } = new Dictionary<string, AbstractAction> { { "CONNECT", new AS11() }, { "COPY", new AS12() }  };
   }
 }

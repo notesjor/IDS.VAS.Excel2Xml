@@ -10,7 +10,7 @@ using System.Collections.Generic;
 
 namespace IDS.MAP.Toolbox.Model.TestCase
 {
-  public class T01 : AbstractTestCase
+  public class TS21 : AbstractTestCase
   {
     public override void Execute(ref MapConfiguration config)
     {

@@ -9,7 +9,7 @@ using IDS.MAP.Toolbox.Model.TestCase.Abstract;
 
 namespace IDS.MAP.Toolbox.Model.TestCase
 {
-  public class T12 : AbstractTestCase
+  public class TS32 : AbstractTestCase
   {
     private Regex _test = new Regex(@"^[a-z0-9_]+$");
 

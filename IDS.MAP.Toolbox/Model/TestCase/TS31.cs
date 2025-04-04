@@ -7,7 +7,7 @@ using IDS.MAP.Toolbox.Model.TestCase.Abstract;
 
 namespace IDS.MAP.Toolbox.Model.TestCase
 {
-  public class T11 : AbstractTestCase
+  public class TS31 : AbstractTestCase
   {
     public override void Execute(ref MapConfiguration config)
     {

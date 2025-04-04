@@ -58,6 +58,15 @@
   <PropertyGroup>
     <ApplicationIcon>ids.ico</ApplicationIcon>
   </PropertyGroup>
+  <PropertyGroup>
+    <TargetZone>LocalIntranet</TargetZone>
+  </PropertyGroup>
+  <PropertyGroup>
+    <GenerateManifests>true</GenerateManifests>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationManifest>Properties\app.manifest</ApplicationManifest>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="ExcelDataReader, Version=3.7.0.0, Culture=neutral, PublicKeyToken=93517dbe6a4012fa, processorArchitecture=MSIL">
       <HintPath>..\IDS.VAS.Excel2Xml\packages\ExcelDataReader.3.7.0\lib\net462\ExcelDataReader.dll</HintPath>
@@ -145,24 +154,25 @@
     <Compile Include="Forms\MainForm.Designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Model\Action\A00.cs" />
-    <Compile Include="Model\Action\A01.cs" />
-    <Compile Include="Model\Action\A20.cs" />
-    <Compile Include="Model\Action\A21.cs" />
+    <Compile Include="Model\Action\AS11.cs" />
+    <Compile Include="Model\Action\AS12.cs" />
+    <Compile Include="Model\Action\AS21.cs" />
+    <Compile Include="Model\Action\AS22.cs" />
     <Compile Include="Model\Action\Abstract\AbstractAction.cs" />
+    <Compile Include="Model\Action\AS51.cs" />
     <Compile Include="Model\Struktur\overview.cs" />
     <Compile Include="Model\Struktur\family.cs" />
     <Compile Include="Model\Struktur\pattern.cs" />
     <Compile Include="Model\TestCase\Abstract\AbstractTestCase.cs" />
-    <Compile Include="Model\TestCase\T00.cs" />
-    <Compile Include="Model\TestCase\T01.cs" />
-    <Compile Include="Model\TestCase\T11.cs" />
-    <Compile Include="Model\TestCase\T12.cs" />
-    <Compile Include="Model\TestCase\T21.cs" />
-    <Compile Include="Model\TestCase\T22.cs" />
-    <Compile Include="Model\TestCase\T23.cs" />
-    <Compile Include="Model\TestCase\T24.cs" />
-    <Compile Include="Model\TestCase\T25.cs" />
+    <Compile Include="Model\TestCase\TS11.cs" />
+    <Compile Include="Model\TestCase\TS21.cs" />
+    <Compile Include="Model\TestCase\TS31.cs" />
+    <Compile Include="Model\TestCase\TS32.cs" />
+    <Compile Include="Model\TestCase\TS41.cs" />
+    <Compile Include="Model\TestCase\TS42.cs" />
+    <Compile Include="Model\TestCase\TS43.cs" />
+    <Compile Include="Model\TestCase\TS44.cs" />
+    <Compile Include="Model\TestCase\TS45.cs" />
     <Compile Include="Model\TestController.cs" />
     <Compile Include="Model\TestStep\Abstract\AbstractTestStep.cs" />
     <Compile Include="Model\TestStep\S1.cs" />
@@ -200,6 +210,7 @@
       <DesignTime>True</DesignTime>
     </Compile>
     <None Include="packages.config" />
+    <None Include="Properties\app.manifest" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

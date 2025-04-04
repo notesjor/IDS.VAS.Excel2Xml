@@ -3,7 +3,7 @@ using IDS.MAP.Toolbox.Model.TestCase.Abstract;
 
 namespace IDS.MAP.Toolbox.Model.TestCase
 {
-  public class T22 : AbstractTestCase
+  public class TS42 : AbstractTestCase
   {
     public override void Execute(ref MapConfiguration config)
     {
