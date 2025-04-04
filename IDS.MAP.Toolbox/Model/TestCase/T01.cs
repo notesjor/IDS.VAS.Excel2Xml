@@ -27,7 +27,7 @@ namespace IDS.MAP.Toolbox.Model.TestCase
           Valid = true;
 
           var sheet = data.Tables[0];
-          config.PatternNames = new HashSet<string>(from DataRow row in sheet.Rows select row.ItemArray[schema.Mapping["MUSTER"]].ToString().ToLower().Replace("ä","ae").Replace("ö","oe").Replace("ü","ue").Replace("ß","ss").Replace(" ", "_");
+          config.PatternNames = new HashSet<string>(from DataRow row in sheet.Rows select row.ItemArray[schema.Mapping["MUSTER"]].ToString().ToLower().Replace("ä","ae").Replace("ö","oe").Replace("ü","ue").Replace("ß","ss").Replace(" ", "_"));
         }
         else
         {

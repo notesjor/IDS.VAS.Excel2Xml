@@ -38,7 +38,7 @@ namespace IDS.MAP.Toolbox.Forms
       => _config.SettingsSave();
 
     private void RunTests()
-    {      
+    {
       var level = _controller.Execute(ref _config);
       SettingsSave();
       grp_1.Visible = level >= 0;
@@ -49,6 +49,7 @@ namespace IDS.MAP.Toolbox.Forms
 
       grp_3.Visible = level >= 2;
       btn_3_nostructure.Visible = !_controller.Steps[2].TestCases["STRUCT"].Valid;
+      btn_3_wrongId.Visible = !_controller.Steps[2].TestCases["ID"].Valid;
 
       grp_4.Visible = level >= 3;
       btn_4_missingXml.Visible = !_controller.Steps[3].TestCases["ARTICLE"].Valid;
@@ -98,6 +99,9 @@ namespace IDS.MAP.Toolbox.Forms
 
     private void DisplayError(string message)
     {
+      if (string.IsNullOrWhiteSpace(message))
+        return;
+
       var split = message.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
       if (split.Length > 1)
         new ErrorReportForm(message).ShowDialog();

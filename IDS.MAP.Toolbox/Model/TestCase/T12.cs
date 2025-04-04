@@ -24,7 +24,7 @@ namespace IDS.MAP.Toolbox.Model.TestCase
           var dir = Path.GetDirectoryName(f);
           var name = Path.GetFileName(dir);
 
-          if (!File.Exists(Path.Combine(dir, "index.xml")))
+          if (!File.Exists(Path.Combine(config.MapArticlePath, name, "index.xml")))
             errors.Add($"{name} - Die Datei index.xml muss für die PRP erstellt werden.");
 
           var serializer = new XmlSerializer(typeof(overview));
@@ -50,7 +50,7 @@ namespace IDS.MAP.Toolbox.Model.TestCase
 
           foreach (var id in ids)
           {
-            var xTest = Path.Combine(dir, $"{id}.xml");
+            var xTest = Path.Combine(config.MapArticlePath, name, $"{id}.xml");
 
             if (File.Exists(xTest))
               File.Copy(xTest, Path.Combine(config.WorkArticlePath, name, $"{id}.xml"), true);
@@ -58,7 +58,7 @@ namespace IDS.MAP.Toolbox.Model.TestCase
               errors.Add($"{name} - Für die ID {id} ist keine XML-Datei vorhanden oder ID/Dateiname stimmen nicht überein (_struktur.xml).");
 
             // TODO: PDF
-            //var pTest = Path.Combine(dir, $"{id}.pdf");
+            //var pTest = Path.Combine(config.MapArticlePath, name, $"{id}.pdf");
             //if (File.Exists(pTest))
             //  File.Copy(pTest, Path.Combine(config.WorkArticlePath, name, $"{id}.pdf"), true);
             //else
@@ -66,8 +66,13 @@ namespace IDS.MAP.Toolbox.Model.TestCase
           }
 
           foreach (var fLook in Directory.GetFiles(dir, "*.xml", SearchOption.TopDirectoryOnly))
+          { 
+            var xTest = Path.GetFileName(fLook);
+            if (xTest == "index.xml" || xTest == "_struktur.xml")
+              continue;
             if (!ids.Contains(Path.GetFileNameWithoutExtension(fLook)))
-              errors.Add($"{name} - Die Datei {Path.GetFileName(fLook)} ist nicht in der _struktur.xml aufgeführt.");
+              errors.Add($"{name} - Die Datei {xTest} ist nicht in der _struktur.xml aufgeführt."); 
+          }
         }
         catch
         {

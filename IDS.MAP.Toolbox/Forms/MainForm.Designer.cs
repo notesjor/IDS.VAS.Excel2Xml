@@ -275,9 +275,9 @@
       this.label3.Dock = System.Windows.Forms.DockStyle.Top;
       this.label3.Location = new System.Drawing.Point(3, 16);
       this.label3.Name = "label3";
-      this.label3.Size = new System.Drawing.Size(336, 13);
+      this.label3.Size = new System.Drawing.Size(378, 13);
       this.label3.TabIndex = 0;
-      this.label3.Text = "Wenn keine _struktur.xml vorhanden ist, erscheinen Fehlermeldungen";
+      this.label3.Text = "Wenn Fehler mit Bezug zu _struktur.xml vorhanden sind, erscheinen diese hier:";
       // 
       // grp_4
       // 
