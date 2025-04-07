@@ -39,7 +39,6 @@
       this.btn_update = new System.Windows.Forms.Button();
       this.grp_2 = new System.Windows.Forms.GroupBox();
       this.panel3 = new System.Windows.Forms.Panel();
-      this.btn_2_searchPreview = new System.Windows.Forms.Button();
       this.btn_2_excelColumns = new System.Windows.Forms.Button();
       this.btn_2_createXml = new System.Windows.Forms.Button();
       this.label2 = new System.Windows.Forms.Label();
@@ -61,6 +60,7 @@
       this.btn_build = new System.Windows.Forms.Button();
       this.label5 = new System.Windows.Forms.Label();
       this.backgroundWorker = new System.ComponentModel.BackgroundWorker();
+      this.btn_2_searchPreview = new System.Windows.Forms.Button();
       ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
       this.grp_1.SuspendLayout();
       this.panel2.SuspendLayout();
@@ -182,17 +182,6 @@
       this.panel3.Size = new System.Drawing.Size(794, 21);
       this.panel3.TabIndex = 1;
       // 
-      // btn_2_searchPreview
-      // 
-      this.btn_2_searchPreview.Dock = System.Windows.Forms.DockStyle.Right;
-      this.btn_2_searchPreview.Location = new System.Drawing.Point(534, 0);
-      this.btn_2_searchPreview.Name = "btn_2_searchPreview";
-      this.btn_2_searchPreview.Size = new System.Drawing.Size(130, 21);
-      this.btn_2_searchPreview.TabIndex = 3;
-      this.btn_2_searchPreview.Text = "Suche-Vorschau";
-      this.btn_2_searchPreview.UseVisualStyleBackColor = true;
-      this.btn_2_searchPreview.Click += new System.EventHandler(this.btn_2_searchPreview_Click);
-      // 
       // btn_2_excelColumns
       // 
       this.btn_2_excelColumns.Dock = System.Windows.Forms.DockStyle.Left;
@@ -200,7 +189,7 @@
       this.btn_2_excelColumns.Name = "btn_2_excelColumns";
       this.btn_2_excelColumns.Size = new System.Drawing.Size(150, 21);
       this.btn_2_excelColumns.TabIndex = 2;
-      this.btn_2_excelColumns.Text = "F01: Fehlende Spalten";
+      this.btn_2_excelColumns.Text = "F21: Fehlende Spalten";
       this.btn_2_excelColumns.UseVisualStyleBackColor = true;
       this.btn_2_excelColumns.Click += new System.EventHandler(this.btn_2_excelColumns_Click);
       // 
@@ -255,7 +244,7 @@
       this.btn_3_wrongId.Name = "btn_3_wrongId";
       this.btn_3_wrongId.Size = new System.Drawing.Size(150, 21);
       this.btn_3_wrongId.TabIndex = 4;
-      this.btn_3_wrongId.Text = "F12: Struktur-Fehler";
+      this.btn_3_wrongId.Text = "F32: Struktur-Fehler";
       this.btn_3_wrongId.UseVisualStyleBackColor = true;
       this.btn_3_wrongId.Click += new System.EventHandler(this.btn_3_wrongId_Click);
       // 
@@ -266,7 +255,7 @@
       this.btn_3_nostructure.Name = "btn_3_nostructure";
       this.btn_3_nostructure.Size = new System.Drawing.Size(150, 21);
       this.btn_3_nostructure.TabIndex = 0;
-      this.btn_3_nostructure.Text = "F11: Keine _struktur.xml";
+      this.btn_3_nostructure.Text = "F31: Keine _struktur.xml";
       this.btn_3_nostructure.UseVisualStyleBackColor = true;
       this.btn_3_nostructure.Click += new System.EventHandler(this.btn_3_nostructure_Click);
       // 
@@ -312,7 +301,7 @@
       this.btn_4_cite.Name = "btn_4_cite";
       this.btn_4_cite.Size = new System.Drawing.Size(150, 21);
       this.btn_4_cite.TabIndex = 4;
-      this.btn_4_cite.Text = "F25: CITE falsch/ungültig";
+      this.btn_4_cite.Text = "F45: CITE falsch/ungültig";
       this.btn_4_cite.UseVisualStyleBackColor = true;
       this.btn_4_cite.Click += new System.EventHandler(this.btn_4_cite_Click);
       // 
@@ -323,7 +312,7 @@
       this.bnt_4_link.Name = "bnt_4_link";
       this.bnt_4_link.Size = new System.Drawing.Size(150, 21);
       this.bnt_4_link.TabIndex = 3;
-      this.bnt_4_link.Text = "F24: LINK-Falsch";
+      this.bnt_4_link.Text = "F44: LINK-Falsch";
       this.bnt_4_link.UseVisualStyleBackColor = true;
       this.bnt_4_link.Click += new System.EventHandler(this.bnt_4_link_Click);
       // 
@@ -334,7 +323,7 @@
       this.btn_4_xref.Name = "btn_4_xref";
       this.btn_4_xref.Size = new System.Drawing.Size(150, 21);
       this.btn_4_xref.TabIndex = 2;
-      this.btn_4_xref.Text = "F23: XREF-Falsch";
+      this.btn_4_xref.Text = "F43: XREF-Falsch";
       this.btn_4_xref.UseVisualStyleBackColor = true;
       this.btn_4_xref.Click += new System.EventHandler(this.btn_4_xref_Click);
       // 
@@ -345,7 +334,7 @@
       this.btn_4_xmlSyntax.Name = "btn_4_xmlSyntax";
       this.btn_4_xmlSyntax.Size = new System.Drawing.Size(150, 21);
       this.btn_4_xmlSyntax.TabIndex = 0;
-      this.btn_4_xmlSyntax.Text = "F22: XML-Syntax";
+      this.btn_4_xmlSyntax.Text = "F42: XML-Syntax";
       this.btn_4_xmlSyntax.UseVisualStyleBackColor = true;
       this.btn_4_xmlSyntax.Click += new System.EventHandler(this.btn_4_xmlSyntax_Click);
       // 
@@ -356,7 +345,7 @@
       this.btn_4_missingXml.Name = "btn_4_missingXml";
       this.btn_4_missingXml.Size = new System.Drawing.Size(150, 21);
       this.btn_4_missingXml.TabIndex = 5;
-      this.btn_4_missingXml.Text = "F21: Fehlender XML-Artikel";
+      this.btn_4_missingXml.Text = "F41: Fehlender XML-Artikel";
       this.btn_4_missingXml.UseVisualStyleBackColor = true;
       this.btn_4_missingXml.Click += new System.EventHandler(this.btn_4_missingXml_Click);
       // 
@@ -380,7 +369,7 @@
       this.grp_5.Size = new System.Drawing.Size(800, 54);
       this.grp_5.TabIndex = 6;
       this.grp_5.TabStop = false;
-      this.grp_5.Text = "5. Abgabe";
+      this.grp_5.Text = "5. Veröffentlichung";
       // 
       // panel6
       // 
@@ -398,7 +387,7 @@
       this.btn_build.Name = "btn_build";
       this.btn_build.Size = new System.Drawing.Size(150, 21);
       this.btn_build.TabIndex = 0;
-      this.btn_build.Text = "Abgabe erzeugen";
+      this.btn_build.Text = "Veröffentlichen";
       this.btn_build.UseVisualStyleBackColor = true;
       this.btn_build.Click += new System.EventHandler(this.btn_build_Click);
       // 
@@ -408,14 +397,26 @@
       this.label5.Dock = System.Windows.Forms.DockStyle.Top;
       this.label5.Location = new System.Drawing.Point(3, 16);
       this.label5.Name = "label5";
-      this.label5.Size = new System.Drawing.Size(321, 13);
+      this.label5.Size = new System.Drawing.Size(360, 13);
       this.label5.TabIndex = 0;
-      this.label5.Text = "Sind alle Fehler beseitigt, kann eine Abgabe-Datei erzeugt werden.";
+      this.label5.Text = "Sind alle Fehler beseitigt, kann eine neue Veröffentlichung erzeugt werden.";
       // 
       // backgroundWorker
       // 
       this.backgroundWorker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorker_DoWork);
       this.backgroundWorker.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.backgroundWorker_RunWorkerCompleted);
+      // 
+      // btn_2_searchPreview
+      // 
+      this.btn_2_searchPreview.Dock = System.Windows.Forms.DockStyle.Right;
+      this.btn_2_searchPreview.Location = new System.Drawing.Point(534, 0);
+      this.btn_2_searchPreview.Name = "btn_2_searchPreview";
+      this.btn_2_searchPreview.Size = new System.Drawing.Size(130, 21);
+      this.btn_2_searchPreview.TabIndex = 3;
+      this.btn_2_searchPreview.Text = "Suche-Vorschau";
+      this.btn_2_searchPreview.UseVisualStyleBackColor = true;
+      this.btn_2_searchPreview.Visible = false;
+      this.btn_2_searchPreview.Click += new System.EventHandler(this.btn_2_searchPreview_Click);
       // 
       // MainForm
       // 
@@ -474,7 +475,6 @@
     private System.Windows.Forms.Button btn_3_nostructure;
     private System.Windows.Forms.Label label3;
     private System.Windows.Forms.Button btn_update;
-    private System.Windows.Forms.Button btn_2_searchPreview;
     private System.Windows.Forms.Button btn_2_excelColumns;
     private System.Windows.Forms.GroupBox grp_4;
     private System.Windows.Forms.Panel panel5;
@@ -490,5 +490,6 @@
     private System.Windows.Forms.Button btn_4_missingXml;
     private System.Windows.Forms.Button btn_3_wrongId;
     private System.ComponentModel.BackgroundWorker backgroundWorker;
+    private System.Windows.Forms.Button btn_2_searchPreview;
   }
 }

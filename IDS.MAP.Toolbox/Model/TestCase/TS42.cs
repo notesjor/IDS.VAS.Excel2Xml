@@ -20,7 +20,7 @@ namespace IDS.MAP.Toolbox.Model.TestCase
     public override void Execute(ref MapConfiguration config)
     {
       _error = new HashSet<string>();
-      var files = GetFiles(config);
+      var files = config.WorkXmlFiles;
 
       var styleOrig = Path.Combine(config.AppPath, "XMAP", "map.xsl");
       var styleWork = Path.Combine(config.WorkEtcFilePath, "map.xsl");
@@ -87,14 +87,6 @@ namespace IDS.MAP.Toolbox.Model.TestCase
       DetailErrorReport = _error.Count == 0 ?
         null:
         _error.BuildErrorMessage("Folgende XML-Dateien sind nicht valide (Schema-Validierung):");
-    }
-
-    private List<string> GetFiles(MapConfiguration config)
-    {
-      var res = new List<string>();
-      res.AddRange(Directory.GetFiles(config.WorkArticlePath, "*.xml", SearchOption.AllDirectories).Where(x => !Path.GetFileName(x).StartsWith("_")));
-      res.AddRange(Directory.GetFiles(config.WorkExtraFilePath, "*.xml", SearchOption.TopDirectoryOnly).Where(x => !x.EndsWith("literatur.xml")));
-      return res;
     }
 
     private void ValidationCallBack(object sender, ValidationEventArgs e)

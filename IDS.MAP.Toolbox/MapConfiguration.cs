@@ -1,6 +1,7 @@
 ﻿using System.IO;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using Newtonsoft.Json;
 using System.Text;
@@ -37,6 +38,17 @@ namespace IDS.MAP.Toolbox
     public HashSet<string> PatternIds { get; set; }
     [JsonIgnore]
     public string AppPath => Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+    [JsonIgnore]
+    public string[] WorkXmlFiles
+    {
+      get
+      {
+        var res = new List<string>();
+        res.AddRange(Directory.GetFiles(WorkArticlePath, "*.xml", SearchOption.AllDirectories).Where(x => !Path.GetFileName(x).StartsWith("_")));
+        res.AddRange(Directory.GetFiles(WorkExtraFilePath, "*.xml", SearchOption.TopDirectoryOnly).Where(x => !x.EndsWith("literatur.xml")));
+        return res.ToArray();
+      }
+    }
 
     public void SettingsSave()
       => File.WriteAllText(_configPath, JsonConvert.SerializeObject(this), Encoding.UTF8);

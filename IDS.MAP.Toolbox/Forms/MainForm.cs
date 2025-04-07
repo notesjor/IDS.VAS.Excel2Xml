@@ -40,8 +40,9 @@ namespace IDS.MAP.Toolbox.Forms
 
     private void RunTests()
     {
-      _process.Show();
+      WindowState = FormWindowState.Minimized;
       Hide();
+      _process.Show();
 
       backgroundWorker.RunWorkerAsync();
     }
@@ -127,6 +128,7 @@ namespace IDS.MAP.Toolbox.Forms
 
       _process.Hide();
       Show();
+      WindowState = FormWindowState.Normal;
     }
   }
 }
