@@ -60,6 +60,7 @@
       this.panel6 = new System.Windows.Forms.Panel();
       this.btn_build = new System.Windows.Forms.Button();
       this.label5 = new System.Windows.Forms.Label();
+      this.backgroundWorker = new System.ComponentModel.BackgroundWorker();
       ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
       this.grp_1.SuspendLayout();
       this.panel2.SuspendLayout();
@@ -411,6 +412,11 @@
       this.label5.TabIndex = 0;
       this.label5.Text = "Sind alle Fehler beseitigt, kann eine Abgabe-Datei erzeugt werden.";
       // 
+      // backgroundWorker
+      // 
+      this.backgroundWorker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorker_DoWork);
+      this.backgroundWorker.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.backgroundWorker_RunWorkerCompleted);
+      // 
       // MainForm
       // 
       this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -483,5 +489,6 @@
     private System.Windows.Forms.Label label5;
     private System.Windows.Forms.Button btn_4_missingXml;
     private System.Windows.Forms.Button btn_3_wrongId;
+    private System.ComponentModel.BackgroundWorker backgroundWorker;
   }
 }

@@ -10,6 +10,7 @@ namespace IDS.MAP.Toolbox.Forms
 
     private MapConfiguration _config = new MapConfiguration();
     private TestController _controller = new TestController();
+    private ValidationProcess _process = new ValidationProcess();
 
     public MainForm()
     {
@@ -39,26 +40,10 @@ namespace IDS.MAP.Toolbox.Forms
 
     private void RunTests()
     {
-      var level = _controller.Execute(ref _config);
-      SettingsSave();
-      grp_1.Visible = level >= 0;
-      grp_2.Visible = level >= 1;
-      btn_2_excelColumns.Visible = !_controller.Steps[1].TestCases["MISSED"].Valid;
-      btn_2_searchPreview.Visible = _controller.Steps[1].TestCases.All(x => x.Value.Valid);
-      btn_2_createXml.Visible = _controller.Steps[1].TestCases.All(x => x.Value.Valid);
+      _process.Show();
+      Hide();
 
-      grp_3.Visible = level >= 2;
-      btn_3_nostructure.Visible = !_controller.Steps[2].TestCases["STRUCT"].Valid;
-      btn_3_wrongId.Visible = !_controller.Steps[2].TestCases["ID"].Valid;
-
-      grp_4.Visible = level >= 3;
-      btn_4_missingXml.Visible = !_controller.Steps[3].TestCases["ARTICLE"].Valid;
-      btn_4_xmlSyntax.Visible = !_controller.Steps[3].TestCases["SYNTAX"].Valid;
-      btn_4_xref.Visible = !_controller.Steps[3].TestCases["XREF"].Valid;
-      bnt_4_link.Visible = !_controller.Steps[3].TestCases["LINK"].Valid;
-      btn_4_cite.Visible = !_controller.Steps[3].TestCases["CITE"].Valid;
-
-      grp_5.Visible = level >= 5;
+      backgroundWorker.RunWorkerAsync();
     }
 
     private void btn_update_Click(object sender, EventArgs e)
@@ -111,5 +96,37 @@ namespace IDS.MAP.Toolbox.Forms
 
     private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
       => SettingsSave();
+
+    private void backgroundWorker_DoWork(object sender, System.ComponentModel.DoWorkEventArgs e)
+    {
+      _controller.Execute(ref _config);
+    }
+
+    private void backgroundWorker_RunWorkerCompleted(object sender, System.ComponentModel.RunWorkerCompletedEventArgs e)
+    {
+      var level = _controller.Level;
+      SettingsSave();
+      grp_1.Visible = level >= 0;
+      grp_2.Visible = level >= 1;
+      btn_2_excelColumns.Visible = !_controller.Steps[1].TestCases["MISSED"].Valid;
+      btn_2_searchPreview.Visible = _controller.Steps[1].TestCases.All(x => x.Value.Valid);
+      btn_2_createXml.Visible = _controller.Steps[1].TestCases.All(x => x.Value.Valid);
+
+      grp_3.Visible = level >= 2;
+      btn_3_nostructure.Visible = !_controller.Steps[2].TestCases["STRUCT"].Valid;
+      btn_3_wrongId.Visible = !_controller.Steps[2].TestCases["ID"].Valid;
+
+      grp_4.Visible = level >= 3;
+      btn_4_missingXml.Visible = !_controller.Steps[3].TestCases["ARTICLE"].Valid;
+      btn_4_xmlSyntax.Visible = !_controller.Steps[3].TestCases["SYNTAX"].Valid;
+      btn_4_xref.Visible = !_controller.Steps[3].TestCases["XREF"].Valid;
+      bnt_4_link.Visible = !_controller.Steps[3].TestCases["LINK"].Valid;
+      btn_4_cite.Visible = !_controller.Steps[3].TestCases["CITE"].Valid;
+
+      grp_5.Visible = level >= 5;
+
+      _process.Hide();
+      Show();
+    }
   }
 }

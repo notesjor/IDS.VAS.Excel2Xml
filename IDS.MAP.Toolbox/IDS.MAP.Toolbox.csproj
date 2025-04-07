@@ -146,6 +146,12 @@
     <Compile Include="Forms\ErrorReportForm.Designer.cs">
       <DependentUpon>ErrorReportForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\ValidationProcess.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\ValidationProcess.Designer.cs">
+      <DependentUpon>ValidationProcess.cs</DependentUpon>
+    </Compile>
     <Compile Include="Helper\ErrorMessageHelper.cs" />
     <Compile Include="MapConfiguration.cs" />
     <Compile Include="Forms\MainForm.cs">
@@ -156,6 +162,7 @@
     </Compile>
     <Compile Include="Model\Action\AS11.cs" />
     <Compile Include="Model\Action\AS12.cs" />
+    <Compile Include="Model\Action\AS31.cs" />
     <Compile Include="Model\Action\AS21.cs" />
     <Compile Include="Model\Action\AS22.cs" />
     <Compile Include="Model\Action\Abstract\AbstractAction.cs" />
@@ -193,6 +200,9 @@
     <EmbeddedResource Include="Forms\MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\ValidationProcess.resx">
+      <DependentUpon>ValidationProcess.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Model\XmlConvert\Resources.resx">
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <Generator>ResXFileCodeGenerator</Generator>
@@ -209,6 +219,9 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <None Include="map.dtd">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="packages.config" />
     <None Include="Properties\app.manifest" />
     <None Include="Properties\Settings.settings">
@@ -220,6 +233,12 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <None Include="XMap\map.dtd">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="XMap\MAP.xpr">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -233,6 +252,45 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Snippets\Stelligkeit\3.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="XDependencies\IKVM.OpenJDK.Charsets.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="XDependencies\IKVM.OpenJDK.Core.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="XDependencies\IKVM.OpenJDK.Localedata.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="XDependencies\IKVM.OpenJDK.Text.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="XDependencies\IKVM.OpenJDK.Util.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="XDependencies\IKVM.OpenJDK.XML.API.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="XDependencies\IKVM.Runtime.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="XDependencies\Query.exe">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="XDependencies\saxon-he-10.8.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="XDependencies\saxon-he-api-10.8.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="XDependencies\saxon-he-api-10.8.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="XDependencies\Transform.exe">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="XMap\map.xsl">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <None Include="Resources\ids2019_farbig_auf_hell-300dpi.png" />

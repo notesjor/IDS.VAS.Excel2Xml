@@ -1,6 +1,7 @@
 ﻿using System.IO;
 using System;
 using System.Collections.Generic;
+using System.Reflection;
 using Newtonsoft.Json;
 using System.Text;
 
@@ -23,6 +24,10 @@ namespace IDS.MAP.Toolbox
     [JsonIgnore]
     public string MapExtraFilePath => Path.Combine(MapPath, "map");
     [JsonIgnore]
+    public string WorkEtcFilePath => Path.Combine(TmpPath, "etc");
+    [JsonIgnore]
+    public string MapEtcFilePath => Path.Combine(MapPath, "etc");
+    [JsonIgnore]
     public List<string> WorkStructFiles { get; set; }
     [JsonIgnore]
     public HashSet<string> Links { get; set; }
@@ -30,6 +35,8 @@ namespace IDS.MAP.Toolbox
     public HashSet<string> PatternNames { get; set; }
     [JsonIgnore]
     public HashSet<string> PatternIds { get; set; }
+    [JsonIgnore]
+    public string AppPath => Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
 
     public void SettingsSave()
       => File.WriteAllText(_configPath, JsonConvert.SerializeObject(this), Encoding.UTF8);
