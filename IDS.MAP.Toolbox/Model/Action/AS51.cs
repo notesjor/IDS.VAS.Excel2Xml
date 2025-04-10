@@ -1,4 +1,6 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
+using System.IO.Compression;
 using System.Windows.Forms;
 using IDS.MAP.Toolbox.Model.Action.Abstract;
 
@@ -9,21 +11,19 @@ namespace IDS.MAP.Toolbox.Model.Action
     public override bool AutoRun { get; } = false;
     public override void Execute(ref MapConfiguration config)
     {
-      var openFileDialog = new OpenFileDialog
+      var date = DateTime.Now.ToString("yyyy-MM-dd");
+      var saveFileDialog = new SaveFileDialog
       {
-        Filter = "MAP-Publikation (publikation.zip)|data.xlsx",
-        Title = "MAP-Excel (data.xlsx) auswählen",
-        CheckFileExists = true,
+        Filter = $"MAP-Publikation (MAP_{date}.zip)|MAP_{date}.zip",
+        Title = "MAP-Publikation erstellen",
         CheckPathExists = true,
-        Multiselect = false
+        FileName = $"MAP_{date}.zip",
+        InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop)
       };
-      if (!string.IsNullOrEmpty(config.MapPath))
-        openFileDialog.InitialDirectory = Path.Combine(config.MapPath, "excel");
-
-      if (openFileDialog.ShowDialog() != DialogResult.OK)
+      if (saveFileDialog.ShowDialog() != DialogResult.OK)
         return;
 
-      config.MapPath = Path.GetDirectoryName(Path.GetDirectoryName(openFileDialog.FileName));
+      ZipFile.CreateFromDirectory(config.TmpPath, saveFileDialog.FileName);
     }
   }
 }
