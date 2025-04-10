@@ -30,7 +30,7 @@ namespace IDS.MAP.Toolbox.Model.TestCase
       DetailErrorReport = _error.BuildErrorMessage("Folgende Fehler treten im Zusammenhang mit sample/xref auf.");
     }
 
-    public override bool BreakExecution { get; } = true;
+    public override bool BreakExecution { get; } = false;
 
     private static void SearchUnnannotatedSamples(ref List<string> errors, string file, HtmlDocument doc, HtmlNodeCollection samples)
     {

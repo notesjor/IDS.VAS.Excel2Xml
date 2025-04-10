@@ -16,16 +16,23 @@ namespace IDS.MAP.Toolbox.Model.TestCase
     public override void Execute(ref MapConfiguration config)
     {
       var errors = new List<string>();
+      config.Pages = new HashSet<string>();
+      config.PatternIds = new HashSet<string>();
 
       foreach (var f in config.WorkStructFiles)
       {
         try
         {
           var dir = Path.GetDirectoryName(f);
-          var name = Path.GetFileName(dir);
+          var name = Path.GetFileName(dir);                    
 
           if (!File.Exists(Path.Combine(config.MapArticlePath, name, "index.xml")))
             errors.Add($"{name} - Die Datei index.xml muss für die PRP erstellt werden.");
+          else
+          {
+            config.Pages.Add($"{name}/index");
+            File.Copy(Path.Combine(config.MapArticlePath, name, "index.xml"), Path.Combine(config.WorkArticlePath, name, "index.xml"), true);
+          }
 
           var serializer = new XmlSerializer(typeof(overview));
 
@@ -46,7 +53,11 @@ namespace IDS.MAP.Toolbox.Model.TestCase
             foreach (var entry in family.pattern)
               ValidateId(name, ref errors, ref ids, entry.id);
           }
-          config.PatternIds = ids;
+          foreach(var x in ids)
+          {
+            config.PatternIds.Add(x);
+            config.Pages.Add($"{name}/{x}");
+          }
 
           foreach (var id in ids)
           {

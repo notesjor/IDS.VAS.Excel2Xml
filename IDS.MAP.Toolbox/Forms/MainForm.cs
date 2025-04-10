@@ -77,9 +77,6 @@ namespace IDS.MAP.Toolbox.Forms
     private void bnt_4_link_Click(object sender, EventArgs e)
       => DisplayError(_controller.Steps[3].TestCases["LINK"].DetailErrorReport);
 
-    private void btn_4_cite_Click(object sender, EventArgs e)
-      => DisplayError(_controller.Steps[3].TestCases["CITE"].DetailErrorReport);
-
     private void btn_4_missingXml_Click(object sender, EventArgs e)
       => DisplayError(_controller.Steps[3].TestCases["ARTICLE"].DetailErrorReport);
 
@@ -122,7 +119,6 @@ namespace IDS.MAP.Toolbox.Forms
       btn_4_xmlSyntax.Visible = !_controller.Steps[3].TestCases["SYNTAX"].Valid;
       btn_4_xref.Visible = !_controller.Steps[3].TestCases["XREF"].Valid;
       bnt_4_link.Visible = !_controller.Steps[3].TestCases["LINK"].Valid;
-      btn_4_cite.Visible = !_controller.Steps[3].TestCases["CITE"].Valid;
 
       grp_5.Visible = level >= 5;
 

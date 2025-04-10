@@ -11,11 +11,16 @@ namespace IDS.MAP.Toolbox.Model.Action
     {
       var files = Directory.GetFiles(config.MapExtraFilePath, "*.xml", SearchOption.AllDirectories).Select(Path.GetFileName).ToArray();
       foreach (var file in files)
+      {
         File.Copy(Path.Combine(config.MapExtraFilePath, file), Path.Combine(config.WorkExtraFilePath, file), true);
+        var fn = Path.GetFileNameWithoutExtension(file);
+        if (fn != "literatur")
+          config.Pages.Add(fn);
+      }
 
-      if(!Directory.Exists(config.WorkEtcFilePath))
+      if (!Directory.Exists(config.WorkEtcFilePath))
         Directory.CreateDirectory(config.WorkEtcFilePath);
-      File.Copy(Path.Combine(config.MapEtcFilePath, "map.dtd"), Path.Combine(config.WorkEtcFilePath, "map.dtd"), true);
+      //File.Copy(Path.Combine(config.MapEtcFilePath, "map.dtd"), Path.Combine(config.WorkEtcFilePath, "map.dtd"), true);
     }
   }
 }

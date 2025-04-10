@@ -31,7 +31,7 @@ namespace IDS.MAP.Toolbox
     [JsonIgnore]
     public List<string> WorkStructFiles { get; set; }
     [JsonIgnore]
-    public HashSet<string> Links { get; set; }
+    public HashSet<string> Pages { get; set; }
     [JsonIgnore]
     public HashSet<string> PatternNames { get; set; }
     [JsonIgnore]

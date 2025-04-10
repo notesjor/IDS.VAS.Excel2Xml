@@ -13,7 +13,7 @@ namespace IDS.MAP.Toolbox.Model.TestCase
     {
       var errors = new List<string>();
       config.WorkStructFiles = new List<string>();
-      config.Links = new HashSet<string>();
+      config.Pages = new HashSet<string>();
 
       var dirs = Directory.GetDirectories(config.MapArticlePath).Select(Path.GetFileName).ToArray();
       foreach (var dir in dirs)

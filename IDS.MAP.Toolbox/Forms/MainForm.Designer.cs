@@ -39,6 +39,7 @@
       this.btn_update = new System.Windows.Forms.Button();
       this.grp_2 = new System.Windows.Forms.GroupBox();
       this.panel3 = new System.Windows.Forms.Panel();
+      this.btn_2_searchPreview = new System.Windows.Forms.Button();
       this.btn_2_excelColumns = new System.Windows.Forms.Button();
       this.btn_2_createXml = new System.Windows.Forms.Button();
       this.label2 = new System.Windows.Forms.Label();
@@ -49,7 +50,6 @@
       this.label3 = new System.Windows.Forms.Label();
       this.grp_4 = new System.Windows.Forms.GroupBox();
       this.panel5 = new System.Windows.Forms.Panel();
-      this.btn_4_cite = new System.Windows.Forms.Button();
       this.bnt_4_link = new System.Windows.Forms.Button();
       this.btn_4_xref = new System.Windows.Forms.Button();
       this.btn_4_xmlSyntax = new System.Windows.Forms.Button();
@@ -60,7 +60,6 @@
       this.btn_build = new System.Windows.Forms.Button();
       this.label5 = new System.Windows.Forms.Label();
       this.backgroundWorker = new System.ComponentModel.BackgroundWorker();
-      this.btn_2_searchPreview = new System.Windows.Forms.Button();
       ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
       this.grp_1.SuspendLayout();
       this.panel2.SuspendLayout();
@@ -182,6 +181,18 @@
       this.panel3.Size = new System.Drawing.Size(794, 21);
       this.panel3.TabIndex = 1;
       // 
+      // btn_2_searchPreview
+      // 
+      this.btn_2_searchPreview.Dock = System.Windows.Forms.DockStyle.Right;
+      this.btn_2_searchPreview.Location = new System.Drawing.Point(534, 0);
+      this.btn_2_searchPreview.Name = "btn_2_searchPreview";
+      this.btn_2_searchPreview.Size = new System.Drawing.Size(130, 21);
+      this.btn_2_searchPreview.TabIndex = 3;
+      this.btn_2_searchPreview.Text = "Suche-Vorschau";
+      this.btn_2_searchPreview.UseVisualStyleBackColor = true;
+      this.btn_2_searchPreview.Visible = false;
+      this.btn_2_searchPreview.Click += new System.EventHandler(this.btn_2_searchPreview_Click);
+      // 
       // btn_2_excelColumns
       // 
       this.btn_2_excelColumns.Dock = System.Windows.Forms.DockStyle.Left;
@@ -283,7 +294,6 @@
       // 
       // panel5
       // 
-      this.panel5.Controls.Add(this.btn_4_cite);
       this.panel5.Controls.Add(this.bnt_4_link);
       this.panel5.Controls.Add(this.btn_4_xref);
       this.panel5.Controls.Add(this.btn_4_xmlSyntax);
@@ -293,17 +303,6 @@
       this.panel5.Name = "panel5";
       this.panel5.Size = new System.Drawing.Size(794, 21);
       this.panel5.TabIndex = 1;
-      // 
-      // btn_4_cite
-      // 
-      this.btn_4_cite.Dock = System.Windows.Forms.DockStyle.Left;
-      this.btn_4_cite.Location = new System.Drawing.Point(600, 0);
-      this.btn_4_cite.Name = "btn_4_cite";
-      this.btn_4_cite.Size = new System.Drawing.Size(150, 21);
-      this.btn_4_cite.TabIndex = 4;
-      this.btn_4_cite.Text = "F45: CITE falsch/ungültig";
-      this.btn_4_cite.UseVisualStyleBackColor = true;
-      this.btn_4_cite.Click += new System.EventHandler(this.btn_4_cite_Click);
       // 
       // bnt_4_link
       // 
@@ -406,18 +405,6 @@
       this.backgroundWorker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorker_DoWork);
       this.backgroundWorker.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.backgroundWorker_RunWorkerCompleted);
       // 
-      // btn_2_searchPreview
-      // 
-      this.btn_2_searchPreview.Dock = System.Windows.Forms.DockStyle.Right;
-      this.btn_2_searchPreview.Location = new System.Drawing.Point(534, 0);
-      this.btn_2_searchPreview.Name = "btn_2_searchPreview";
-      this.btn_2_searchPreview.Size = new System.Drawing.Size(130, 21);
-      this.btn_2_searchPreview.TabIndex = 3;
-      this.btn_2_searchPreview.Text = "Suche-Vorschau";
-      this.btn_2_searchPreview.UseVisualStyleBackColor = true;
-      this.btn_2_searchPreview.Visible = false;
-      this.btn_2_searchPreview.Click += new System.EventHandler(this.btn_2_searchPreview_Click);
-      // 
       // MainForm
       // 
       this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -478,7 +465,6 @@
     private System.Windows.Forms.Button btn_2_excelColumns;
     private System.Windows.Forms.GroupBox grp_4;
     private System.Windows.Forms.Panel panel5;
-    private System.Windows.Forms.Button btn_4_cite;
     private System.Windows.Forms.Button bnt_4_link;
     private System.Windows.Forms.Button btn_4_xref;
     private System.Windows.Forms.Button btn_4_xmlSyntax;

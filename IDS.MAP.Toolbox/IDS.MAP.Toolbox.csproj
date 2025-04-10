@@ -179,7 +179,6 @@
     <Compile Include="Model\TestCase\TS42.cs" />
     <Compile Include="Model\TestCase\TS43.cs" />
     <Compile Include="Model\TestCase\TS44.cs" />
-    <Compile Include="Model\TestCase\TS45.cs" />
     <Compile Include="Model\TestController.cs" />
     <Compile Include="Model\TestStep\Abstract\AbstractTestStep.cs" />
     <Compile Include="Model\TestStep\S1.cs" />
