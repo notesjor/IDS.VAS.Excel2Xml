@@ -31,7 +31,7 @@
 <xsl:param name="DIR">''</xsl:param>
 
 <!-- Literaturverzeichnis -->
-<xsl:variable name="literatur" select="document('../vas/literatur.xml')" />
+<xsl:variable name="literatur" select="document('../map/literatur.xml')" />
 
 
 <!-- einmal hier, damit getNumber das nicht jedesmal wieder zusammensuchen muss -->

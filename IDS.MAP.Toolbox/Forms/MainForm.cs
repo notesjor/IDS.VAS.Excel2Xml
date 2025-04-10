@@ -126,5 +126,20 @@ namespace IDS.MAP.Toolbox.Forms
       Show();
       WindowState = FormWindowState.Normal;
     }
+
+    private bool _cheat = false;
+
+    private void pictureBox1_DoubleClick(object sender, EventArgs e)
+    {
+      _cheat = true;
+    }
+
+    private void pictureBox1_Click(object sender, EventArgs e)
+    {
+      if(!_cheat)
+        return;
+      _config.ForcePublish = true;
+      _cheat = false;
+    }
   }
 }

@@ -15,7 +15,8 @@ namespace IDS.MAP.Toolbox.Model.TestCase
     public override void Execute(ref MapConfiguration config)
     {
       var errors = new List<string>();
-      var links = new HashSet<string>();
+      var targets = new HashSet<string>();
+      var links = new Queue<string>();
 
       // First Run (Build)
       foreach (var page in config.Pages)
@@ -23,9 +24,9 @@ namespace IDS.MAP.Toolbox.Model.TestCase
         try
         {
           if (page.Contains("/"))
-            SearchLinks(ref links, ref errors, page, Path.Combine(config.WorkArticlePath, $"{page}.xml"));
+            SearchLinks(ref targets, ref links, ref errors, page, Path.Combine(config.WorkArticlePath, $"{page}.xml"));
           else
-            SearchLinks(ref links, ref errors, page, Path.Combine(config.WorkExtraFilePath, $"{page}.xml"));
+            SearchLinks(ref targets, ref links, ref errors, page, Path.Combine(config.WorkExtraFilePath, "pages", $"{page}.xml"));
         }
         catch (Exception ex)
         {
@@ -41,9 +42,9 @@ namespace IDS.MAP.Toolbox.Model.TestCase
       DetailErrorReport = errors.BuildErrorMessage("Bei der Überprüfung von Links, sind folgende Fehler aufgetreten:");
     }
 
-    private void SearchLinks(ref HashSet<string> links, ref List<string> errors, string page, string path)
+    private void SearchLinks(ref HashSet<string> targets, ref Queue<string> links, ref List<string> errors, string page, string path)
     {
-      links.Add(page);
+      targets.Add(page);
 
       var html = new HtmlAgilityPack.HtmlDocument();
       html.Load(path, Encoding.UTF8);
@@ -63,14 +64,23 @@ namespace IDS.MAP.Toolbox.Model.TestCase
             continue;
             //errors.Add($"Die Datei {Path.GetFileNameWithoutExtension(path)} enthält <section>-Einträge, ohne label.");
 
-          links.Add($"{page}#{label}");
+          targets.Add($"{page}#{label}");
         }
 
-      SearchLinksInTag(ref links, ref errors, page, path, html, "overview");
-      SearchLinksInTag(ref links, ref errors, page, path, html, "meaning");
-      SearchLinksInTag(ref links, ref errors, page, path, html, "forms");
-      SearchLinksInTag(ref links, ref errors, page, path, html, "predicates");
-      SearchLinksInTag(ref links, ref errors, page, path, html, "references");
+      SearchLinksInTag(ref targets, ref errors, page, path, html, "overview");
+      SearchLinksInTag(ref targets, ref errors, page, path, html, "meaning");
+      SearchLinksInTag(ref targets, ref errors, page, path, html, "forms");
+      SearchLinksInTag(ref targets, ref errors, page, path, html, "predicates");
+      SearchLinksInTag(ref targets, ref errors, page, path, html, "references");
+
+      foreach(var link in html.DocumentNode.SelectNodes("//link"))
+      {
+        var href = link.GetAttributeValue("href", "");
+        if (href == "")
+          errors.Add($"Die Datei {Path.GetFileNameWithoutExtension(path)} enthält <link>-Einträge, ohne href.");
+        else
+          links.Enqueue(href);
+      }
     }
 
     private static void SearchLinksInTag(ref HashSet<string> links, ref List<string> errors, string page, string path, HtmlDocument html, string tag)

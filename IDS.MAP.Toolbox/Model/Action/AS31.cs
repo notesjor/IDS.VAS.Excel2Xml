@@ -9,18 +9,17 @@ namespace IDS.MAP.Toolbox.Model.Action
     public override bool AutoRun { get; } = true;
     public override void Execute(ref MapConfiguration config)
     {
-      var files = Directory.GetFiles(config.MapExtraFilePath, "*.xml", SearchOption.AllDirectories).Select(Path.GetFileName).ToArray();
+      var pages = Path.Combine(config.MapExtraFilePath, "pages");
+      var files = Directory.GetFiles(pages, "*.xml", SearchOption.TopDirectoryOnly).Select(Path.GetFileName).ToArray();
       foreach (var file in files)
       {
-        File.Copy(Path.Combine(config.MapExtraFilePath, file), Path.Combine(config.WorkExtraFilePath, file), true);
-        var fn = Path.GetFileNameWithoutExtension(file);
-        if (fn != "literatur")
-          config.Pages.Add(fn);
+        File.Copy(Path.Combine(pages, file), Path.Combine(config.WorkExtraFilePath, "pages", file), true);
+        config.Pages.Add(Path.GetFileNameWithoutExtension(file));
       }
 
       if (!Directory.Exists(config.WorkEtcFilePath))
         Directory.CreateDirectory(config.WorkEtcFilePath);
-      //File.Copy(Path.Combine(config.MapEtcFilePath, "map.dtd"), Path.Combine(config.WorkEtcFilePath, "map.dtd"), true);
+      File.Copy(Path.Combine(config.MapExtraFilePath, "literatur.xml"), Path.Combine(config.WorkExtraFilePath, "literatur.xml"), true);
     }
   }
 }

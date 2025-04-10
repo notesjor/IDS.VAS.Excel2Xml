@@ -25,6 +25,7 @@ namespace IDS.MAP.Toolbox.Model.TestCase
       var styleOrig = Path.Combine(config.AppPath, "XMAP", "map.xsl");
       var styleWork = Path.Combine(config.WorkEtcFilePath, "map.xsl");
       File.Copy(styleOrig, styleWork, true);
+      File.Copy(Path.Combine(config.AppPath, "XMAP", "map.dtd"), Path.Combine(config.WorkEtcFilePath, "map.dtd"), true);
 
       var transform = Path.Combine(config.AppPath, "XDependencies", "Transform.exe");
 
@@ -36,16 +37,18 @@ namespace IDS.MAP.Toolbox.Model.TestCase
           if (File.Exists(output))
             File.Delete(output);
 
+          var workDir = Path.GetDirectoryName(file);
+          Directory.SetCurrentDirectory(workDir);
+          Environment.CurrentDirectory = workDir;
+
           var arguments = string.Join(" ", new[]
           {
             $"-s:\"{file}\"",
             $"-xsl:\"{styleWork}\"",
-            $"-o:\"{output}\""
+            $"-o:\"{output}\"",
+            $"DIR=\"{workDir.Replace("\\", "/")}/\"",
+            "APP=\"ja\"",
           });
-
-          var workDir = Path.GetDirectoryName(file);
-          Directory.SetCurrentDirectory(workDir);
-          Environment.CurrentDirectory = workDir;
 
           var process = Process.Start(new ProcessStartInfo
           {
@@ -60,9 +63,9 @@ namespace IDS.MAP.Toolbox.Model.TestCase
           var error = process.StandardError.ReadToEnd();
           if (!string.IsNullOrWhiteSpace(error))
           {
-            //_error.Add($"Die Datei {Path.GetFileName(file)} enthält mindestens einen Fehler - bitte Fehler mittels Oxygen beheben.");
-            _error.Add($"Die Datei {Path.GetFileName(file)} enthält mindestens einen Fehler - bitte Fehler mittels Oxygen beheben. Der/die Fehler:");
-            _error.Add(error);
+            _error.Add($"Die Datei {Path.GetFileName(file)} enthält mindestens einen Fehler - bitte Fehler mittels Oxygen beheben.");
+            //_error.Add($"Die Datei {Path.GetFileName(file)} enthält mindestens einen Fehler - bitte Fehler mittels Oxygen beheben. Der/die Fehler:");
+            //_error.Add(error);
           }
 
           process.WaitForExit();

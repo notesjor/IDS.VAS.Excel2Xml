@@ -40,7 +40,7 @@
       this.label1.Location = new System.Drawing.Point(0, 0);
       this.label1.Name = "label1";
       this.label1.Padding = new System.Windows.Forms.Padding(5);
-      this.label1.Size = new System.Drawing.Size(263, 22);
+      this.label1.Size = new System.Drawing.Size(263, 26);
       this.label1.TabIndex = 0;
       this.label1.Text = "Überprüfung der MAP-Daten läuft...";
       this.label1.TextAlign = System.Drawing.ContentAlignment.TopCenter;
@@ -48,7 +48,7 @@
       // progressBar1
       // 
       this.progressBar1.Dock = System.Windows.Forms.DockStyle.Top;
-      this.progressBar1.Location = new System.Drawing.Point(0, 22);
+      this.progressBar1.Location = new System.Drawing.Point(0, 26);
       this.progressBar1.Name = "progressBar1";
       this.progressBar1.Size = new System.Drawing.Size(263, 23);
       this.progressBar1.TabIndex = 1;
@@ -56,7 +56,7 @@
       // label2
       // 
       this.label2.Dock = System.Windows.Forms.DockStyle.Top;
-      this.label2.Location = new System.Drawing.Point(0, 45);
+      this.label2.Location = new System.Drawing.Point(0, 49);
       this.label2.Name = "label2";
       this.label2.Padding = new System.Windows.Forms.Padding(5);
       this.label2.Size = new System.Drawing.Size(263, 23);

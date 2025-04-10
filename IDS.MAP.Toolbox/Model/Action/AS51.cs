@@ -11,7 +11,7 @@ namespace IDS.MAP.Toolbox.Model.Action
     {
       var openFileDialog = new OpenFileDialog
       {
-        Filter = "MAP-Excel (data.xlsx)|data.xlsx",
+        Filter = "MAP-Publikation (publikation.zip)|data.xlsx",
         Title = "MAP-Excel (data.xlsx) auswählen",
         CheckFileExists = true,
         CheckPathExists = true,
