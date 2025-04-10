@@ -16,7 +16,7 @@ namespace IDS.MAP.Toolbox.Model.TestCase
     {
       var errors = new List<string>();
       var targets = new HashSet<string>();
-      var links = new Queue<string>();
+      var links = new Queue<KeyValuePair<string, string>>();
 
       // First Run (Build)
       foreach (var page in config.Pages)
@@ -34,15 +34,21 @@ namespace IDS.MAP.Toolbox.Model.TestCase
         }
       }
 
-      // Index Fix
-
       // Second Run (Check)
+      foreach(var link in links)
+      { 
+        if(link.Key.StartsWith("http"))
+          continue;
+
+        if(!targets.Contains(link.Key))
+          errors.Add($"Die Datei {Path.GetFileNameWithoutExtension(link.Value)} verlinkt falsch auf das Ziel: {link.Key}");
+      }
 
       Valid = errors.Count == 0;
       DetailErrorReport = errors.BuildErrorMessage("Bei der Überprüfung von Links, sind folgende Fehler aufgetreten:");
     }
 
-    private void SearchLinks(ref HashSet<string> targets, ref Queue<string> links, ref List<string> errors, string page, string path)
+    private void SearchLinks(ref HashSet<string> targets, ref Queue<KeyValuePair<string, string>> links, ref List<string> errors, string page, string path)
     {
       targets.Add(page);
 
@@ -65,6 +71,7 @@ namespace IDS.MAP.Toolbox.Model.TestCase
             //errors.Add($"Die Datei {Path.GetFileNameWithoutExtension(path)} enthält <section>-Einträge, ohne label.");
 
           targets.Add($"{page}#{label}");
+          targets.Add($"#{label}");
         }
 
       SearchLinksInTag(ref targets, ref errors, page, path, html, "overview");
@@ -79,7 +86,7 @@ namespace IDS.MAP.Toolbox.Model.TestCase
         if (href == "")
           errors.Add($"Die Datei {Path.GetFileNameWithoutExtension(path)} enthält <link>-Einträge, ohne href.");
         else
-          links.Enqueue(href);
+          links.Enqueue(new KeyValuePair<string, string>(href, path));
       }
     }
 

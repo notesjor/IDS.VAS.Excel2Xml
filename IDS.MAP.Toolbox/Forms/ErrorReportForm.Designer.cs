@@ -28,6 +28,7 @@
     /// </summary>
     private void InitializeComponent()
     {
+      System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ErrorReportForm));
       this.textBox1 = new System.Windows.Forms.TextBox();
       this.SuspendLayout();
       // 
@@ -46,11 +47,12 @@
       this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
       this.ClientSize = new System.Drawing.Size(800, 450);
       this.Controls.Add(this.textBox1);
+      this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
       this.MaximizeBox = false;
       this.MinimizeBox = false;
       this.Name = "ErrorReportForm";
       this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-      this.Text = "Fehler-Bericht";
+      this.Text = "Fehlerbericht";
       this.ResumeLayout(false);
       this.PerformLayout();
 
