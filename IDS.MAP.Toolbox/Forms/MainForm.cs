@@ -107,7 +107,7 @@ namespace IDS.MAP.Toolbox.Forms
       grp_1.Visible = level >= 0;
       grp_2.Visible = level >= 1;
       btn_2_excelColumns.Visible = !_controller.Steps[1].TestCases["MISSED"].Valid;
-      btn_2_searchPreview.Visible = _controller.Steps[1].TestCases.All(x => x.Value.Valid);
+      //btn_2_searchPreview.Visible = _controller.Steps[1].TestCases.All(x => x.Value.Valid);
       btn_2_createXml.Visible = _controller.Steps[1].TestCases.All(x => x.Value.Valid);
 
       grp_3.Visible = level >= 2;
