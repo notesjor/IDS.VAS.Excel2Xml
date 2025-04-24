@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using IDS.MAP.Toolbox.Model.TestCase.Abstract;
 using IDS.MAP.Toolbox.Helper;
+using System.Runtime.ExceptionServices;
 
 namespace IDS.MAP.Toolbox.Model.TestCase
 {
@@ -21,13 +22,13 @@ namespace IDS.MAP.Toolbox.Model.TestCase
         doc.Load(file);
         var samples = doc.DocumentNode.SelectNodes("//sample");
         if (samples == null && file.Contains("artikel"))
-          _error.Add($"Die Datei {Path.GetFileName(file)} enthält keine <sample>-Einträge.");
+          _error.Add($"Die Datei {Path.GetFileName(file)} enthält keine <sample>-Einträge.\n");
         if (samples != null)
           SearchUnnannotatedSamples(ref _error, file, doc, samples);
       }
 
       Valid = _error.Count == 0;
-      DetailErrorReport = _error.BuildErrorMessage("Folgende Fehler treten im Zusammenhang mit sample/xref auf.");
+      DetailErrorReport = _error.BuildErrorMessage("Folgende Fehler treten im Zusammenhang mit sample/xref auf.\n");
     }
 
     public override bool BreakExecution { get; } = false;
@@ -35,6 +36,7 @@ namespace IDS.MAP.Toolbox.Model.TestCase
     private static void SearchUnnannotatedSamples(ref List<string> errors, string file, HtmlDocument doc, HtmlNodeCollection samples)
     {
       var unannotated = new HashSet<string>();
+      var first = true;
 
       foreach (var x in samples)
         if (x.ChildNodes.All(c => c.Name == "#text"))
@@ -42,7 +44,7 @@ namespace IDS.MAP.Toolbox.Model.TestCase
           var id = x.GetAttributeValue("id", "");
           if (id == "")
           {
-            errors.Add($"Die Datei {Path.GetFileName(file)} enthält <sample>-Einträge, ohne id.");
+            Report(ref first, ref errors, file, "enthält <sample>-Einträge, ohne id.");
           }
           unannotated.Add(id);
         }
@@ -55,7 +57,7 @@ namespace IDS.MAP.Toolbox.Model.TestCase
         var id = x.GetAttributeValue("href", "");
         if (id == "")
         {
-          errors.Add($"Die Datei {Path.GetFileName(file)} enthält <xref>-Einträge, ohne href.");
+          Report(ref first, ref errors, file,"enthält <xref>-Einträge, ohne href.");
           continue;
         }
         if (unannotated.Contains(id))
@@ -65,8 +67,18 @@ namespace IDS.MAP.Toolbox.Model.TestCase
       if (todo.Count <= 0) 
         return;
 
-      errors.Add($"Die Datei {Path.GetFileName(file)} zitiert {todo.Count} Belege, die nicht annotiert sind:");
+      Report(ref first, ref errors, file,$"zitiert {todo.Count} Belege, die nicht annotiert sind:");
       errors.AddRange(todo);
+    }
+
+    private static void Report(ref bool first, ref List<string> errors, string file, string error)
+    {
+      if (first)
+      {
+        errors.Add($"\n{Path.GetFileName(file)}:");
+        first = false;
+      }
+      errors.Add(error);
     }
   }
 }

@@ -35,13 +35,21 @@ namespace IDS.MAP.Toolbox.Model.TestCase
       }
 
       // Second Run (Check)
+      var last = "";
       foreach(var link in links)
       { 
         if(link.Key.StartsWith("http"))
           continue;
 
         if(!targets.Contains(link.Key))
-          errors.Add($"Die Datei {Path.GetFileNameWithoutExtension(link.Value)} verlinkt falsch auf das Ziel: {link.Key}");
+        {
+          if (last != link.Key)
+          {
+            errors.Add($"\n{Path.GetFileNameWithoutExtension(link.Value)} verlinkt falsch auf:");
+            last = link.Key;
+          }
+          errors.Add(link.Key);
+        }
       }
 
       Valid = errors.Count == 0;
