@@ -23,16 +23,37 @@ namespace IDS.MAP.Toolbox.Model.TestCase
 
         var missing = schema.Mapping.Where(x => x.Value == -1).Select(x => x.Key).ToArray();
         if (missing.Length == 0)
-        { 
+        {
           Valid = true;
 
           var sheet = data.Tables[0];
-          config.PatternNames = new HashSet<string>(from DataRow row in sheet.Rows select row.ItemArray[schema.Mapping["MUSTER"]].ToString().ToLower().Replace("ä","ae").Replace("ö","oe").Replace("ü","ue").Replace("ß","ss").Replace(" ", "_"));
+          config.PatternNames = new HashSet<string>(from DataRow row in sheet.Rows select row.ItemArray[schema.Mapping["MUSTER"]].ToString().ToLower().Replace("ä", "ae").Replace("ö", "oe").Replace("ü", "ue").Replace("ß", "ss").Replace(" ", "_"));
         }
         else
         {
           Valid = false;
           DetailErrorReport = missing.BuildErrorMessage("Folgende Spalten (erste Zeile) fehlen in der excel.xlsx");
+        }
+
+        // TEST: Kein PRP-Eintrag
+        var errors = new List<string>();
+        var patterns = new HashSet<string>(from DataRow row in data.Tables[0].Rows select row.ItemArray[schema.Mapping["MUSTER"]].ToString());
+        foreach (var pattern in patterns)
+        {
+          var items = data.Tables[0].Rows.Cast<DataRow>()
+            .Where(row => row.ItemArray[schema.Mapping["MUSTER"]].ToString() == pattern)
+            .Where(row => row.ItemArray[schema.Mapping["EINGANG"]].ToString().Trim() == "1" || row.ItemArray[schema.Mapping["EINGANG"]].ToString().Trim() == "2")
+            .Where(row => string.IsNullOrWhiteSpace(row.ItemArray[schema.Mapping["PRP"]].ToString()))
+            .ToArray();
+
+          if (items.Length != 0)
+            errors.Add($"Muster '{pattern}' hat {items.Length} Einträge ohne PRP-Eintrag.");
+        }
+
+        if (errors.Count > 0)
+        {
+          Valid = false;
+          DetailErrorReport += "\n" + string.Join("\n", errors);
         }
       }
       catch (Exception ex)

@@ -88,7 +88,10 @@ namespace IDS.MAP.Toolbox.Model.TestCase
       SearchLinksInTag(ref targets, ref errors, page, path, html, "predicates");
       SearchLinksInTag(ref targets, ref errors, page, path, html, "references");
 
-      foreach(var link in html.DocumentNode.SelectNodes("//link"))
+      var dlinks = html.DocumentNode.SelectNodes("//link");
+      if (dlinks == null || dlinks.Count == 0)
+        return;
+      foreach (var link in dlinks)
       {
         var href = link.GetAttributeValue("href", "");
         if (href == "")

@@ -23,6 +23,9 @@ namespace IDS.MAP.Toolbox.Model.Action
       if (saveFileDialog.ShowDialog() != DialogResult.OK)
         return;
 
+      if (File.Exists(saveFileDialog.FileName))
+        File.Delete(saveFileDialog.FileName);
+
       var tmpDir = Path.Combine(Path.GetTempPath(), "MAP-XML");
 
       var controller = new ConvertController();

@@ -24,7 +24,7 @@ namespace IDS.MAP.Toolbox.Model.TestCase
         try
         {
           var dir = Path.GetDirectoryName(f);
-          var name = Path.GetFileName(dir);                    
+          var name = Path.GetFileName(dir);
 
           if (!File.Exists(Path.Combine(config.MapArticlePath, name, "index.xml")))
             errors.Add($"{name} - Die Datei index.xml muss für die PRP erstellt werden.");
@@ -45,15 +45,17 @@ namespace IDS.MAP.Toolbox.Model.TestCase
           }
 
           var ids = new HashSet<string>();
-          foreach (var entry in overview.pattern)
-            ValidateId(name, ref errors, ref ids, entry.id);
-          foreach (var family in overview.family)
-          {
-            ValidateId(name, ref errors, ref ids, family.id);
-            foreach (var entry in family.pattern)
+          if (overview.pattern != null)
+            foreach (var entry in overview.pattern)
               ValidateId(name, ref errors, ref ids, entry.id);
-          }
-          foreach(var x in ids)
+          if (overview.family != null)
+            foreach (var family in overview.family)
+            {
+              ValidateId(name, ref errors, ref ids, family.id);
+              foreach (var entry in family.pattern)
+                ValidateId(name, ref errors, ref ids, entry.id);
+            }
+          foreach (var x in ids)
           {
             config.PatternIds.Add(x);
             config.Pages.Add($"{name}/{x}");
@@ -77,12 +79,12 @@ namespace IDS.MAP.Toolbox.Model.TestCase
           }
 
           foreach (var fLook in Directory.GetFiles(dir, "*.xml", SearchOption.TopDirectoryOnly))
-          { 
+          {
             var xTest = Path.GetFileName(fLook);
             if (xTest == "index.xml" || xTest == "_struktur.xml")
               continue;
             if (!ids.Contains(Path.GetFileNameWithoutExtension(fLook)))
-              errors.Add($"{name} - Die Datei {xTest} ist nicht in der _struktur.xml aufgeführt."); 
+              errors.Add($"{name} - Die Datei {xTest} ist nicht in der _struktur.xml aufgeführt.");
           }
         }
         catch
