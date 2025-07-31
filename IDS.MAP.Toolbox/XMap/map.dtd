@@ -1,4 +1,10 @@
-
+<!-- 
+    version 1.0.0 (michaelis 25-07-29):
+        * Reihenfolge in ELEMENT body geändert: ELEMENT scenario jetzt hinter ELEMENT samples.
+          Das entspricht der Eingabepraxis besser.
+        * Revision-History.
+        * vas.dtd ist obsolet und sollte gelöscht werden.
+-->
 <!ELEMENT vas-artikel (head, body) >
 
 
@@ -11,7 +17,7 @@
     Überblicksartikel: section+
     Familien-/Musterartikel starten mit 'overview';
 -->
-<!ELEMENT body ((section)+ | (overview?, scenario?, samples?, meaning?, section*, forms?, predicates?, references?)) >
+<!ELEMENT body ((section)+ | (overview?, samples?, scenario?, meaning?, section*, forms?, predicates?, references?)) >
 
 
 <!--  =========================================================== -->

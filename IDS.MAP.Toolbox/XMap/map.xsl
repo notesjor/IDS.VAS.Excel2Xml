@@ -25,9 +25,6 @@
     	Deswegen den ARTIKEL_ROOT_PFAD, von dem aus LINKS aufgelöst werden können.
 -->
 <xsl:param name="FILENAME">''</xsl:param>
-<xsl:variable name="ARTIKEL">
-  <xsl:value-of select="lower-case(normalize-space(/vas-artikel/head/meta[@type='name']))"/>
-</xsl:variable>
 <xsl:param name="DIR">''</xsl:param>
 
 <!-- Literaturverzeichnis -->
@@ -61,17 +58,16 @@
 -->
 
 <xsl:template match="/">
-	
 	<!-- diese Fehler sollten eigentlich schon während Bearbeitung behoben worden sein -->	
 	<xsl:if test="not($ARTIKEL_CLASS eq 'Markerartikel' or
 					  $ARTIKEL_CLASS eq 'Familienartikel' or
 					  $ARTIKEL_CLASS eq 'Musterartikel')">
-		<xsl:message>ERROR: Die Artikelklasse (Überblicksartikel, Familienartikel oder Musterartikel) 
-			muss angegeben werden. Aktueller Wert: '<xsl:value-of select="$ARTIKEL_CLASS"/>'</xsl:message>
+		<div class="error">ERROR: Die Artikelklasse (Markerartikel, Familienartikel oder Musterartikel) 
+			muss angegeben werden. Aktueller Wert: '<xsl:value-of select="$ARTIKEL_CLASS"/>'</div>
 	</xsl:if>
 	
 	<xsl:if test="not(string-length($PRAEPOSITION) gt 0)">
-		<xsl:message>ERROR: Das Feld im Head [meta type="prep"] muss gefüllt werden; z.B. mit 'vor' (ohne Anführungszeichen)</xsl:message>
+		<div class="error">ERROR: Das Feld im Head [meta type="prep"] muss gefüllt werden; z.B. mit 'vor' (ohne Anführungszeichen)</div>
 	</xsl:if>
 	
 	<xsl:choose>
@@ -254,7 +250,7 @@
 			<xsl:apply-templates select="prototype"  />
 		</xsl:otherwise>
 	</xsl:choose>
-	<viz data="{concat($PRAEPOSITION, '/', $ARTIKEL)}" />
+	<viz data="{concat($PRAEPOSITION, '/', $FILENAME)}" />
 </section>
 </xsl:template>
 	
@@ -760,7 +756,7 @@
 	</xsl:variable>
 	
 	<!-- PFADE sind RELATIV zum XSLT-STYLESHEET !!! -->
-	<!-- <xsl:variable name="PATTERN_ARTIKEL" select="document('../artikel/beispiele jan-22/auftritt.xml')" /> -->
+	<!-- <xsl:variable name="PATTERN_ARTIKEL" select="document('../artikel/beispiele jan-22/auftritt.xml')" /> -->	
 		
 	<xsl:variable name="PATTERN_ARTIKEL" select="document(concat($DIR, $pattern-name, '.xml'))" />
 	
@@ -927,7 +923,7 @@
 		<xsl:value-of select="./@href"/>
 	</xsl:variable>
 	
-	<li class="extern {$check-val}">
+	<li class="extern {$check-val}" id="{$sigle}">
 		<xsl:choose>
 			<xsl:when test="$check-val eq 'error'">
 				Sigle '<xsl:value-of select="./@href" />' nicht gefunden.

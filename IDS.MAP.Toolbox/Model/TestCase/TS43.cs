@@ -44,41 +44,42 @@ namespace IDS.MAP.Toolbox.Model.TestCase
           var id = x.GetAttributeValue("id", "");
           if (id == "")
           {
-            Report(ref first, ref errors, file, "enthält <sample>-Einträge, ohne id.");
+            Report(ref first, ref errors, file, x.Line, "enthält <sample>-Einträge, ohne id.");
           }
           unannotated.Add(id);
         }
 
       var xrefs = doc.DocumentNode.SelectNodes("//xref");
-      var todo = new HashSet<string>();
+      var todo = new Dictionary<int, string>();
 
       foreach (var x in xrefs)
       {
         var id = x.GetAttributeValue("href", "");
         if (id == "")
         {
-          Report(ref first, ref errors, file,"enthält <xref>-Einträge, ohne href.");
+          Report(ref first, ref errors, file, x.Line, "enthält <xref>-Einträge, ohne href.");
           continue;
         }
         if (unannotated.Contains(id))
-          todo.Add(id);
+          todo.Add(x.Line, id);
       }
 
-      if (todo.Count <= 0) 
+      if (todo.Count <= 0)
         return;
 
-      Report(ref first, ref errors, file,$"zitiert {todo.Count} Belege, die nicht annotiert sind:");
-      errors.AddRange(todo);
+      errors.Add($"zitiert {todo.Count} Belege, die nicht annotiert sind:");
+      foreach (var x in todo)
+        Report(ref first, ref errors, file, x.Key, $"xref zu {x.Value}.");
     }
 
-    private static void Report(ref bool first, ref List<string> errors, string file, string error)
+    private static void Report(ref bool first, ref List<string> errors, string file, int lineNo, string error)
     {
       if (first)
       {
         errors.Add($"\n{Path.GetFileName(file)}:");
         first = false;
       }
-      errors.Add(error);
+      errors.Add($" Zeile ({lineNo}): {error}");
     }
   }
 }
