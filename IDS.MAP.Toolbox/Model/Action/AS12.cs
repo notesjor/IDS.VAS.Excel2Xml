@@ -14,6 +14,9 @@ namespace IDS.MAP.Toolbox.Model.Action
       File.Copy(Path.Combine(config.AppPath, "XMap", "map.dtd"),
         Path.Combine(config.MapEtcFilePath, "map.dtd"),
         true);
+      File.Copy(Path.Combine(config.AppPath, "XMap", "map.xsl"),
+        Path.Combine(config.MapEtcFilePath, "map.xsl"),
+        true);
       File.Copy(Path.Combine(config.AppPath, "XMap", "MAP.xpr"),
         Path.Combine(config.MapPath, "MAP.xpr"),
         true);

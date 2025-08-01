@@ -1536,7 +1536,7 @@
                                     <String></String>
                                 </field>
                                 <field name="inputXSLURL">
-                                    <String>${pdu}/etc/vas-artikel.xsl</String>
+                                    <String>${pdu}/etc/map.xsl</String>
                                 </field>
                                 <field name="inputXMLURL">
                                     <String>${currentFileURL}</String>
@@ -1668,7 +1668,7 @@
                                     <String></String>
                                 </field>
                                 <field name="inputXSLURL">
-                                    <String>${pdu}/etc/vas-artikel.xsl</String>
+                                    <String>${pdu}/etc/map.xsl</String>
                                 </field>
                                 <field name="inputXMLURL">
                                     <String>${currentFileURL}</String>
