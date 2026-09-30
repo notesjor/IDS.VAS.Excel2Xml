@@ -11,19 +11,26 @@ namespace IDS.MAP.Toolbox.Model.Action
     public override bool AutoRun { get; } = false;
     public override void Execute(ref MapConfiguration config)
     {
-      var date = DateTime.Now.ToString("yyyy-MM-dd");
-      var saveFileDialog = new SaveFileDialog
+      try
       {
-        Filter = $"MAP-Publikation (MAP_{date}.zip)|MAP_{date}.zip",
-        Title = "MAP-Publikation erstellen",
-        CheckPathExists = true,
-        FileName = $"MAP_{date}.zip",
-        InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop)
-      };
-      if (saveFileDialog.ShowDialog() != DialogResult.OK)
-        return;
+        var date = DateTime.Now.ToString("yyyy-MM-dd");
+        var saveFileDialog = new SaveFileDialog
+        {
+          Filter = $"MAP-Publikation (MAP_{date}.zip)|MAP_{date}.zip",
+          Title = "MAP-Publikation erstellen",
+          CheckPathExists = true,
+          FileName = $"MAP_{date}.zip",
+          InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop)
+        };
+        if (saveFileDialog.ShowDialog() != DialogResult.OK)
+          return;
 
-      ZipFile.CreateFromDirectory(config.TmpPath, saveFileDialog.FileName);
+        ZipFile.CreateFromDirectory(config.TmpPath, saveFileDialog.FileName);
+      }
+      catch (Exception ex)
+      {
+        ShowActionError(nameof(AS51), ex);
+      }
     }
   }
 }

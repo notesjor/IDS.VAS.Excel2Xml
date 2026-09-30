@@ -3,23 +3,21 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Reflection;
 using System.Text;
-using System.Xml;
-using System.Xml.Schema;
+using System.Text.RegularExpressions;
 using IDS.MAP.Toolbox.Helper;
 using IDS.MAP.Toolbox.Model.TestCase.Abstract;
+using IDS.MAP.Toolbox.Model.Validation;
 
 namespace IDS.MAP.Toolbox.Model.TestCase
 {
   public class TS42 : AbstractTestCase
   {
-    private HashSet<string> _error;
-    private string _current;
+    private static readonly Regex LinePattern = new Regex(@"line\s+(\d+)", RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
     public override void Execute(ref MapConfiguration config)
     {
-      _error = new HashSet<string>();
+      var issues = new List<ValidationIssue>();
       var files = config.WorkXmlFiles;
 
       var styleOrig = Path.Combine(config.AppPath, "XMAP", "map.xsl");
@@ -60,15 +58,13 @@ namespace IDS.MAP.Toolbox.Model.TestCase
             UseShellExecute = false,
             WorkingDirectory = workDir
           });
-          var error = process.StandardError.ReadToEnd();
-          if (!string.IsNullOrWhiteSpace(error))
-          {
-            _error.Add($"Die Datei {Path.GetFileName(file)} enthält mindestens einen Fehler - bitte Fehler mittels Oxygen beheben.");
-            //_error.Add($"Die Datei {Path.GetFileName(file)} enthält mindestens einen Fehler - bitte Fehler mittels Oxygen beheben. Der/die Fehler:");
-            //_error.Add(error);
-          }
 
+          var error = process.StandardError.ReadToEnd();
           process.WaitForExit();
+
+          if (!string.IsNullOrWhiteSpace(error))
+            issues.AddRange(ParseIssues(file, error));
+
           if (!File.Exists(output))
             continue;
 
@@ -81,22 +77,86 @@ namespace IDS.MAP.Toolbox.Model.TestCase
         }
         catch (Exception ex)
         {
-          Console.WriteLine(ex.Message);
-          Console.WriteLine(ex.StackTrace);
+          issues.Add(new ValidationIssue
+          {
+            Severity = ValidationSeverity.Error,
+            FileName = Path.GetFileName(file),
+            Line = 1,
+            TechnicalMessage = ex.Message,
+            UserMessage = "Bei der XML-Validierung ist ein unerwarteter Verarbeitungsfehler aufgetreten.",
+            Suggestion = "Prüfen Sie Datei und Validierungsumgebung. Falls der Fehler bleibt, technische Meldung an das Entwicklungsteam weitergeben."
+          });
         }
       }
 
-      Valid = _error.Count == 0;
-      DetailErrorReport = _error.Count == 0 ?
-        null:
-        _error.BuildErrorMessage("Folgende XML-Dateien sind nicht valide (Schema-Validierung):");
-    }
+      DetailIssues = issues
+        .GroupBy(x => x.GroupingKey)
+        .Select(x => x.First())
+        .ToList();
 
-    private void ValidationCallBack(object sender, ValidationEventArgs e)
-    {
-      _error.Add($"{_current} - {e.Message}");
+      Valid = DetailIssues.Count == 0;
+      DetailErrorReport = DetailIssues.BuildValidationMessage("Folgende XML-Dateien sind nicht valide (Schema-Validierung):");
     }
 
     public override bool BreakExecution { get; } = false;
+
+    private static IEnumerable<ValidationIssue> ParseIssues(string filePath, string errorOutput)
+    {
+      var fileName = Path.GetFileName(filePath);
+      var lines = errorOutput
+        .Split(new[] { "\r\n", "\n" }, StringSplitOptions.RemoveEmptyEntries)
+        .Select(x => x.Trim())
+        .Where(x => !string.IsNullOrWhiteSpace(x))
+        .ToList();
+
+      if (lines.Count == 0)
+      {
+        return new[]
+        {
+          new ValidationIssue
+          {
+            Severity = ValidationSeverity.Error,
+            FileName = fileName,
+            Line = 1,
+            TechnicalMessage = "Unbekannter Validierungsfehler.",
+            UserMessage = "Die XML-Datei enthält mindestens einen Validierungsfehler.",
+            Suggestion = "Öffnen Sie die Datei im XML-Editor und prüfen Sie die Struktur gegen die MAP-Spezifikation."
+          }
+        };
+      }
+
+      var issues = new List<ValidationIssue>();
+      foreach (var line in lines)
+      {
+        int lineNo;
+        ExtractLocation(line, out lineNo);
+
+        var normalizedLine = lineNo > 0 ? lineNo : 1;
+
+        issues.Add(new ValidationIssue
+        {
+          Severity = ValidationSeverity.Error,
+          FileName = fileName,
+          Line = normalizedLine,
+          Context = ValidationReportBuilder.GetContextLine(filePath, normalizedLine),
+          TechnicalMessage = line,
+          UserMessage = ValidationReportBuilder.TranslateToUserMessage(line),
+          Suggestion = ValidationReportBuilder.BuildSuggestion(line)
+        });
+      }
+
+      return issues;
+    }
+
+    private static void ExtractLocation(string text, out int line)
+    {
+      line = 0;
+
+      var match = LinePattern.Match(text ?? string.Empty);
+      if (!match.Success)
+        return;
+
+      int.TryParse(match.Groups[1].Value, out line);
+    }
   }
 }

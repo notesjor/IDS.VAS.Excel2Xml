@@ -1,4 +1,5 @@
 ﻿using IDS.MAP.Toolbox.Model;
+using IDS.MAP.Toolbox.Model.TestCase.Abstract;
 using System;
 using System.Linq;
 using System.Windows.Forms;
@@ -54,7 +55,7 @@ namespace IDS.MAP.Toolbox.Forms
       => _controller.Steps[4].Actions["BUILD"].Execute(ref _config);
 
     private void btn_2_excelColumns_Click(object sender, EventArgs e)
-      => DisplayError(_controller.Steps[1].TestCases["MISSED"].DetailErrorReport);
+      => DisplayError(_controller.Steps[1].TestCases["MISSED"]);
 
     private void btn_2_searchPreview_Click(object sender, EventArgs e)
       => _controller.Steps[1].Actions["SEARCH"].Execute(ref _config);
@@ -63,31 +64,35 @@ namespace IDS.MAP.Toolbox.Forms
       => _controller.Steps[1].Actions["XML"].Execute(ref _config);
 
     private void btn_3_nostructure_Click(object sender, EventArgs e)
-      => DisplayError(_controller.Steps[2].TestCases["STRUCT"].DetailErrorReport);
+      => DisplayError(_controller.Steps[2].TestCases["STRUCT"]);
 
     private void btn_3_wrongId_Click(object sender, EventArgs e)
-      => DisplayError(_controller.Steps[2].TestCases["ID"].DetailErrorReport);
+      => DisplayError(_controller.Steps[2].TestCases["ID"]);
 
     private void btn_4_xmlSyntax_Click(object sender, EventArgs e)
-      => DisplayError(_controller.Steps[3].TestCases["SYNTAX"].DetailErrorReport);
+      => DisplayError(_controller.Steps[3].TestCases["SYNTAX"]);
 
     private void btn_4_xref_Click(object sender, EventArgs e)
-      => DisplayError(_controller.Steps[3].TestCases["XREF"].DetailErrorReport);
+      => DisplayError(_controller.Steps[3].TestCases["XREF"]);
 
     private void bnt_4_link_Click(object sender, EventArgs e)
-      => DisplayError(_controller.Steps[3].TestCases["LINK"].DetailErrorReport);
+      => DisplayError(_controller.Steps[3].TestCases["LINK"]);
 
     private void btn_4_missingXml_Click(object sender, EventArgs e)
-      => DisplayError(_controller.Steps[3].TestCases["ARTICLE"].DetailErrorReport);
+      => DisplayError(_controller.Steps[3].TestCases["ARTICLE"]);
 
-    private void DisplayError(string message)
+    private void DisplayError(AbstractTestCase testCase)
     {
+      if (testCase == null)
+        return;
+
+      var message = testCase.DetailErrorReport;
       if (string.IsNullOrWhiteSpace(message))
         return;
 
       var split = message.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
-      if (split.Length > 1)
-        new ErrorReportForm(message).ShowDialog();
+      if (split.Length > 1 || (testCase.DetailIssues != null && testCase.DetailIssues.Count > 0))
+        new ErrorReportForm(message, testCase.DetailIssues).ShowDialog();
       else
         MessageBox.Show(message, "Fehler", MessageBoxButtons.OK, MessageBoxIcon.Error);
     }

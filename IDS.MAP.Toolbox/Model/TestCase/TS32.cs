@@ -6,6 +6,7 @@ using System.Xml.Serialization;
 using IDS.MAP.Toolbox.Helper;
 using IDS.MAP.Toolbox.Model.Struktur;
 using IDS.MAP.Toolbox.Model.TestCase.Abstract;
+using IDS.MAP.Toolbox.Model.Validation;
 
 namespace IDS.MAP.Toolbox.Model.TestCase
 {
@@ -16,6 +17,7 @@ namespace IDS.MAP.Toolbox.Model.TestCase
     public override void Execute(ref MapConfiguration config)
     {
       var errors = new List<string>();
+      var issues = new List<ValidationIssue>();
       config.Pages = new HashSet<string>();
       config.PatternIds = new HashSet<string>();
 
@@ -27,7 +29,15 @@ namespace IDS.MAP.Toolbox.Model.TestCase
           var name = Path.GetFileName(dir);
 
           if (!File.Exists(Path.Combine(config.MapArticlePath, name, "index.xml")))
+          {
             errors.Add($"{name} - Die Datei index.xml muss für die PRP erstellt werden.");
+            issues.Add(new ValidationIssue
+            {
+              FileName = Path.Combine(name, "index.xml"),
+              Line = 1,
+              UserMessage = "Die Datei index.xml muss für die PRP erstellt werden."
+            });
+          }
           else
           {
             config.Pages.Add($"{name}/index");
@@ -47,13 +57,13 @@ namespace IDS.MAP.Toolbox.Model.TestCase
           var ids = new HashSet<string>();
           if (overview.pattern != null)
             foreach (var entry in overview.pattern)
-              ValidateId(name, ref errors, ref ids, entry.id);
+              ValidateId(name, ref errors, ref ids, ref issues, entry.id);
           if (overview.family != null)
             foreach (var family in overview.family)
             {
-              ValidateId(name, ref errors, ref ids, family.id);
+              ValidateId(name, ref errors, ref ids, ref issues, family.id);
               foreach (var entry in family.pattern)
-                ValidateId(name, ref errors, ref ids, entry.id);
+                ValidateId(name, ref errors, ref ids, ref issues, entry.id);
             }
           foreach (var x in ids)
           {
@@ -68,7 +78,15 @@ namespace IDS.MAP.Toolbox.Model.TestCase
             if (File.Exists(xTest))
               File.Copy(xTest, Path.Combine(config.WorkArticlePath, name, $"{id}.xml"), true);
             else
+            {
               errors.Add($"{name} - Für die ID {id} ist keine XML-Datei vorhanden oder ID/Dateiname stimmen nicht überein (_struktur.xml).");
+              issues.Add(new ValidationIssue
+              {
+                FileName = Path.Combine(name, $"{id}.xml"),
+                Line = 1,
+                UserMessage = $"Für die ID {id} ist keine XML-Datei vorhanden oder ID/Dateiname stimmen nicht überein (_struktur.xml)."
+              });
+            }
 
             // TODO: PDF
             //var pTest = Path.Combine(config.MapArticlePath, name, $"{id}.pdf");
@@ -84,12 +102,26 @@ namespace IDS.MAP.Toolbox.Model.TestCase
             if (xTest == "index.xml" || xTest == "_struktur.xml")
               continue;
             if (!ids.Contains(Path.GetFileNameWithoutExtension(fLook)))
+            {
               errors.Add($"{name} - Die Datei {xTest} ist nicht in der _struktur.xml aufgeführt.");
+              issues.Add(new ValidationIssue
+              {
+                FileName = Path.Combine(name, xTest),
+                Line = 1,
+                UserMessage = $"Die Datei {xTest} ist nicht in der _struktur.xml aufgeführt."
+              });
+            }
           }
         }
         catch
         {
           errors.Add($"{f} - entspricht nicht dem Schema (_struktur.xml)");
+          issues.Add(new ValidationIssue
+          {
+            FileName = Path.GetFileName(f),
+            Line = 1,
+            UserMessage = "Datei entspricht nicht dem Schema (_struktur.xml)."
+          });
           Valid = false;
         }
       }
@@ -98,15 +130,32 @@ namespace IDS.MAP.Toolbox.Model.TestCase
       DetailErrorReport = errors.Count == 0
         ? null
         : errors.BuildErrorMessage("Folgende PRP enthalten Fehler in der Stuktur (_struktur.xml)");
+      DetailIssues = issues;
     }
 
-    private void ValidateId(string name, ref List<string> errors, ref HashSet<string> ids, string id)
+    private void ValidateId(string name, ref List<string> errors, ref HashSet<string> ids, ref List<ValidationIssue> issues, string id)
     {
       if (ids.Contains(id))
+      {
         errors.Add($"{name} - ID {id} ist mehrfach vergeben (_struktur.xml).");
+        issues.Add(new ValidationIssue
+        {
+          FileName = Path.Combine(name, "_struktur.xml"),
+          Line = 1,
+          UserMessage = $"ID {id} ist mehrfach vergeben (_struktur.xml)."
+        });
+      }
 
       if (!_test.IsMatch(id))
+      {
         errors.Add($"{name} - ID {id} ist kein gülter ID [nur Kleinbuchstaben, Zahlen, Unterstriche - keine Umlaute oder Leerzeichen] (_struktur.xml).");
+        issues.Add(new ValidationIssue
+        {
+          FileName = Path.Combine(name, "_struktur.xml"),
+          Line = 1,
+          UserMessage = $"ID {id} ist kein gültiger ID-Wert (_struktur.xml)."
+        });
+      }
 
       ids.Add(id);
     }

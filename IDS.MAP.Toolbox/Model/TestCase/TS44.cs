@@ -6,17 +6,34 @@ using System.Text;
 using HtmlAgilityPack;
 using IDS.MAP.Toolbox.Helper;
 using IDS.MAP.Toolbox.Model.TestCase.Abstract;
-using Newtonsoft.Json.Converters;
+using IDS.MAP.Toolbox.Model.Validation;
 
 namespace IDS.MAP.Toolbox.Model.TestCase
 {
   public class TS44 : AbstractTestCase
   {
+    private class LinkReference
+    {
+      public LinkReference(string href, string sourcePath, int line)
+      {
+        Href = href;
+        SourcePath = sourcePath;
+        Line = line;
+      }
+
+      public string Href { get; }
+
+      public string SourcePath { get; }
+
+      public int Line { get; }
+    }
+
     public override void Execute(ref MapConfiguration config)
     {
       var errors = new List<string>();
+      var issues = new List<ValidationIssue>();
       var targets = new HashSet<string>();
-      var links = new Queue<KeyValuePair<string, string>>();
+      var links = new Queue<LinkReference>();
 
       // First Run (Build)
       foreach (var page in config.Pages)
@@ -24,39 +41,52 @@ namespace IDS.MAP.Toolbox.Model.TestCase
         try
         {
           if (page.Contains("/"))
-            SearchLinks(ref targets, ref links, ref errors, page, Path.Combine(config.WorkArticlePath, $"{page}.xml"));
+            SearchLinks(ref targets, ref links, ref errors, ref issues, page, Path.Combine(config.WorkArticlePath, $"{page}.xml"));
           else
-            SearchLinks(ref targets, ref links, ref errors, page, Path.Combine(config.WorkExtraFilePath, "pages", $"{page}.xml"));
+            SearchLinks(ref targets, ref links, ref errors, ref issues, page, Path.Combine(config.WorkExtraFilePath, "pages", $"{page}.xml"));
         }
         catch (Exception ex)
         {
           errors.Add($"Ein Fehler in der Verabeitung ist aufgetreten - bitte Jan darüber informieren: {ex.Message}");
+          issues.Add(new ValidationIssue
+          {
+            FileName = page + ".xml",
+            Line = 1,
+            UserMessage = ex.Message
+          });
         }
       }
 
       // Second Run (Check)
       var last = "";
-      foreach(var link in links)
-      { 
-        if(link.Key.StartsWith("http"))
+      foreach (var link in links)
+      {
+        if (link.Href.StartsWith("http"))
           continue;
 
-        if(!targets.Contains(link.Key))
+        if (!targets.Contains(link.Href))
         {
-          if (last != link.Key)
+          if (last != link.Href)
           {
-            errors.Add($"\n{Path.GetFileNameWithoutExtension(link.Value)} verlinkt falsch auf:");
-            last = link.Key;
+            errors.Add($"\n{Path.GetFileNameWithoutExtension(link.SourcePath)} verlinkt falsch auf:");
+            last = link.Href;
           }
-          errors.Add(link.Key);
+          errors.Add(link.Href);
+          issues.Add(new ValidationIssue
+          {
+            FileName = Path.GetFileName(link.SourcePath),
+            Line = link.Line,
+            UserMessage = $"Ungültiger Link: {link.Href}"
+          });
         }
       }
 
       Valid = errors.Count == 0;
       DetailErrorReport = errors.BuildErrorMessage("Bei der Überprüfung von Links, sind folgende Fehler aufgetreten:");
+      DetailIssues = issues;
     }
 
-    private void SearchLinks(ref HashSet<string> targets, ref Queue<KeyValuePair<string, string>> links, ref List<string> errors, string page, string path)
+    private void SearchLinks(ref HashSet<string> targets, ref Queue<LinkReference> links, ref List<string> errors, ref List<ValidationIssue> issues, string page, string path)
     {
       targets.Add(page);
 
@@ -67,7 +97,15 @@ namespace IDS.MAP.Toolbox.Model.TestCase
 
       var body = html.DocumentNode.SelectSingleNode("//body");
       if (body == null)
+      {
         errors.Add($"Die Datei {Path.GetFileNameWithoutExtension(path)} enthält keinen <body>-Tag.");
+        issues.Add(new ValidationIssue
+        {
+          FileName = Path.GetFileName(path),
+          Line = 1,
+          UserMessage = "Datei enthält keinen <body>-Tag."
+        });
+      }
 
       var bodySections = html.DocumentNode.SelectNodes("//body/section");
       if (bodySections != null)
@@ -76,41 +114,49 @@ namespace IDS.MAP.Toolbox.Model.TestCase
           var label = x.GetAttributeValue("label", "");
           if (label == "")
             continue;
-            //errors.Add($"Die Datei {Path.GetFileNameWithoutExtension(path)} enthält <section>-Einträge, ohne label.");
 
           targets.Add($"{page}#{label}");
           targets.Add($"#{label}");
         }
 
-      SearchLinksInTag(ref targets, ref errors, page, path, html, "overview");
-      SearchLinksInTag(ref targets, ref errors, page, path, html, "meaning");
-      SearchLinksInTag(ref targets, ref errors, page, path, html, "forms");
-      SearchLinksInTag(ref targets, ref errors, page, path, html, "predicates");
-      SearchLinksInTag(ref targets, ref errors, page, path, html, "references");
+      SearchLinksInTag(ref targets, page, html, "overview");
+      SearchLinksInTag(ref targets, page, html, "meaning");
+      SearchLinksInTag(ref targets, page, html, "forms");
+      SearchLinksInTag(ref targets, page, html, "predicates");
+      SearchLinksInTag(ref targets, page, html, "references");
 
       var dlinks = html.DocumentNode.SelectNodes("//link");
       if (dlinks == null || dlinks.Count == 0)
         return;
+
       foreach (var link in dlinks)
       {
         var href = link.GetAttributeValue("href", "");
         if (href == "")
+        {
           errors.Add($"Die Datei {Path.GetFileNameWithoutExtension(path)} enthält <link>-Einträge, ohne href.");
+          issues.Add(new ValidationIssue
+          {
+            FileName = Path.GetFileName(path),
+            Line = link.Line > 0 ? link.Line : 1,
+            UserMessage = "<link>-Eintrag ohne href."
+          });
+        }
         else
-          links.Enqueue(new KeyValuePair<string, string>(href, path));
+          links.Enqueue(new LinkReference(href, path, link.Line > 0 ? link.Line : 1));
       }
     }
 
-    private static void SearchLinksInTag(ref HashSet<string> links, ref List<string> errors, string page, string path, HtmlDocument html, string tag)
+    private static void SearchLinksInTag(ref HashSet<string> links, string page, HtmlDocument html, string tag)
     {
       var overview = html.DocumentNode.SelectNodes($"//body/{tag}")?.FirstOrDefault();
-      if (overview == null) 
+      if (overview == null)
         return;
 
       links.Add($"{page}#{tag}");
       links.Add($"#{tag}");
       var sections = html.DocumentNode.SelectNodes($"//body/{tag}/section");
-      if (sections == null) 
+      if (sections == null)
         return;
 
       foreach (var x in sections)
@@ -118,7 +164,7 @@ namespace IDS.MAP.Toolbox.Model.TestCase
         var label = x.GetAttributeValue("label", "");
         if (label == "")
           continue;
-          //errors.Add($"Die Datei {Path.GetFileNameWithoutExtension(path)} enthält in <{tag}> ein/mehrere <section>-Einträge, ohne label.");
+
         links.Add($"{page}#{tag}/{label}");
       }
     }

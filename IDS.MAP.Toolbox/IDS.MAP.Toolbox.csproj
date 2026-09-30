@@ -30,7 +30,7 @@
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>index.html</WebPage>
     <OpenBrowserOnPublish>false</OpenBrowserOnPublish>
-    <ApplicationRevision>9</ApplicationRevision>
+    <ApplicationRevision>11</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
@@ -69,13 +69,19 @@
     <ApplicationManifest>Properties\app.manifest</ApplicationManifest>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestCertificateThumbprint>097BE3C99EB764F9E876690BAD04D8E2E703BA34</ManifestCertificateThumbprint>
+    <ManifestCertificateThumbprint>60A4B42E1CE522E67FE8AD2E2BC53512A7A99475</ManifestCertificateThumbprint>
   </PropertyGroup>
   <PropertyGroup>
     <ManifestKeyFile>IDS.MAP.Toolbox_TemporaryKey.pfx</ManifestKeyFile>
   </PropertyGroup>
   <PropertyGroup>
     <SignManifests>true</SignManifests>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>false</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>KEY.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="ExcelDataReader, Version=3.7.0.0, Culture=neutral, PublicKeyToken=93517dbe6a4012fa, processorArchitecture=MSIL">
@@ -163,6 +169,7 @@
       <DependentUpon>ValidationProcess.cs</DependentUpon>
     </Compile>
     <Compile Include="Helper\ErrorMessageHelper.cs" />
+    <Compile Include="Helper\ValidationReportBuilder.cs" />
     <Compile Include="MapConfiguration.cs" />
     <Compile Include="Forms\MainForm.cs">
       <SubType>Form</SubType>
@@ -196,6 +203,7 @@
     <Compile Include="Model\TestStep\S3.cs" />
     <Compile Include="Model\TestStep\S4.cs" />
     <Compile Include="Model\TestStep\S5.cs" />
+    <Compile Include="Model\Validation\ValidationIssue.cs" />
     <Compile Include="Model\XmlConvert\Resources.Designer.cs">
       <DependentUpon>Resources.resx</DependentUpon>
       <AutoGen>True</AutoGen>
@@ -229,6 +237,7 @@
       <DesignTime>True</DesignTime>
     </Compile>
     <None Include="IDS.MAP.Toolbox_TemporaryKey.pfx" />
+    <None Include="KEY.snk" />
     <None Include="packages.config" />
     <None Include="Properties\app.manifest" />
     <None Include="Properties\Settings.settings">

@@ -9,7 +9,14 @@ namespace IDS.MAP.Toolbox.Model.Action
     public override bool AutoRun { get; } = false;
     public override void Execute(ref MapConfiguration config)
     {
-      MessageBox.Show("TODO"); // TODO
+      try
+      {
+        MessageBox.Show("TODO"); // TODO
+      }
+      catch (System.Exception ex)
+      {
+        ShowActionError(nameof(AS21), ex);
+      }
     }
   }
 }

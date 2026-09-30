@@ -1,12 +1,10 @@
-﻿using System;
-using HtmlAgilityPack;
+﻿using HtmlAgilityPack;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
 using IDS.MAP.Toolbox.Model.TestCase.Abstract;
 using IDS.MAP.Toolbox.Helper;
-using System.Runtime.ExceptionServices;
+using IDS.MAP.Toolbox.Model.Validation;
 
 namespace IDS.MAP.Toolbox.Model.TestCase
 {
@@ -14,7 +12,8 @@ namespace IDS.MAP.Toolbox.Model.TestCase
   {
     public override void Execute(ref MapConfiguration config)
     {
-      var _error = new List<string>();
+      var errors = new List<string>();
+      var issues = new List<ValidationIssue>();
       var files = config.WorkXmlFiles;
       foreach (var file in files)
       {
@@ -22,18 +21,29 @@ namespace IDS.MAP.Toolbox.Model.TestCase
         doc.Load(file);
         var samples = doc.DocumentNode.SelectNodes("//sample");
         if (samples == null && file.Contains("artikel"))
-          _error.Add($"Die Datei {Path.GetFileName(file)} enthält keine <sample>-Einträge.\n");
+        {
+          var message = "enthält keine <sample>-Einträge.";
+          errors.Add($"Die Datei {Path.GetFileName(file)} {message}\n");
+          issues.Add(new ValidationIssue
+          {
+            FileName = Path.GetFileName(file),
+            Line = 1,
+            UserMessage = message
+          });
+        }
+
         if (samples != null)
-          SearchUnnannotatedSamples(ref _error, file, doc, samples);
+          SearchUnnannotatedSamples(ref errors, ref issues, file, doc, samples);
       }
 
-      Valid = _error.Count == 0;
-      DetailErrorReport = _error.BuildErrorMessage("Folgende Fehler treten im Zusammenhang mit sample/xref auf.\n");
+      Valid = errors.Count == 0;
+      DetailErrorReport = errors.BuildErrorMessage("Folgende Fehler treten im Zusammenhang mit sample/xref auf.\n");
+      DetailIssues = issues;
     }
 
     public override bool BreakExecution { get; } = false;
 
-    private static void SearchUnnannotatedSamples(ref List<string> errors, string file, HtmlDocument doc, HtmlNodeCollection samples)
+    private static void SearchUnnannotatedSamples(ref List<string> errors, ref List<ValidationIssue> issues, string file, HtmlDocument doc, HtmlNodeCollection samples)
     {
       var unannotated = new HashSet<string>();
       var first = true;
@@ -43,43 +53,51 @@ namespace IDS.MAP.Toolbox.Model.TestCase
         {
           var id = x.GetAttributeValue("id", "");
           if (id == "")
-          {
-            Report(ref first, ref errors, file, x.Line, "enthält <sample>-Einträge, ohne id.");
-          }
+            Report(ref first, ref errors, ref issues, file, x.Line, "enthält <sample>-Einträge, ohne id.");
+
           unannotated.Add(id);
         }
 
       var xrefs = doc.DocumentNode.SelectNodes("//xref");
       var todo = new Dictionary<int, string>();
 
-      foreach (var x in xrefs)
-      {
-        var id = x.GetAttributeValue("href", "");
-        if (id == "")
+      if (xrefs != null)
+        foreach (var x in xrefs)
         {
-          Report(ref first, ref errors, file, x.Line, "enthält <xref>-Einträge, ohne href.");
-          continue;
+          var id = x.GetAttributeValue("href", "");
+          if (id == "")
+          {
+            Report(ref first, ref errors, ref issues, file, x.Line, "enthält <xref>-Einträge, ohne href.");
+            continue;
+          }
+          if (unannotated.Contains(id))
+            todo[x.Line] = id;
         }
-        if (unannotated.Contains(id))
-          todo.Add(x.Line, id);
-      }
 
       if (todo.Count <= 0)
         return;
 
       errors.Add($"zitiert {todo.Count} Belege, die nicht annotiert sind:");
       foreach (var x in todo)
-        Report(ref first, ref errors, file, x.Key, $"xref zu {x.Value}.");
+        Report(ref first, ref errors, ref issues, file, x.Key, $"xref zu {x.Value}.");
     }
 
-    private static void Report(ref bool first, ref List<string> errors, string file, int lineNo, string error)
+    private static void Report(ref bool first, ref List<string> errors, ref List<ValidationIssue> issues, string file, int lineNo, string error)
     {
       if (first)
       {
         errors.Add($"\n{Path.GetFileName(file)}:");
         first = false;
       }
-      errors.Add($" Zeile ({lineNo}): {error}");
+
+      var normalizedLine = lineNo > 0 ? lineNo : 1;
+      errors.Add($" Zeile ({normalizedLine}): {error}");
+      issues.Add(new ValidationIssue
+      {
+        FileName = Path.GetFileName(file),
+        Line = normalizedLine,
+        UserMessage = error
+      });
     }
   }
 }

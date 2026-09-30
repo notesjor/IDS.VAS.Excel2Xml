@@ -6,6 +6,7 @@ using System;
 using System.Data;
 using System.Linq;
 using IDS.MAP.Toolbox.Model.Struktur;
+using IDS.MAP.Toolbox.Model.Validation;
 using System.Collections.Generic;
 
 namespace IDS.MAP.Toolbox.Model.TestCase
@@ -14,6 +15,9 @@ namespace IDS.MAP.Toolbox.Model.TestCase
   {
     public override void Execute(ref MapConfiguration config)
     {
+      var issues = new List<ValidationIssue>();
+      var excelFile = "data.xlsx";
+
       try
       {
         var data = VasExcelReader.ReadExcel(config.WorkExcelPath);
@@ -33,6 +37,15 @@ namespace IDS.MAP.Toolbox.Model.TestCase
         {
           Valid = false;
           DetailErrorReport = missing.BuildErrorMessage("Folgende Spalten (erste Zeile) fehlen in der excel.xlsx");
+          foreach (var col in missing)
+          {
+            issues.Add(new ValidationIssue
+            {
+              FileName = excelFile,
+              Line = 1,
+              UserMessage = $"Fehlende Spalte: {col}."
+            });
+          }
         }
 
         // TEST: Kein PRP-Eintrag
@@ -47,19 +60,38 @@ namespace IDS.MAP.Toolbox.Model.TestCase
             .ToArray();
 
           if (items.Length != 0)
+          {
             errors.Add($"Muster '{pattern}' hat {items.Length} Einträge ohne PRP-Eintrag.");
+            issues.Add(new ValidationIssue
+            {
+              FileName = excelFile,
+              Line = 1,
+              UserMessage = $"Muster '{pattern}' hat {items.Length} Einträge ohne PRP-Eintrag."
+            });
+          }
         }
 
         if (errors.Count > 0)
         {
           Valid = false;
-          DetailErrorReport += "\n" + string.Join("\n", errors);
+          DetailErrorReport = string.IsNullOrWhiteSpace(DetailErrorReport)
+            ? string.Join("\n", errors)
+            : DetailErrorReport + "\n" + string.Join("\n", errors);
         }
       }
       catch (Exception ex)
       {
+        Valid = false;
         DetailErrorReport = ex.Message;
+        issues.Add(new ValidationIssue
+        {
+          FileName = excelFile,
+          Line = 1,
+          UserMessage = ex.Message
+        });
       }
+
+      DetailIssues = issues;
     }
 
     public override bool BreakExecution { get; } = true;
