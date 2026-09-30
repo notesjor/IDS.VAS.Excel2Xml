@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "IDS.VAS.Excel2ElasticSearch": {
+      "commandName": "Project",
+      "commandLineArgs": "\"C:\\Users\\Jan\\Nextcloud\\IDS\\PRIVATE\\Dokumente\\VAS\\vas-oxygen\\excel\\data.xlsx\" \"C:\\Users\\Jan\\Nextcloud\\IDS\\PRIVATE\\Dokumente\\VAS\\vas-oxygen\\artikel\""
+    }
+  }
+}

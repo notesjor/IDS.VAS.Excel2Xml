@@ -1,19 +1,15 @@
-﻿using HtmlAgilityPack;
+﻿using Elastic.Clients.Elasticsearch;
+using HtmlAgilityPack;
 using IDS.Vas.ExcelReader;
-using Meilisearch;
-using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
 using System.Data;
-using System.IO;
-using System.Linq;
 using System.Text;
+using System.Text.Json;
 
 namespace IDS.VAS.Excel2ServiceJson
 {
   internal class Program
   {
-    static void Main(string[] args)
+    static async Task Main(string[] args)
     {
       var table = VasExcelReader.ReadExcel(args[0]).Tables[0];
       var annotations = LoadAnnotations(args[1]);
@@ -107,30 +103,32 @@ namespace IDS.VAS.Excel2ServiceJson
         }
       }
 
-      File.WriteAllText("output.json", JsonConvert.SerializeObject(res, Formatting.Indented), Encoding.UTF8);
+      File.WriteAllText("output.json", JsonSerializer.Serialize(res, new JsonSerializerOptions { WriteIndented = true }), Encoding.UTF8);
 
-      MeilisearchClient client = new MeilisearchClient("http://lexik08.ids-mannheim.de/meilisearch/", "8jRAqq_GbtjdjveIOCxIlnztXjwFbcaMYp-e50HtbrQ");
-      try
+      var client = new ElasticsearchClient(new Uri("http://localhost:9200"));
+      const string indexName = "map";
+
+      var exists = await client.Indices.ExistsAsync(indexName);
+      if (exists.Exists)
+        await client.Indices.DeleteAsync(indexName);
+
+      await client.Indices.CreateAsync(indexName);
+
+      foreach (var document in res)
       {
-        client.DeleteIndexAsync("map").Wait();
+        var hasId = document.TryGetValue("#", out var idValue);
+        var id = hasId ? idValue?.ToString() : null;
+
+        if (string.IsNullOrWhiteSpace(id))
+          await client.IndexAsync(document, i => i.Index(indexName));
+        else
+          await client.IndexAsync(document, i => i.Index(indexName).Id(id));
       }
-      catch { }
 
-      var index = client.Index("map");
-      index.UpdateFilterableAttributesAsync(unique.Keys.ToArray()).Wait();
-      index.UpdateSettingsAsync(new Settings
-      {
-        Pagination = new Pagination()
-        {
-          MaxTotalHits = 1000000          
-        },
-        RankingRules = new List<string>() { "words", "attribute", "exactness", "proximity", "sort" },
-        StopWords = new List<string>() { }
-      });
+      await client.Indices.RefreshAsync(indexName);
 
-      index.AddDocumentsJsonAsync(JsonConvert.SerializeObject(res), "#").Wait();
-      File.WriteAllText("output.json", JsonConvert.SerializeObject(unique), Encoding.UTF8);
-      File.WriteAllText("hierarchy.json", JsonConvert.SerializeObject(hierarchy.ToDictionary(x => $"{x.Key.Item1}_{x.Key.Item2}", x => x.Value)), Encoding.UTF8);
+      File.WriteAllText("output.json", JsonSerializer.Serialize(unique), Encoding.UTF8);
+      File.WriteAllText("hierarchy.json", JsonSerializer.Serialize(hierarchy.ToDictionary(x => $"{x.Key.Item1}_{x.Key.Item2}", x => x.Value)), Encoding.UTF8);
     }
 
     private static Dictionary<int, string> LoadAnnotations(string path)
